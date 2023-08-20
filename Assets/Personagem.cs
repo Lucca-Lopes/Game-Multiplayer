@@ -17,11 +17,12 @@ public class Personagem : MonoBehaviour
     {
         movimento = value.ReadValue<Vector2>();
     }
+    /*
     public void SetPular(InputAction.CallbackContext value)
     {
         rb.AddForce(Vector3.up * 100);
     }
-
+    */
     private void FixedUpdate()
     {
         rb.AddForce(new Vector3(movimento.x, 0, movimento.y) * Time.fixedDeltaTime * 300);
