@@ -8,7 +8,10 @@ public class MenuPrincipalManager : MonoBehaviour
     [SerializeField]private string nomeDoLevelDeJOgo;
     [SerializeField] private GameObject painelMenuInicial;
     [SerializeField] private GameObject painelOpcoes;
-   public void Jogar()
+    [SerializeField] private GameObject paineResolucao;
+    [SerializeField] private GameObject painelSom;
+    [SerializeField] private GameObject Voltar;
+    public void Jogar()
     {
         SceneManager.LoadScene("Jogo");
     }
@@ -21,6 +24,20 @@ public class MenuPrincipalManager : MonoBehaviour
     {
         painelOpcoes.SetActive(false);
         painelMenuInicial.SetActive(true);
+    }
+    public void AbrirVolume()
+    {
+        painelSom.SetActive(true);
+        painelMenuInicial.SetActive(false);
+    }
+    public void AbrirResolução()
+    {
+        paineResolucao.SetActive(true);
+        painelMenuInicial.SetActive(false);
+    }
+    public void VoltarAbaAnterior()
+    {
+       
     }
    public void SairJOgo()
     {
