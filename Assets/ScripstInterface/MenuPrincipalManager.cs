@@ -30,15 +30,21 @@ public class MenuPrincipalManager : MonoBehaviour
         painelSom.SetActive(true);
         painelMenuInicial.SetActive(false);
     }
+    public void FecharVolume()
+    {
+        painelSom.SetActive(false);
+        painelMenuInicial.SetActive(true);
+    }
     public void AbrirResolução()
     {
         paineResolucao.SetActive(true);
         painelMenuInicial.SetActive(false);
     }
-    public void VoltarAbaAnterior()
+    public void FecharResolucao()
     {
-       
-    }
+        paineResolucao.SetActive(false);
+        painelMenuInicial.SetActive(true);
+    }  
    public void SairJOgo()
     {
         Debug.Log("O jogo foi fechado"); 
