@@ -9,6 +9,9 @@ public class Personagem : MonoBehaviour
     private Vector2 movimento;
     private InputAction interactAction;
 
+    public GameObject objetoInterativo;
+    public float distanciaMaxima = 3.0f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -32,7 +35,16 @@ public class Personagem : MonoBehaviour
     {
         if (context.performed)
         {
-            //SeuMetodoDeInteracao(); 
+            float distancia = Vector3.Distance(transform.position, objetoInterativo.transform.position);
+            if (distancia <= distanciaMaxima)
+            {
+                Debug.Log("Objeto detectado! Realize a interação.");
+                // Execute sua lógica de interação aqui
+            }
+            else
+            {
+                Debug.Log("Você está muito longe para interagir com o objeto.");
+            }
         }
     }
 
