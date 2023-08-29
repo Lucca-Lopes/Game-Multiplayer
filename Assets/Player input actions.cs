@@ -44,6 +44,15 @@ public partial class @Playerinputactions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interagir"",
+                    ""type"": ""Button"",
+                    ""id"": ""d860cdd1-73f7-4002-9afb-a073371f0bfe"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -233,6 +242,28 @@ public partial class @Playerinputactions : IInputActionCollection2, IDisposable
                     ""action"": ""Pular"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1390624c-1503-423b-b448-1b6b611f4e50"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interagir"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e8d5b6f-9993-45d5-8052-e68b91b61c3a"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interagir"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -243,6 +274,7 @@ public partial class @Playerinputactions : IInputActionCollection2, IDisposable
         m_Jogador = asset.FindActionMap("Jogador", throwIfNotFound: true);
         m_Jogador_Movimento = m_Jogador.FindAction("Movimento", throwIfNotFound: true);
         m_Jogador_Pular = m_Jogador.FindAction("Pular", throwIfNotFound: true);
+        m_Jogador_Interagir = m_Jogador.FindAction("Interagir", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -304,12 +336,14 @@ public partial class @Playerinputactions : IInputActionCollection2, IDisposable
     private IJogadorActions m_JogadorActionsCallbackInterface;
     private readonly InputAction m_Jogador_Movimento;
     private readonly InputAction m_Jogador_Pular;
+    private readonly InputAction m_Jogador_Interagir;
     public struct JogadorActions
     {
         private @Playerinputactions m_Wrapper;
         public JogadorActions(@Playerinputactions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movimento => m_Wrapper.m_Jogador_Movimento;
         public InputAction @Pular => m_Wrapper.m_Jogador_Pular;
+        public InputAction @Interagir => m_Wrapper.m_Jogador_Interagir;
         public InputActionMap Get() { return m_Wrapper.m_Jogador; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -325,6 +359,9 @@ public partial class @Playerinputactions : IInputActionCollection2, IDisposable
                 @Pular.started -= m_Wrapper.m_JogadorActionsCallbackInterface.OnPular;
                 @Pular.performed -= m_Wrapper.m_JogadorActionsCallbackInterface.OnPular;
                 @Pular.canceled -= m_Wrapper.m_JogadorActionsCallbackInterface.OnPular;
+                @Interagir.started -= m_Wrapper.m_JogadorActionsCallbackInterface.OnInteragir;
+                @Interagir.performed -= m_Wrapper.m_JogadorActionsCallbackInterface.OnInteragir;
+                @Interagir.canceled -= m_Wrapper.m_JogadorActionsCallbackInterface.OnInteragir;
             }
             m_Wrapper.m_JogadorActionsCallbackInterface = instance;
             if (instance != null)
@@ -335,6 +372,9 @@ public partial class @Playerinputactions : IInputActionCollection2, IDisposable
                 @Pular.started += instance.OnPular;
                 @Pular.performed += instance.OnPular;
                 @Pular.canceled += instance.OnPular;
+                @Interagir.started += instance.OnInteragir;
+                @Interagir.performed += instance.OnInteragir;
+                @Interagir.canceled += instance.OnInteragir;
             }
         }
     }
@@ -343,5 +383,6 @@ public partial class @Playerinputactions : IInputActionCollection2, IDisposable
     {
         void OnMovimento(InputAction.CallbackContext context);
         void OnPular(InputAction.CallbackContext context);
+        void OnInteragir(InputAction.CallbackContext context);
     }
 }
