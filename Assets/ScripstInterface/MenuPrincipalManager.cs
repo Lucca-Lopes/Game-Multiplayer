@@ -13,7 +13,8 @@ public class MenuPrincipalManager : MonoBehaviour
     [SerializeField] private GameObject Voltar;
     public void Jogar()
     {
-        SceneManager.LoadScene("Jogo");
+        Debug.Log("O jogo foi iniciado");
+        //SceneManager.LoadScene("Jogo");
     }
    public void AbrirOpcoes()
     {
