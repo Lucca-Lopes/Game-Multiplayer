@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Personagem : MonoBehaviour
 {
     private Rigidbody rb;
     private Vector2 movimento;
     private InputAction interactAction;
+    public QuickTimeManager qteManager;
 
     public GameObject objetoInterativo;
     public float distanciaMaxima = 3.0f;
@@ -74,6 +76,10 @@ public class Personagem : MonoBehaviour
                 isInteracting = false;
                 interactionProgress = 0f;
                 progressBar.value = 0f;
+               
+                qteManager.IniciarQTE();
+
+
             }
         }
     }

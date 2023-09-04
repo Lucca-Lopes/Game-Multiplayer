@@ -18,6 +18,7 @@ public class QteBotao : MonoBehaviour
     [SerializeField] Button button;
     QteStreak streak;
     float timer1 = 0, timer2 = 0;
+    private bool isClicked = false;
 
     void Awake()
     {
@@ -26,6 +27,29 @@ public class QteBotao : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetMouseButtonDown(0) && !isClicked)
+        {
+            // Lance um raio a partir da posição do mouse para verificar se o objeto foi clicado.
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                // Verifique se o objeto clicado é o mesmo objeto gerado durante o QTE.
+                if (hit.collider.gameObject == gameObject)
+                {
+                    // Marque o objeto como clicado para evitar cliques repetidos.
+                    isClicked = true;
+
+                    // Faça o objeto desaparecer (você pode destruí-lo ou desativá-lo, dependendo da sua lógica).
+                    gameObject.SetActive(false);
+
+                    // Somar pontos ao QteStreak.
+                    streak.AddStreak(1.0); // Você pode ajustar a quantidade de pontos conforme necessário.
+                }
+            }
+        }
+
         if (!button.IsInteractable())
             return;
 
