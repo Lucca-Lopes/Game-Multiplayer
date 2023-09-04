@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class QuickTimeManager : MonoBehaviour
 {
-
     [SerializeField] List<GameObject> quickTimesDisponiveis;
     public int numeroTotalQTE;
 
@@ -14,16 +13,15 @@ public class QuickTimeManager : MonoBehaviour
 
     private void Update()
     {
-        if(QTEpermitido && !QTEativo)
+        if (QTEpermitido && !QTEativo)
         {
             if (numeroAtualQTE < numeroTotalQTE)
             {
                 numeroAtualQTE++;
-                StartCoroutine("InstanciarQTE");
+                StartCoroutine(InstanciarQTE());
             }
             else
                 QTEpermitido = false;
-            
         }
     }
 
@@ -33,15 +31,21 @@ public class QuickTimeManager : MonoBehaviour
         numeroAtualQTE = 0;
     }
 
-    IEnumerator InstanciarQTE()
+    private IEnumerator InstanciarQTE()
     {
         QTEativo = true;
         var managerOBJ = GameObject.FindGameObjectWithTag("QTEManager");
         var indexQTE = Random.Range(0, quickTimesDisponiveis.Count);
-        Instantiate(quickTimesDisponiveis[indexQTE], this.transform);
+
+        // Gere uma posição aleatória dentro de um raio específico
+        Vector3 randomPosition = Random.insideUnitSphere * 5f; // Ajuste o raio conforme necessário
+        randomPosition.y = 1f; // Mantenha a posição no plano XZ (2D)
+
+        // Instancie o objeto na posição aleatória
+        Instantiate(quickTimesDisponiveis[indexQTE], randomPosition, Quaternion.identity, this.transform);
+
         var botoesQTE = quickTimesDisponiveis[indexQTE].GetComponentsInChildren<QteBotao>();
         yield return new WaitForSeconds(botoesQTE.Length * 2.5f + 1.0f);
         QTEativo = false;
     }
-
 }

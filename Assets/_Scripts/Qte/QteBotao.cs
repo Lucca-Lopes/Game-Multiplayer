@@ -19,7 +19,8 @@ public class QteBotao : MonoBehaviour
     QteStreak streak;
     float timer1 = 0, timer2 = 0;
     private bool isClicked = false;
-
+    public float tempoParaDesaparecer = 5f; // Tempo em segundos para o objeto desaparecer
+    private float tempoDecorrido = 0f;
     void Awake()
     {
         streak = new QteStreak();
@@ -27,6 +28,21 @@ public class QteBotao : MonoBehaviour
 
     void Update()
     {
+        if (!button.IsInteractable())
+            return;
+
+        if (timer < maxTimer)
+            timer += Time.deltaTime * speed;
+
+        // Atualize o tempo decorrido
+        tempoDecorrido += Time.deltaTime;
+
+        // Verifique se o tempo decorrido atingiu o tempo para desaparecer
+        if (tempoDecorrido >= tempoParaDesaparecer)
+        {
+            // Faça o objeto desaparecer (você pode destruí-lo ou desativá-lo)
+            gameObject.SetActive(false);
+        }
         if (Input.GetMouseButtonDown(0) && !isClicked)
         {
             // Lance um raio a partir da posição do mouse para verificar se o objeto foi clicado.
