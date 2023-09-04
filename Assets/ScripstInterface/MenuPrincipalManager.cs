@@ -11,6 +11,8 @@ public class MenuPrincipalManager : MonoBehaviour
     [SerializeField] private GameObject paineResolucao;
     [SerializeField] private GameObject painelSom;
     [SerializeField] private GameObject Voltar;
+    [SerializeField] private GameObject painelGameOver;
+    [SerializeField] private GameObject VoltarParaMenu;
     public void Jogar()
     {
         Debug.Log("O jogo foi iniciado");
@@ -50,5 +52,10 @@ public class MenuPrincipalManager : MonoBehaviour
     {
         Debug.Log("O jogo foi fechado"); 
         Application.Quit();
+    }
+    public void VoltarMenu()
+    {
+        painelGameOver.SetActive(false);
+        painelMenuInicial.SetActive(true);
     }
 }
