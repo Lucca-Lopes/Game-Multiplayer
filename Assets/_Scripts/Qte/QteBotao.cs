@@ -17,7 +17,7 @@ public class QteBotao : MonoBehaviour
     [SerializeField] TMP_Text txt;
     [SerializeField] Button button;
     QteStreak streak;
-    float timer1 = 0; //, timer2 = 0;
+    float timer1 = 0, timer2 = 0;
     private bool isClicked = false;
     public float tempoParaDesaparecer = 5f; // Tempo em segundos para o objeto desaparecer
     private float tempoDecorrido = 0f;

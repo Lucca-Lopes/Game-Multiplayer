@@ -18,7 +18,7 @@ public class Personagem : MonoBehaviour
     public Slider progressBar;
     private bool isInteracting = false;
     private float interactionProgress = 0f;
-    private float interactionDuration = 60f;
+    private float interactionDuration = 20f;
 
     // Ajuste esta taxa de preenchimento para controlar a velocidade da barra de progresso
     public float fillRate = 0.05f;
@@ -54,7 +54,6 @@ public class Personagem : MonoBehaviour
             {
                 Debug.Log("Iniciando interação...");
                 isInteracting = true;
-                qteManager.IniciarQTE();
             }
             else
             {
@@ -78,7 +77,7 @@ public class Personagem : MonoBehaviour
                 interactionProgress = 0f;
                 progressBar.value = 0f;
                
-                
+                qteManager.IniciarQTE();
 
 
             }
@@ -87,6 +86,6 @@ public class Personagem : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.AddForce(300 * Time.fixedDeltaTime * new Vector3(-movimento.y, 0, movimento.x));
+        rb.AddForce(new Vector3(movimento.x, 0, movimento.y) * Time.fixedDeltaTime * 300);
     }
 }
