@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class Personagem : MonoBehaviour
@@ -15,8 +16,15 @@ public class Personagem : MonoBehaviour
     public GameObject objetoInterativo;
     public float distanciaMaxima = 3.0f;
 
+    [SerializeField] GameObject telaGameOver;
+    [SerializeField] Text textoPlacarFinal;
+    [SerializeField] TMP_Text textoPlacarTela;
+    [SerializeField] WebRequest webRequest;
+
     public Slider progressBar;
     private bool isInteracting = false;
+    private bool minigameEnded = false;
+    private bool updatePlacar = false;
     private float interactionProgress = 0f;
     private float interactionDuration = 60f;
 
@@ -69,6 +77,7 @@ public class Personagem : MonoBehaviour
         {
             interactionProgress += Time.deltaTime * fillRate;
             progressBar.value = Mathf.Clamp01(interactionProgress / interactionDuration);
+            textoPlacarTela.text = "Pontuação: " + (QteStreak.score * 100).ToString();
 
             if (interactionProgress >= interactionDuration)
             {
@@ -77,10 +86,23 @@ public class Personagem : MonoBehaviour
                 isInteracting = false;
                 interactionProgress = 0f;
                 progressBar.value = 0f;
-               
+                minigameEnded = true;
                 
 
 
+            }
+        }
+
+        if (minigameEnded)
+        {
+            telaGameOver.SetActive(true);
+            textoPlacarFinal.text = (QteStreak.score * 100).ToString();
+            textoPlacarTela.gameObject.SetActive(false);
+            Time.timeScale = 0;
+            if (!updatePlacar)
+            {
+                webRequest.UpdatePlayer();
+                updatePlacar = true;
             }
         }
     }

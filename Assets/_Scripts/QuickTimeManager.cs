@@ -34,7 +34,7 @@ public class QuickTimeManager : MonoBehaviour
     private IEnumerator InstanciarQTE()
     {
         QTEativo = true;
-        var managerOBJ = GameObject.FindGameObjectWithTag("QTEManager");
+        //var managerOBJ = GameObject.FindGameObjectWithTag("QTEManager");
         var indexQTE = Random.Range(0, quickTimesDisponiveis.Count);
 
         // Gere uma posição aleatória dentro de um raio específico

@@ -17,7 +17,7 @@ public class MenuPrincipalManager : MonoBehaviour
     public void Jogar()
     {
         Debug.Log("O jogo foi iniciado");
-        //SceneManager.LoadScene("Jogo");
+        SceneManager.LoadScene(1);
     }
    public void AbrirOpcoes()
     {

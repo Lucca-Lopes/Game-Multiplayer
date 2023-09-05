@@ -3,9 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class WebRequest : MonoBehaviour
 {
+    [SerializeField] RankingService rankingService;
+
+    private void Start()
+    {
+        rankingService.GetRanking();
+    }
+
+    public void UpdatePlayer()
+    {
+        var newPlayer = new Player((int)QteStreak.score, "Jogador", (int)(QteStreak.score * 100));
+        rankingService.PostNewPlayer(newPlayer);
+    }
+
+    public void MostrarResultadoFinal()
+    {
+        SceneManager.LoadScene(2);
+    }
+
+
+    /*
     public Player[] players;
     //Coroutine getCoroutine, postCoroutine, deleteCoroutine;
     public UnityEvent<RankingData> OnListUpdate;
@@ -47,5 +68,5 @@ public class WebRequest : MonoBehaviour
         yield return request.SendWebRequest();
         StartCoroutine(GetRequest(url));
     }
-
+    */
 }
