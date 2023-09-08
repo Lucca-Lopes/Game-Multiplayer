@@ -19,6 +19,12 @@ public class Personagem : MonoBehaviour
     private bool isInteracting = false;
     private float interactionProgress = 0f;
     private float interactionDuration = 20f;
+    public int vidas = 2;
+    private bool isDead = false;
+
+
+
+
 
     // Ajuste esta taxa de preenchimento para controlar a velocidade da barra de progresso
     public float fillRate = 0.05f;
@@ -47,7 +53,7 @@ public class Personagem : MonoBehaviour
 
     public void Interact(InputAction.CallbackContext context)
     {
-        if (context.performed && !isInteracting)
+        if (context.performed && !isInteracting && !isDead)
         {
             float distancia = Vector3.Distance(transform.position, objetoInterativo.transform.position);
             if (distancia <= distanciaMaxima)
@@ -61,6 +67,24 @@ public class Personagem : MonoBehaviour
             }
         }
     }
+
+    public void ReceberDano(int quantidade)
+    {
+        if (!isDead)
+        {
+            vidas -= quantidade;
+            if (vidas <= 0)
+            {
+                isDead = true;
+                Debug.Log("Você morreu!");
+                // Você pode adicionar aqui a lógica para lidar com a morte do jogador, como reiniciar o nível ou mostrar uma tela de game over.
+            }
+        }
+    }
+
+
+
+
 
     private void Update()
     {
