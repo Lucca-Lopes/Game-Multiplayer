@@ -10,6 +10,7 @@ public class Personagem : MonoBehaviour
     private Rigidbody rb;
     private Vector2 movimento;
     private InputAction interactAction;
+    public int velocidade = 600;
     public QuickTimeManager qteManager;
 
     public GameObject objetoInterativo;
@@ -77,6 +78,7 @@ public class Personagem : MonoBehaviour
             {
                 isDead = true;
                 Debug.Log("Você morreu!");
+                velocidade = 350;
                 // Você pode adicionar aqui a lógica para lidar com a morte do jogador, como reiniciar o nível ou mostrar uma tela de game over.
             }
         }
@@ -110,6 +112,6 @@ public class Personagem : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.AddForce(new Vector3(movimento.x, 0, movimento.y) * Time.fixedDeltaTime * 300);
+        rb.AddForce(new Vector3(movimento.x, 0, movimento.y) * Time.fixedDeltaTime * velocidade);
     }
 }

@@ -5,6 +5,7 @@ public class Inimigo : MonoBehaviour
 {
     public float distanciaAtaque = 2.0f;
     public int dano = 1;
+    public int velocidade = 600;
     private Vector2 movimento;
     private Rigidbody rb;
 
@@ -25,7 +26,7 @@ public class Inimigo : MonoBehaviour
         // Verifique se rb não é nulo antes de chamar AddForce.
         if (rb != null)
         {
-            rb.AddForce(new Vector3(movimento.x, 0, movimento.y) * Time.fixedDeltaTime * 300);
+            rb.AddForce(new Vector3(movimento.x, 0, movimento.y) * Time.fixedDeltaTime * velocidade);
         }
     }
 
