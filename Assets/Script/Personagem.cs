@@ -35,6 +35,7 @@ public class Personagem : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         interactAction = new InputAction("Interact", binding: "<Keyboard>/e");
         interactAction.performed += Interact;
+        
     }
 
     public void SetMovimento(InputAction.CallbackContext value)
@@ -79,7 +80,7 @@ public class Personagem : MonoBehaviour
                 isDead = true;
                 Debug.Log("Você morreu!");
                 velocidade = 350;
-                // Você pode adicionar aqui a lógica para lidar com a morte do jogador, como reiniciar o nível ou mostrar uma tela de game over.
+                
             }
         }
     }
