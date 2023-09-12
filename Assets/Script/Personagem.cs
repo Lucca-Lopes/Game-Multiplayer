@@ -16,6 +16,7 @@ public class Personagem : MonoBehaviour
     public GameObject objetoInterativo;
     public float distanciaMaxima = 3.0f;
 
+
     public Slider progressBar;
     private bool isInteracting = false;
     private float interactionProgress = 0f;

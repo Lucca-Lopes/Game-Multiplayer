@@ -9,21 +9,24 @@ public class Inimigo : MonoBehaviour
     private Vector2 movimento;
     private Rigidbody rb;
 
+
     public void SetMovimento(InputAction.CallbackContext value)
     {
         movimento = value.ReadValue<Vector2>();
-
-        // Certifique-se de que o objeto tenha um componente Rigidbody.
         rb = GetComponent<Rigidbody>();
         if (rb == null)
         {
             Debug.LogError("O objeto não possui um componente Rigidbody.");
         }
     }
+    public void setinterajir(InputAction.CallbackContext value)
+    {
+
+    }
 
     private void FixedUpdate()
     {
-        // Verifique se rb não é nulo antes de chamar AddForce.
+ 
         if (rb != null)
         {
             rb.AddForce(new Vector3(movimento.x, 0, movimento.y) * Time.fixedDeltaTime * velocidade);
