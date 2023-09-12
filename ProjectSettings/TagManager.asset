@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - QTEManager
+  - Obstaculo
   layers:
   - Default
   - TransparentFX
