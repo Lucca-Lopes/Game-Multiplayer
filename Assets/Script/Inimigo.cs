@@ -9,12 +9,17 @@ public class Inimigo : MonoBehaviour
     private Vector2 movimento;
     private InputAction interactaction;
     private Rigidbody rb;
-    private bool SegurandoJogador= false;
-    private Personagem Jogador;
-   
+    private Personagem jogador; // Adicione isso como uma variável de membro na classe Inimigo.
+
+
 
     private void Awake()
     {
+        jogador = FindObjectOfType<Personagem>();
+        if (jogador == null)
+        {
+            Debug.LogError("Não foi possível encontrar o jogador.");
+        }
         interactaction = new InputAction("Interact", binding: "<KeyBoard>/Space");
         interactaction.performed += setinterajir;
         rb = GetComponent<Rigidbody>();
@@ -25,10 +30,32 @@ public class Inimigo : MonoBehaviour
         
        
     }
-    public void setinterajir(InputAction.CallbackContext context)
+    public void setinterajir(InputAction.CallbackContext value)
     {
-
+        if (jogador.vidas <= 0 && value.started)
+        {
+            Personagem player = FindObjectOfType<Personagem>();
+            if (player != null)
+            {
+                player.SerCarregadoPorInimigo(this);
+            }
+        }
+        else if (value.canceled && jogador.isBeingCarried)
+        {
+            Personagem player = FindObjectOfType<Personagem>();
+            if (player != null)
+            {
+                player.transform.SetParent(jogador.previousParent); // Restaura o pai anterior do jogador.
+                jogador.isBeingCarried = false;
+                // Restaure a velocidade do personagem, se necessário.
+                player.velocidade = 600; // Por exemplo, definido como 600 para restaurar a velocidade padrão.
+            }
+        }
     }
+
+
+
+
 
     private void FixedUpdate()
     {

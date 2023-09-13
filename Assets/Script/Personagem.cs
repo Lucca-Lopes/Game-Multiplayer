@@ -23,6 +23,11 @@ public class Personagem : MonoBehaviour
     private float interactionDuration = 20f;
     public int vidas = 2;
     private bool isDead = false;
+    public bool isBeingCarried = false;
+    private Inimigo carryingEnemy;
+    public Transform previousParent;
+  
+
 
 
 
@@ -30,6 +35,27 @@ public class Personagem : MonoBehaviour
 
     // Ajuste esta taxa de preenchimento para controlar a velocidade da barra de progresso
     public float fillRate = 0.05f;
+    public void SerCarregadoPorInimigo(Inimigo enemy)
+    {
+        isBeingCarried = true;
+        carryingEnemy = enemy;
+        previousParent = transform.parent; // Armazena o pai anterior do jogador.
+        transform.SetParent(enemy.transform); // Define o pai como o transform do inimigo.
+                                              // Reduza a velocidade do personagem aqui, se necessário.
+        velocidade = 200; // Por exemplo, definido como 200 para reduzir a velocidade.
+    }
+
+
+
+
+    public void PararDeSerCarregado()
+{
+    isBeingCarried = false;
+    carryingEnemy = null;
+    velocidade = 600; // Restaure a velocidade normal do jogador.
+    transform.SetParent(null); // Remova o jogador como filho do inimigo.
+}
+
 
     private void Awake()
     {
