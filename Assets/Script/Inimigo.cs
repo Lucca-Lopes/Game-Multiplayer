@@ -7,19 +7,25 @@ public class Inimigo : MonoBehaviour
     public int dano = 1;
     public int velocidade = 600;
     private Vector2 movimento;
+    private InputAction interactaction;
     private Rigidbody rb;
+    private bool SegurandoJogador= false;
+    private Personagem Jogador;
+   
 
-
+    private void Awake()
+    {
+        interactaction = new InputAction("Interact", binding: "<KeyBoard>/Space");
+        interactaction.performed += setinterajir;
+        rb = GetComponent<Rigidbody>();
+    }
     public void SetMovimento(InputAction.CallbackContext value)
     {
         movimento = value.ReadValue<Vector2>();
-        rb = GetComponent<Rigidbody>();
-        if (rb == null)
-        {
-            Debug.LogError("O objeto não possui um componente Rigidbody.");
-        }
+        
+       
     }
-    public void setinterajir(InputAction.CallbackContext value)
+    public void setinterajir(InputAction.CallbackContext context)
     {
 
     }
