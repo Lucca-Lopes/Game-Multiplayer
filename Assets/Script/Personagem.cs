@@ -141,7 +141,7 @@ public class Personagem : MonoBehaviour
     {
         if (isBeingCarried)
         {
-            Vector3 desiredPosition = carryingEnemy.transform.position + Vector3.up * 2.0f; // Ajuste a altura conforme necessário.
+            Vector3 desiredPosition = carryingEnemy.transform.position + Vector3.up * 2.01f; // Ajuste a altura conforme necessário.
             rb.MovePosition(desiredPosition);
         }
         else
