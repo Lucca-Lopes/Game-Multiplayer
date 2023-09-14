@@ -38,6 +38,7 @@ public class Inimigo : MonoBehaviour
             if (player != null)
             {
                 player.SerCarregadoPorInimigo(this);
+                velocidade = 700;
             }
         }
         else if (value.canceled && jogador.isBeingCarried)
@@ -47,6 +48,7 @@ public class Inimigo : MonoBehaviour
             {
                 player.transform.SetParent(jogador.previousParent); // Restaura o pai anterior do jogador.
                 jogador.isBeingCarried = false;
+                velocidade = 600;
                 // Restaure a velocidade do personagem, se necessário.
                 player.velocidade = 600; // Por exemplo, definido como 600 para restaurar a velocidade padrão.
             }

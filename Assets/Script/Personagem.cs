@@ -137,9 +137,17 @@ public class Personagem : MonoBehaviour
             }
         }
     }
-
     private void FixedUpdate()
     {
-        rb.AddForce(new Vector3(movimento.x, 0, movimento.y) * Time.fixedDeltaTime * velocidade);
+        if (isBeingCarried)
+        {
+            Vector3 desiredPosition = carryingEnemy.transform.position + Vector3.up * 2.0f; // Ajuste a altura conforme necessário.
+            rb.MovePosition(desiredPosition);
+        }
+        else
+        {
+            rb.AddForce(new Vector3(movimento.x, 0, movimento.y) * Time.fixedDeltaTime * velocidade);
+        }
     }
+
 }
