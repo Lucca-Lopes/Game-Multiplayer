@@ -9,7 +9,7 @@ public class Inimigo : MonoBehaviour
     private Vector2 movimento;
     private InputAction interactaction;
     private Rigidbody rb;
-    private Personagem jogador; // Adicione isso como uma variável de membro na classe Inimigo.
+    private Personagem jogador; 
     public float distanciaCarregamento = 2.0f;
 
 
@@ -35,7 +35,7 @@ public class Inimigo : MonoBehaviour
         if (jogador.vidas <= 0 && value.started)
         {
             float distanciaJogadorInimigo = Vector3.Distance(transform.position, jogador.transform.position);
-            if (distanciaJogadorInimigo <= distanciaCarregamento) // Verifique a distância aqui
+            if (distanciaJogadorInimigo <= distanciaCarregamento) 
             {
                 Personagem player = FindObjectOfType<Personagem>();
                 if (player != null)
@@ -54,8 +54,8 @@ public class Inimigo : MonoBehaviour
                 jogador.isBeingCarried = false;
                 velocidade = 600;
 
-                // Ajuste a posição do jogador para que ele pare ao lado do inimigo
-                Vector3 offset = transform.forward * 2.0f; // Ajuste o valor conforme necessário
+                
+                Vector3 offset = transform.forward * 2.0f; 
                 player.transform.position = transform.position + offset;
 
                 player.velocidade = 350;

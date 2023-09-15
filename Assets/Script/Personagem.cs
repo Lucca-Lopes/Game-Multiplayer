@@ -26,29 +26,17 @@ public class Personagem : MonoBehaviour
     public bool isBeingCarried = false;
     private Inimigo carryingEnemy;
     public Transform previousParent;
-  
 
-
-
-
-
-
-    // Ajuste esta taxa de preenchimento para controlar a velocidade da barra de progresso
     public float fillRate = 0.05f;
     public void SerCarregadoPorInimigo(Inimigo enemy)
     {
         isBeingCarried = true;
         carryingEnemy = enemy;
-        previousParent = transform.parent; // Armazena o pai anterior do jogador.
-        transform.SetParent(enemy.transform); // Define o pai como o transform do inimigo.
-                                              // Reduza a velocidade do personagem aqui, se necessário.
-        velocidade = 200; // Por exemplo, definido como 200 para reduzir a velocidade.
+        previousParent = transform.parent; 
+        transform.SetParent(enemy.transform); 
+                                              
+        velocidade = 200; 
     }
-
-
-
-
-
 
 
     private void Awake()
@@ -108,9 +96,6 @@ public class Personagem : MonoBehaviour
     }
 
 
-
-
-
     private void Update()
     {
         if (isInteracting)
@@ -121,7 +106,7 @@ public class Personagem : MonoBehaviour
             if (interactionProgress >= interactionDuration)
             {
                 Debug.Log("Interação concluída!");
-                // Execute sua lógica de interação aqui
+                
                 isInteracting = false;
                 progressBar.gameObject.SetActive(false);
                 interactionProgress = 0f;
@@ -137,7 +122,7 @@ public class Personagem : MonoBehaviour
     {
         if (isBeingCarried)
         {
-            Vector3 desiredPosition = carryingEnemy.transform.position + Vector3.up * 2.01f; // Ajuste a altura conforme necessário.
+            Vector3 desiredPosition = carryingEnemy.transform.position + Vector3.up * 2.01f; 
             rb.MovePosition(desiredPosition);
         }
         else
