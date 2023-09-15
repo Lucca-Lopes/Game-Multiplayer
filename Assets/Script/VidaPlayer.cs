@@ -26,8 +26,6 @@ public class VidaPlayer : MonoBehaviour
             vida--;
         }
     }
-   
-   
     public void Morte()
     {
         if(vida <= 0)
