@@ -6,7 +6,8 @@ using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class BarraDeProgresso : MonoBehaviour
-{ 
+{
+    public GameObject Player;
     private float Y = 0.1267033f;
     private float X = 10;
     public int maxProg;
@@ -16,12 +17,12 @@ public class BarraDeProgresso : MonoBehaviour
     private void Start()
     {
         valorAtual = currentProg;
-
     }
     private void Update()
     {    
         Diminui();
         parar();
+        MataPlayer();
         transform.localScale = new Vector3(valorAtual * X/ maxProg, Y, 1);              
     }
     public void Diminui()
@@ -39,6 +40,15 @@ public class BarraDeProgresso : MonoBehaviour
         if(valorAtual <= 0)
         {
             taxaDeDiminuicao = 0;
+        }
+    }
+    public void MataPlayer()
+    {
+        if(valorAtual <= 0)
+        {
+           Destroy(Player);
+           Debug.Log("Você Morreu");
+           
         }
     }
 }
