@@ -43,7 +43,7 @@ public partial class @Inimigoinputactions1 : IInputActionCollection2, IDisposabl
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [

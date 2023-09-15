@@ -48,13 +48,7 @@ public class Personagem : MonoBehaviour
 
 
 
-    public void PararDeSerCarregado()
-{
-    isBeingCarried = false;
-    carryingEnemy = null;
-    velocidade = 600; // Restaure a velocidade normal do jogador.
-    transform.SetParent(null); // Remova o jogador como filho do inimigo.
-}
+
 
 
     private void Awake()
@@ -88,6 +82,7 @@ public class Personagem : MonoBehaviour
             if (distancia <= distanciaMaxima)
             {
                 Debug.Log("Iniciando interação...");
+                progressBar.gameObject.SetActive(true);
                 isInteracting = true;
             }
             else
@@ -128,6 +123,7 @@ public class Personagem : MonoBehaviour
                 Debug.Log("Interação concluída!");
                 // Execute sua lógica de interação aqui
                 isInteracting = false;
+                progressBar.gameObject.SetActive(false);
                 interactionProgress = 0f;
                 progressBar.value = 0f;
                
