@@ -16,28 +16,19 @@ public class Personagem : MonoBehaviour
     public GameObject objetoInterativo;
     public float distanciaMaxima = 3.0f;
 
-
     public Slider progressBar;
     private bool isInteracting = false;
     private float interactionProgress = 0f;
     private float interactionDuration = 20f;
     public int vidas = 2;
     private bool isDead = false;
-    public bool isBeingCarried = false;
-    private Inimigo carryingEnemy;
-    public Transform previousParent;
 
+
+
+
+
+    // Ajuste esta taxa de preenchimento para controlar a velocidade da barra de progresso
     public float fillRate = 0.05f;
-    public void SerCarregadoPorInimigo(Inimigo enemy)
-    {
-        isBeingCarried = true;
-        carryingEnemy = enemy;
-        previousParent = transform.parent; 
-        transform.SetParent(enemy.transform); 
-                                              
-        velocidade = 200; 
-    }
-
 
     private void Awake()
     {
@@ -70,7 +61,6 @@ public class Personagem : MonoBehaviour
             if (distancia <= distanciaMaxima)
             {
                 Debug.Log("Iniciando interação...");
-                progressBar.gameObject.SetActive(true);
                 isInteracting = true;
             }
             else
@@ -96,6 +86,9 @@ public class Personagem : MonoBehaviour
     }
 
 
+
+
+
     private void Update()
     {
         if (isInteracting)
@@ -106,9 +99,8 @@ public class Personagem : MonoBehaviour
             if (interactionProgress >= interactionDuration)
             {
                 Debug.Log("Interação concluída!");
-                
+                // Execute sua lógica de interação aqui
                 isInteracting = false;
-                progressBar.gameObject.SetActive(false);
                 interactionProgress = 0f;
                 progressBar.value = 0f;
                
@@ -118,17 +110,9 @@ public class Personagem : MonoBehaviour
             }
         }
     }
+
     private void FixedUpdate()
     {
-        if (isBeingCarried)
-        {
-            Vector3 desiredPosition = carryingEnemy.transform.position + Vector3.up * 2.01f; 
-            rb.MovePosition(desiredPosition);
-        }
-        else
-        {
-            rb.AddForce(new Vector3(movimento.x, 0, movimento.y) * Time.fixedDeltaTime * velocidade);
-        }
+        rb.AddForce(new Vector3(movimento.x, 0, movimento.y) * Time.fixedDeltaTime * velocidade);
     }
-
 }
