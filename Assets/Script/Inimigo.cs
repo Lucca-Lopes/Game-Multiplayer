@@ -7,23 +7,71 @@ public class Inimigo : MonoBehaviour
     public int dano = 1;
     public int velocidade = 600;
     private Vector2 movimento;
+    private InputAction interactaction;
     private Rigidbody rb;
+    private Personagem jogador; 
+    public float distanciaCarregamento = 2.0f;
 
+
+    private void Awake()
+    {
+        jogador = FindObjectOfType<Personagem>();
+        if (jogador == null)
+        {
+            Debug.LogError("Não foi possível encontrar o jogador.");
+        }
+        interactaction = new InputAction("Interact", binding: "<KeyBoard>/Space");
+        interactaction.performed += setinterajir;
+        rb = GetComponent<Rigidbody>();
+    }
     public void SetMovimento(InputAction.CallbackContext value)
     {
         movimento = value.ReadValue<Vector2>();
-
-        // Certifique-se de que o objeto tenha um componente Rigidbody.
-        rb = GetComponent<Rigidbody>();
-        if (rb == null)
+        
+       
+    }
+    public void setinterajir(InputAction.CallbackContext value)
+    {
+        if (jogador.vidas <= 0 && value.started)
         {
-            Debug.LogError("O objeto não possui um componente Rigidbody.");
+            float distanciaJogadorInimigo = Vector3.Distance(transform.position, jogador.transform.position);
+            if (distanciaJogadorInimigo <= distanciaCarregamento) 
+            {
+                Personagem player = FindObjectOfType<Personagem>();
+                if (player != null)
+                {
+                    player.SerCarregadoPorInimigo(this);
+                    velocidade = 600;
+                }
+            }
+        }
+        else if (value.canceled && jogador.isBeingCarried)
+        {
+            Personagem player = FindObjectOfType<Personagem>();
+            if (player != null)
+            {
+                player.transform.SetParent(jogador.previousParent);
+                jogador.isBeingCarried = false;
+                velocidade = 600;
+
+                
+                Vector3 offset = transform.forward * 2.0f; 
+                player.transform.position = transform.position + offset;
+
+                player.velocidade = 350;
+            }
         }
     }
 
+
+
+
+
+
+
     private void FixedUpdate()
     {
-        // Verifique se rb não é nulo antes de chamar AddForce.
+ 
         if (rb != null)
         {
             rb.AddForce(new Vector3(movimento.x, 0, movimento.y) * Time.fixedDeltaTime * velocidade);

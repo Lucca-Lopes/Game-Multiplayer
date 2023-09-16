@@ -35,6 +35,15 @@ public partial class @Inimigoinputactions1 : IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Interagir"",
+                    ""type"": ""Button"",
+                    ""id"": ""13cbdc7a-90cd-46c9-b5d1-9734d49bf18f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -147,6 +156,28 @@ public partial class @Inimigoinputactions1 : IInputActionCollection2, IDisposabl
                     ""action"": ""Movimento"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aa80a75e-eb4e-47ba-ade5-577342437738"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interagir"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e397c43a-80cf-49ae-902d-d490bbd7f6af"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interagir"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -156,6 +187,7 @@ public partial class @Inimigoinputactions1 : IInputActionCollection2, IDisposabl
         // Inimigo
         m_Inimigo = asset.FindActionMap("Inimigo", throwIfNotFound: true);
         m_Inimigo_Movimento = m_Inimigo.FindAction("Movimento", throwIfNotFound: true);
+        m_Inimigo_Interagir = m_Inimigo.FindAction("Interagir", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -216,11 +248,13 @@ public partial class @Inimigoinputactions1 : IInputActionCollection2, IDisposabl
     private readonly InputActionMap m_Inimigo;
     private IInimigoActions m_InimigoActionsCallbackInterface;
     private readonly InputAction m_Inimigo_Movimento;
+    private readonly InputAction m_Inimigo_Interagir;
     public struct InimigoActions
     {
         private @Inimigoinputactions1 m_Wrapper;
         public InimigoActions(@Inimigoinputactions1 wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movimento => m_Wrapper.m_Inimigo_Movimento;
+        public InputAction @Interagir => m_Wrapper.m_Inimigo_Interagir;
         public InputActionMap Get() { return m_Wrapper.m_Inimigo; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -233,6 +267,9 @@ public partial class @Inimigoinputactions1 : IInputActionCollection2, IDisposabl
                 @Movimento.started -= m_Wrapper.m_InimigoActionsCallbackInterface.OnMovimento;
                 @Movimento.performed -= m_Wrapper.m_InimigoActionsCallbackInterface.OnMovimento;
                 @Movimento.canceled -= m_Wrapper.m_InimigoActionsCallbackInterface.OnMovimento;
+                @Interagir.started -= m_Wrapper.m_InimigoActionsCallbackInterface.OnInteragir;
+                @Interagir.performed -= m_Wrapper.m_InimigoActionsCallbackInterface.OnInteragir;
+                @Interagir.canceled -= m_Wrapper.m_InimigoActionsCallbackInterface.OnInteragir;
             }
             m_Wrapper.m_InimigoActionsCallbackInterface = instance;
             if (instance != null)
@@ -240,6 +277,9 @@ public partial class @Inimigoinputactions1 : IInputActionCollection2, IDisposabl
                 @Movimento.started += instance.OnMovimento;
                 @Movimento.performed += instance.OnMovimento;
                 @Movimento.canceled += instance.OnMovimento;
+                @Interagir.started += instance.OnInteragir;
+                @Interagir.performed += instance.OnInteragir;
+                @Interagir.canceled += instance.OnInteragir;
             }
         }
     }
@@ -247,5 +287,6 @@ public partial class @Inimigoinputactions1 : IInputActionCollection2, IDisposabl
     public interface IInimigoActions
     {
         void OnMovimento(InputAction.CallbackContext context);
+        void OnInteragir(InputAction.CallbackContext context);
     }
 }
