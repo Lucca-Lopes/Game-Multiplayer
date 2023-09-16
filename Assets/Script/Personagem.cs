@@ -26,7 +26,7 @@ public class Personagem : MonoBehaviour
     public bool isBeingCarried = false;
     private Inimigo carryingEnemy;
     public Transform previousParent;
-
+    private static bool isAnyPlayerInteracting = false;
     public float fillRate = 0.05f;
     public void SerCarregadoPorInimigo(Inimigo enemy)
     {
@@ -69,9 +69,18 @@ public class Personagem : MonoBehaviour
             float distancia = Vector3.Distance(transform.position, objetoInterativo.transform.position);
             if (distancia <= distanciaMaxima)
             {
+                if (isAnyPlayerInteracting)
+                {
+                    Debug.Log("Outro jogador já está interagindo.");
+                    return; // Saia do método sem iniciar a interação.
+                }
+
                 Debug.Log("Iniciando interação...");
                 progressBar.gameObject.SetActive(true);
                 isInteracting = true;
+
+                // Define isAnyPlayerInteracting para true para bloquear outras interações.
+                isAnyPlayerInteracting = true;
             }
             else
             {
@@ -106,15 +115,16 @@ public class Personagem : MonoBehaviour
             if (interactionProgress >= interactionDuration)
             {
                 Debug.Log("Interação concluída!");
-                
+
                 isInteracting = false;
                 progressBar.gameObject.SetActive(false);
                 interactionProgress = 0f;
                 progressBar.value = 0f;
-               
+
                 qteManager.IniciarQTE();
 
-
+                // Define isAnyPlayerInteracting para false para permitir que outros jogadores interajam.
+                isAnyPlayerInteracting = false;
             }
         }
     }
