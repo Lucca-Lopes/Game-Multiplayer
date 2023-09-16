@@ -5,10 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/RenatoInterface.unity
     guid: 8e7ff389cedf5c74e87fa950587ceb83
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Host&client - Arthur.unity
+    guid: f83e32f9ac1da4f40b1b2596230ccf14
   m_configObjects: {}
