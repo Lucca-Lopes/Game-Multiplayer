@@ -39,7 +39,7 @@ public class MenuPrincipalManager : MonoBehaviour
         painelSom.SetActive(false);
         painelMenuInicial.SetActive(true);
     }
-    public void AbrirResolução()
+    public void AbrirResolucao()
     {
         paineResolucao.SetActive(true);
         painelMenuInicial.SetActive(false);
