@@ -16,7 +16,8 @@ public class Personagem : MonoBehaviour
     public GameObject objetoInterativo;
     public float distanciaMaxima = 3.0f;
 
-
+    private bool isMoving = false;
+    private float lastInteractionProgress = 0f;
     public Slider progressBar;
     private bool isInteracting = false;
     private float interactionProgress = 0f;
@@ -28,6 +29,7 @@ public class Personagem : MonoBehaviour
     public Transform previousParent;
     private static bool isAnyPlayerInteracting = false;
     public float fillRate = 0.05f;
+    private bool wasInteractingBeforeMoving = false;
     public void SerCarregadoPorInimigo(Inimigo enemy)
     {
         isBeingCarried = true;
@@ -62,9 +64,10 @@ public class Personagem : MonoBehaviour
         interactAction.Disable();
     }
 
+
     public void Interact(InputAction.CallbackContext context)
     {
-        if (context.performed && !isInteracting && !isDead)
+        if (context.performed && !isDead)
         {
             float distancia = Vector3.Distance(transform.position, objetoInterativo.transform.position);
             if (distancia <= distanciaMaxima)
@@ -72,15 +75,19 @@ public class Personagem : MonoBehaviour
                 if (isAnyPlayerInteracting)
                 {
                     Debug.Log("Outro jogador já está interagindo.");
-                    return; // Saia do método sem iniciar a interação.
+                    return;
                 }
 
-                Debug.Log("Iniciando interação...");
-                progressBar.gameObject.SetActive(true);
-                isInteracting = true;
-
-                // Define isAnyPlayerInteracting para true para bloquear outras interações.
-                isAnyPlayerInteracting = true;
+                if (isInteracting)
+                {
+                    // Se o jogador já está interagindo, retome a interação em vez de iniciar uma nova.
+                    ResumeInteraction();
+                }
+                else
+                {
+                    // Caso contrário, inicie uma nova interação.
+                    StartInteraction();
+                }
             }
             else
             {
@@ -88,6 +95,7 @@ public class Personagem : MonoBehaviour
             }
         }
     }
+
 
     public void ReceberDano(int quantidade)
     {
@@ -109,8 +117,11 @@ public class Personagem : MonoBehaviour
     {
         if (isInteracting)
         {
-            interactionProgress += Time.deltaTime * fillRate;
-            progressBar.value = Mathf.Clamp01(interactionProgress / interactionDuration);
+            if (!isMoving)
+            {
+                interactionProgress += Time.deltaTime * fillRate;
+                progressBar.value = Mathf.Clamp01(interactionProgress / interactionDuration);
+            }
 
             if (interactionProgress >= interactionDuration)
             {
@@ -123,7 +134,6 @@ public class Personagem : MonoBehaviour
 
                 qteManager.IniciarQTE();
 
-                // Define isAnyPlayerInteracting para false para permitir que outros jogadores interajam.
                 isAnyPlayerInteracting = false;
             }
         }
@@ -132,13 +142,48 @@ public class Personagem : MonoBehaviour
     {
         if (isBeingCarried)
         {
-            Vector3 desiredPosition = carryingEnemy.transform.position + Vector3.up * 2.01f; 
+            Vector3 desiredPosition = carryingEnemy.transform.position + Vector3.up * 2.01f;
             rb.MovePosition(desiredPosition);
         }
         else
         {
             rb.AddForce(new Vector3(movimento.x, 0, movimento.y) * Time.fixedDeltaTime * velocidade);
+
+            isMoving = (movimento.magnitude > 0.1f);
+
+            if (isMoving)
+            {
+                if (isInteracting)
+                {
+                    // Pausar a interação se o jogador começar a se mover.
+                    wasInteractingBeforeMoving = true;
+                    isInteracting = false;
+                    isAnyPlayerInteracting = false;
+                }
+            }
         }
+    }
+    private void StartInteraction()
+    {
+        Debug.Log("Iniciando interação...");
+        progressBar.gameObject.SetActive(true);
+        isInteracting = true;
+
+        if (!wasInteractingBeforeMoving)
+        {
+            interactionProgress = 0f;
+        }
+
+        isAnyPlayerInteracting = true;
+        wasInteractingBeforeMoving = false;
+    }
+
+    private void ResumeInteraction()
+    {
+        Debug.Log("Retomando interação...");
+        progressBar.gameObject.SetActive(true);
+        isInteracting = true;
+        isAnyPlayerInteracting = true;
     }
 
 }
