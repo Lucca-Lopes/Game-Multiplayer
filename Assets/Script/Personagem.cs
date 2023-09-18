@@ -33,9 +33,10 @@ public class Personagem : MonoBehaviour
         isBeingCarried = true;
         carryingEnemy = enemy;
         previousParent = transform.parent; 
-        transform.SetParent(enemy.transform); 
+        transform.SetParent(enemy.transform);
+        //this.rb.isKinematic = true;
                                               
-        velocidade = 200; 
+        velocidade = 200;
     }
 
 
@@ -69,13 +70,13 @@ public class Personagem : MonoBehaviour
             float distancia = Vector3.Distance(transform.position, objetoInterativo.transform.position);
             if (distancia <= distanciaMaxima)
             {
-                Debug.Log("Iniciando interação...");
+                Debug.Log("Iniciando interaï¿½ï¿½o...");
                 progressBar.gameObject.SetActive(true);
                 isInteracting = true;
             }
             else
             {
-                Debug.Log("Você está muito longe para interagir com o objeto.");
+                Debug.Log("Vocï¿½ estï¿½ muito longe para interagir com o objeto.");
             }
         }
     }
@@ -88,7 +89,7 @@ public class Personagem : MonoBehaviour
             if (vidas <= 0)
             {
                 isDead = true;
-                Debug.Log("Você morreu!");
+                Debug.Log("Vocï¿½ morreu!");
                 velocidade = 350;
                 
             }
@@ -105,7 +106,7 @@ public class Personagem : MonoBehaviour
 
             if (interactionProgress >= interactionDuration)
             {
-                Debug.Log("Interação concluída!");
+                Debug.Log("Interaï¿½ï¿½o concluï¿½da!");
                 
                 isInteracting = false;
                 progressBar.gameObject.SetActive(false);
@@ -122,12 +123,12 @@ public class Personagem : MonoBehaviour
     {
         if (isBeingCarried)
         {
-            Vector3 desiredPosition = carryingEnemy.transform.position + Vector3.up * 2.01f; 
+            Vector3 desiredPosition = carryingEnemy.transform.position + Vector3.up * 2.01f;
             rb.MovePosition(desiredPosition);
         }
         else
         {
-            rb.AddForce(new Vector3(movimento.x, 0, movimento.y) * Time.fixedDeltaTime * velocidade);
+           rb.AddForce(new Vector3(movimento.x, 0, movimento.y) * Time.fixedDeltaTime * velocidade);
         }
     }
 

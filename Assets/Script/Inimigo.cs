@@ -18,7 +18,7 @@ public class Inimigo : MonoBehaviour
         jogador = FindObjectOfType<Personagem>();
         if (jogador == null)
         {
-            Debug.LogError("Não foi possível encontrar o jogador.");
+            Debug.LogError("Nï¿½o foi possï¿½vel encontrar o jogador.");
         }
         interactaction = new InputAction("Interact", binding: "<KeyBoard>/Space");
         interactaction.performed += setinterajir;
@@ -41,7 +41,7 @@ public class Inimigo : MonoBehaviour
                 if (player != null)
                 {
                     player.SerCarregadoPorInimigo(this);
-                    velocidade = 600;
+                    velocidade = 800;
                 }
             }
         }
@@ -59,6 +59,7 @@ public class Inimigo : MonoBehaviour
                 player.transform.position = transform.position + offset;
 
                 player.velocidade = 350;
+                //player.GetComponent<Rigidbody>().isKinematic = false;
             }
         }
     }

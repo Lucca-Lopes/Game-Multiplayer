@@ -6,6 +6,7 @@ public class Obstaculo : MonoBehaviour
 {
     public GameObject objetoParaAtivar;
     public Transform player;
+    [SerializeField] Personagem scriptPersonagem;
     public Transform player2;
     public float distanciaMinimaParaAtivar = 10.0f;
     private bool objetoAtivado = false;
@@ -21,7 +22,7 @@ public class Obstaculo : MonoBehaviour
     public void Detecta()
     {
         float distanciaAoPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanciaAoPlayer <= distanciaMinimaParaAtivar && !objetoAtivado)
+        if (distanciaAoPlayer <= distanciaMinimaParaAtivar && !objetoAtivado && scriptPersonagem.vidas == 0)
         {          
             objetoParaAtivar.SetActive(true);
             objetoAtivado = true;

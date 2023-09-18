@@ -8,7 +8,8 @@ using UnityEngine.UI;
 public class BarraDeProgresso : MonoBehaviour
 {
     public GameObject Player;
-    private float Y = 0.1267033f;
+    [SerializeField] GameObject textoBarraMorte;
+    //private float Y = 0.1267033f;
     private float X = 10;
     public int maxProg;
     public int currentProg;
@@ -17,13 +18,14 @@ public class BarraDeProgresso : MonoBehaviour
     private void Start()
     {
         valorAtual = currentProg;
+        textoBarraMorte.SetActive(true);
     }
     private void Update()
     {    
         Diminui();
         parar();
         MataPlayer();
-        transform.localScale = new Vector3(valorAtual * X/ maxProg, Y, 1);              
+        transform.localScale = new Vector3(valorAtual * X/ maxProg, transform.localScale.y, 1);              
     }
     public void Diminui()
     {      
@@ -46,8 +48,9 @@ public class BarraDeProgresso : MonoBehaviour
     {
         if(valorAtual <= 0)
         {
-           Destroy(Player);
-           Debug.Log("Você Morreu");
+            Destroy(Player);
+            textoBarraMorte.SetActive(false);
+            Debug.Log("Vocï¿½ Morreu");
            
         }
     }

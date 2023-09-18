@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1357,7 +1357,7 @@ MonoBehaviour:
   ConnectionData:
     Address: 127.0.0.1
     Port: 7777
-    ServerListenAddress: 
+    ServerListenAddress: 127.0.0.1
   DebugSimulator:
     PacketDelayMS: 0
     PacketJitterMS: 0
@@ -1374,20 +1374,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 593a2fe42fa9d37498c96f9a383b6521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RunInBackground: 1
-  LogLevel: 1
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 2142870588}
     PlayerPrefab: {fileID: 7516239511585808180, guid: 4361072e034a0b345baccf361edd239b,
       type: 3}
-    NetworkPrefabs:
-    - Override: 0
-      Prefab: {fileID: 7516239511585808180, guid: 4361072e034a0b345baccf361edd239b,
-        type: 3}
-      SourcePrefabToOverride: {fileID: 0}
-      SourceHashToOverride: 0
-      OverridingTargetPrefab: {fileID: 0}
+    Prefabs:
+      NetworkPrefabsLists: []
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -1403,6 +1396,15 @@ MonoBehaviour:
     LoadSceneTimeOut: 120
     SpawnTimeout: 1
     EnableNetworkLogs: 1
+    OldPrefabList:
+    - Override: 0
+      Prefab: {fileID: 7516239511585808180, guid: 4361072e034a0b345baccf361edd239b,
+        type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+  RunInBackground: 1
+  LogLevel: 1
 --- !u!4 &2142870590
 Transform:
   m_ObjectHideFlags: 0
