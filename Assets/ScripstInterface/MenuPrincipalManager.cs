@@ -12,6 +12,7 @@ public class MenuPrincipalManager : MonoBehaviour
     [SerializeField] private GameObject painelSom;
     [SerializeField] private GameObject Voltar;
     [SerializeField] private GameObject painelGameOver;
+    //[SerializeField] private GameObject Tutorial;
     //[SerializeField] private GameObject painelClassificacao;
     [SerializeField] private GameObject painelClassificacao;
     public void Jogar()
@@ -64,5 +65,13 @@ public class MenuPrincipalManager : MonoBehaviour
        
         painelClassificacao.SetActive(false);
         painelMenuInicial.SetActive(true);
+    }
+    public void Tutoriel()
+    {
+        SceneManager.LoadScene("Tutoriel");
+    }
+    public void CenaMenu()
+    {
+        SceneManager.LoadScene("RenatoInterface");
     }
 }
