@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class TimerController : MonoBehaviour
 {
     public TextMeshProUGUI timerText;
-    private float timeRemaining = 2 * 60.0f; // 2 minutos em segundos
+    private float timeRemaining = 2 * 60.0f; 
 
     private void Start()
     {
@@ -22,7 +22,7 @@ public class TimerController : MonoBehaviour
             timeRemaining -= 1.0f;
             UpdateTimerDisplay();
         }
-        timeRemaining = 0; // Certifica-se de que o timer seja 0 quando terminar
+        timeRemaining = 0; 
         UpdateTimerDisplay();
     }
 
@@ -30,7 +30,7 @@ public class TimerController : MonoBehaviour
     {
         int minutes = Mathf.FloorToInt(timeRemaining / 60);
         int seconds = Mathf.FloorToInt(timeRemaining % 60);
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds); // Atualiza o TextMeshPro com o tempo restante formatado como MM:SS
+        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds); 
     }
 }
 

@@ -80,12 +80,12 @@ public class Personagem : MonoBehaviour
 
                 if (isInteracting)
                 {
-                    // Se o jogador já está interagindo, retome a interação em vez de iniciar uma nova.
+                    
                     ResumeInteraction();
                 }
                 else
                 {
-                    // Caso contrário, inicie uma nova interação.
+                    
                     StartInteraction();
                 }
             }
@@ -155,7 +155,7 @@ public class Personagem : MonoBehaviour
             {
                 if (isInteracting)
                 {
-                    // Pausar a interação se o jogador começar a se mover.
+                    
                     wasInteractingBeforeMoving = true;
                     isInteracting = false;
                     isAnyPlayerInteracting = false;
