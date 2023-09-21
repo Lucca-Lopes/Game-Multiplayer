@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class TimerController : MonoBehaviour
 {
     public TextMeshProUGUI timerText;
-    private float timeRemaining = 2 * 60.0f; 
+    private float timeRemaining = 2 * 60.0f;
+    public GameObject fimdejogo;
 
     private void Start()
     {
@@ -21,9 +22,13 @@ public class TimerController : MonoBehaviour
             yield return new WaitForSeconds(1.0f);
             timeRemaining -= 1.0f;
             UpdateTimerDisplay();
+           
         }
         timeRemaining = 0; 
         UpdateTimerDisplay();
+        Fimdejogo();
+        Time.timeScale = 0;
+
     }
 
     private void UpdateTimerDisplay()
@@ -31,6 +36,11 @@ public class TimerController : MonoBehaviour
         int minutes = Mathf.FloorToInt(timeRemaining / 60);
         int seconds = Mathf.FloorToInt(timeRemaining % 60);
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds); 
+    }
+    public void Fimdejogo()
+    {
+        fimdejogo.SetActive(true);
+        
     }
 }
 
