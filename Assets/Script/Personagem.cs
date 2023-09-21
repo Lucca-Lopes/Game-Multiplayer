@@ -1,17 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using Unity.Netcode;
+using Unity.Collections;
 
-public class Personagem : MonoBehaviour
+public class Personagem : NetworkBehaviour
 {
     private Rigidbody rb;
     private Vector2 movimento;
     private InputAction interactAction;
     public int velocidade = 600;
-    public QuickTimeManager qteManager;
+    //public QuickTimeManager qteManager;
+
+    public NetworkVariable<int> vidaJogador = new(2);
 
     public GameObject objetoInterativo;
     public float distanciaMaxima = 3.0f;
@@ -48,6 +49,36 @@ public class Personagem : MonoBehaviour
         
     }
 
+    public override void OnNetworkSpawn()
+    {
+        if (IsClient && IsOwner)
+        {
+            vidaJogador.OnValueChanged += OnLifeChanged;
+        }
+    }
+
+    void OnLifeChanged(int previous, int current)
+    {
+        if (!isDead)
+        {
+            if (current <= 0)
+            {
+                isDead = true;
+                Debug.Log("Voce morreu!");
+                velocidade = 350;
+            }
+        }
+        else
+        {
+            if(current > 0)
+            {
+                isDead = false;
+                Debug.Log("Voce reviveu!");
+                velocidade = 600;
+            }
+        }
+    }
+
     public void SetMovimento(InputAction.CallbackContext value)
     {
         movimento = value.ReadValue<Vector2>();
@@ -81,20 +112,20 @@ public class Personagem : MonoBehaviour
         }
     }
 
-    public void ReceberDano(int quantidade)
-    {
-        if (!isDead)
-        {
-            vidas -= quantidade;
-            if (vidas <= 0)
-            {
-                isDead = true;
-                Debug.Log("Voc� morreu!");
-                velocidade = 350;
-                
-            }
-        }
-    }
+    //public void ReceberDano(int quantidade)
+    //{
+    //    if (!isDead)
+    //    {
+    //        vidas -= quantidade;
+    //        if (vidas <= 0)
+    //        {
+    //            isDead = true;
+    //            Debug.Log("Voc� morreu!");
+    //            velocidade = 350;
+
+    //        }
+    //    }
+    //}
 
 
     private void Update()
@@ -113,7 +144,7 @@ public class Personagem : MonoBehaviour
                 interactionProgress = 0f;
                 progressBar.value = 0f;
                
-                qteManager.IniciarQTE();
+                //qteManager.IniciarQTE();
 
 
             }

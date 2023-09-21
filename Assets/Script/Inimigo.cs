@@ -1,7 +1,8 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
+using Unity.Netcode;
 
-public class Inimigo : MonoBehaviour
+public class Inimigo : NetworkBehaviour
 {
     public float distanciaAtaque = 2.0f;
     public int dano = 1;
@@ -21,7 +22,7 @@ public class Inimigo : MonoBehaviour
             Debug.LogError("N�o foi poss�vel encontrar o jogador.");
         }
         interactaction = new InputAction("Interact", binding: "<KeyBoard>/Space");
-        interactaction.performed += setinterajir;
+        interactaction.performed += CarregarJogador;
         rb = GetComponent<Rigidbody>();
     }
     public void SetMovimento(InputAction.CallbackContext value)
@@ -30,7 +31,7 @@ public class Inimigo : MonoBehaviour
         
        
     }
-    public void setinterajir(InputAction.CallbackContext value)
+    public void CarregarJogador(InputAction.CallbackContext value)
     {
         if (jogador.vidas <= 0 && value.started)
         {
@@ -88,7 +89,8 @@ public class Inimigo : MonoBehaviour
             {
                 if (col.CompareTag("Player"))
                 {
-                    col.GetComponent<Personagem>().ReceberDano(dano);
+                    //col.GetComponent<Personagem>().ReceberDano(dano);
+                    GameManager.Instance.CausarDano_ServerRpc(1, col.GetComponent<Personagem>().OwnerClientId);
                 }
             }
         }
