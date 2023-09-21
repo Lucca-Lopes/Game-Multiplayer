@@ -1448,7 +1448,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 486404951}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1463,7 +1463,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 3, y: 12}
   m_SizeDelta: {x: 1000, y: 750}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &515701719
@@ -4300,12 +4300,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nomeDoLevelDeJOgo: SampleScene
-  painelMenuInicial: {fileID: 1474632723}
+  painelMenuInicial: {fileID: 1729977552}
   painelOpcoes: {fileID: 486404951}
+  painelConfiguracao: {fileID: 486404951}
   paineResolucao: {fileID: 1038966952}
   painelSom: {fileID: 1308286409}
   Voltar: {fileID: 0}
   painelGameOver: {fileID: 253871074}
+  painelMovimentacao: {fileID: 0}
+  painelObjetivo: {fileID: 0}
   painelClassificacao: {fileID: 1250256816}
 --- !u!4 &1122395570
 Transform:
@@ -4688,7 +4691,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1122395569}
         m_TargetAssemblyTypeName: MenuPrincipalManager, Assembly-CSharp
-        m_MethodName: AbrirOpcoes
+        m_MethodName: AbrirConfiguracao
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7842,7 +7845,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1122395569}
         m_TargetAssemblyTypeName: MenuPrincipalManager, Assembly-CSharp
-        m_MethodName: "AbrirResolu\xE7\xE3o"
+        m_MethodName: AbrirResolucao
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7851,7 +7854,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!114 &1839041389
 MonoBehaviour:
   m_ObjectHideFlags: 0
