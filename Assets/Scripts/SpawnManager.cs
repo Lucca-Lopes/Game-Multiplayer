@@ -1,51 +1,51 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class SpawnManager : MonoBehaviour
+public class SpawnManager : NetworkBehaviour
 {
 
-    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject sobrevivente;
     [SerializeField] private GameObject entity;
     [SerializeField] private GameObject[] spawnPoints;
     [SerializeField] private GameObject entitySpawnpoint;
-    private int radNumInt;
 
-    void Start()
+    public override void OnNetworkSpawn()
     {
-        if(spawnPoints.Length == 0)
+        if (IsOwner && IsHost)
         {
-            spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            InstanciarAssassino();
         }
-
-        if(entitySpawnpoint == null)
+        else if (IsOwner && IsClient)
         {
-            entitySpawnpoint = GameObject.FindGameObjectWithTag("SpawnEntity");
+            InstanciarSobrevivente();
         }
+    }
 
-        if (player == null)
-        {
-            player = Resources.Load<GameObject>("Prefabs/Player");
-        }
-
+    void InstanciarAssassino()
+    {
         if (entity == null)
         {
             entity = Resources.Load<GameObject>("Prefabs/Entity");
         }
-
-        radNumInt = RandomNumber();
-
-        Instantiate(entity, entitySpawnpoint.transform.position, entitySpawnpoint.transform.rotation);
-
-
-        Instantiate(player, spawnPoints[radNumInt].transform.position, spawnPoints[0].transform.rotation);
+        Instantiate(entity, gameObject.transform);
+        GameManager.AddPlayer(OwnerClientId);
+        transform.position = entitySpawnpoint.transform.position;
     }
 
-    private int RandomNumber()
+    void InstanciarSobrevivente()
     {
-        float radNumFloat = 0f;
-        radNumFloat = Random.Range(0, 6);
-        Debug.Log(radNumFloat);
-        return (int)radNumFloat;
+        if (sobrevivente == null)
+        {
+            sobrevivente = Resources.Load<GameObject>("Prefabs/Player");
+        }
+        var sobreviventeInstanciado = Instantiate(sobrevivente, transform);
+        GameManager.AddPlayer(OwnerClientId, sobreviventeInstanciado.GetComponent<Personagem>());
+        transform.position = RandomSurvivorSpawn();
+    }
+
+    private Vector3 RandomSurvivorSpawn()
+    {
+        var radSpawn = spawnPoints[Random.Range(0, spawnPoints.Length)];
+        return radSpawn.transform.position;
     }
 }

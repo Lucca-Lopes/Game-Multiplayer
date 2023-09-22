@@ -2755,7 +2755,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocidade: 600
-  qteManager: {fileID: 0}
+  vidaJogador:
+    m_InternalValue: 2
   objetoInterativo: {fileID: 2087057389}
   distanciaMaxima: 3
   progressBar: {fileID: 581157093}
@@ -3272,7 +3273,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1509678935}
-    PlayerPrefab: {fileID: 7516239511585808180, guid: 4361072e034a0b345baccf361edd239b,
+    PlayerPrefab: {fileID: 6468352311347901293, guid: 9de7faec4124e421da644e33a5ddadea,
       type: 3}
     Prefabs:
       NetworkPrefabsLists: []

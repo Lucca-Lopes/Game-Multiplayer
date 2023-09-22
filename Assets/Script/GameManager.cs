@@ -8,7 +8,8 @@ public class GameManager : MonoBehaviour
 
     string playerName;
 
-    Dictionary<ulong, Personagem> players = new();
+    List<ulong> jogadoresConectados = new();
+    Dictionary<ulong, Personagem> sobreviventes = new();
 
     public static string PlayerName
     {
@@ -73,15 +74,43 @@ public class GameManager : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsServer)
         {
-            foreach (ulong clientId in players.Keys)
+            foreach (ulong clientId in sobreviventes.Keys)
             {
                 if (clientId == atacadoId)
                 {
-                    if (players[clientId].vidaJogador.Value > 0)
+                    if (sobreviventes[clientId].vidaJogador.Value > 0)
                     {
-                        players[clientId].vidaJogador.Value--;
+                        sobreviventes[clientId].vidaJogador.Value--;
                     }
                 }
+            }
+        }
+    }
+
+    public static void AddPlayer(ulong clientId, Personagem sobrevivente = null)
+    {
+        if (Instance.jogadoresConectados != null && !Instance.jogadoresConectados.Contains(clientId))
+        {
+            Instance.jogadoresConectados.Add(clientId);
+            if(sobrevivente != null)
+            {
+                if (!Instance.sobreviventes.ContainsKey(clientId))
+                {
+                    Instance.sobreviventes.Add(clientId, sobrevivente);
+                }
+            }
+        }
+    }
+
+    public static void RemovePlayer(ulong clientId)
+    {
+        if (Instance.jogadoresConectados != null && Instance.jogadoresConectados.Contains(clientId))
+        {
+            Instance.jogadoresConectados.Remove(clientId);
+
+            if (Instance.sobreviventes.ContainsKey(clientId))
+            {
+                Instance.sobreviventes.Remove(clientId);
             }
         }
     }
