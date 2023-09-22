@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsServer)
         {
+
             Debug.Log($"Cliente {clientId} conectado");
         }
     }
@@ -89,8 +90,10 @@ public class GameManager : MonoBehaviour
 
     public static void AddPlayer(ulong clientId, Personagem sobrevivente = null)
     {
-        if (Instance.jogadoresConectados != null && !Instance.jogadoresConectados.Contains(clientId))
-        {
+        Debug.Log(clientId);
+        //if (!Instance.jogadoresConectados.Contains(clientId))
+        //{
+            Debug.Log(clientId);
             Instance.jogadoresConectados.Add(clientId);
             if(sobrevivente != null)
             {
@@ -99,7 +102,7 @@ public class GameManager : MonoBehaviour
                     Instance.sobreviventes.Add(clientId, sobrevivente);
                 }
             }
-        }
+        //}
     }
 
     public static void RemovePlayer(ulong clientId)
@@ -114,4 +117,6 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+
 }

@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CenaBuild1.unity
     guid: c72f2efa5bbf3484bbe08744623f5509
+  - enabled: 1
+    path: Assets/Scenes/TrabalhoPI.unity
+    guid: 89bd1eb14a9425d47a40e3fe8cc1dcf7
   m_configObjects: {}

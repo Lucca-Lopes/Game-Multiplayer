@@ -22,4 +22,14 @@ public class NetworkManagerUI : MonoBehaviour
             NetworkManager.Singleton.StartClient();
         });
     }
+
+    public void StatHostHandler()
+    {
+        NetworkManager.Singleton.StartHost();
+    }
+
+    public void StartClientHandler()
+    {
+        NetworkManager.Singleton.StartClient();
+    }
 }

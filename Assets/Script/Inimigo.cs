@@ -10,19 +10,14 @@ public class Inimigo : NetworkBehaviour
     private Vector2 movimento;
     private InputAction interactaction;
     private Rigidbody rb;
-    private Personagem jogador; 
+    //private Personagem jogador; 
     public float distanciaCarregamento = 2.0f;
 
 
     private void Awake()
     {
-        jogador = FindObjectOfType<Personagem>();
-        if (jogador == null)
-        {
-            Debug.LogError("N�o foi poss�vel encontrar o jogador.");
-        }
         interactaction = new InputAction("Interact", binding: "<KeyBoard>/Space");
-        interactaction.performed += CarregarJogador;
+        //interactaction.performed += CarregarJogador;
         rb = GetComponent<Rigidbody>();
     }
     public void SetMovimento(InputAction.CallbackContext value)
@@ -31,45 +26,39 @@ public class Inimigo : NetworkBehaviour
         
        
     }
-    public void CarregarJogador(InputAction.CallbackContext value)
-    {
-        if (jogador.vidas <= 0 && value.started)
-        {
-            float distanciaJogadorInimigo = Vector3.Distance(transform.position, jogador.transform.position);
-            if (distanciaJogadorInimigo <= distanciaCarregamento) 
-            {
-                Personagem player = FindObjectOfType<Personagem>();
-                if (player != null)
-                {
-                    player.SerCarregadoPorInimigo(this);
-                    velocidade = 800;
-                }
-            }
-        }
-        else if (value.canceled && jogador.isBeingCarried)
-        {
-            Personagem player = FindObjectOfType<Personagem>();
-            if (player != null)
-            {
-                player.transform.SetParent(jogador.previousParent);
-                jogador.isBeingCarried = false;
-                velocidade = 600;
+    //public void CarregarJogador(InputAction.CallbackContext value)
+    //{
+    //    if (jogador.vidas <= 0 && value.started)
+    //    {
+    //        float distanciaJogadorInimigo = Vector3.Distance(transform.position, jogador.transform.position);
+    //        if (distanciaJogadorInimigo <= distanciaCarregamento) 
+    //        {
+    //            Personagem player = FindObjectOfType<Personagem>();
+    //            if (player != null)
+    //            {
+    //                player.SerCarregadoPorInimigo(this);
+    //                velocidade = 800;
+    //            }
+    //        }
+    //    }
+    //    else if (value.canceled && jogador.isBeingCarried)
+    //    {
+    //        Personagem player = FindObjectOfType<Personagem>();
+    //        if (player != null)
+    //        {
+    //            player.transform.SetParent(jogador.previousParent);
+    //            jogador.isBeingCarried = false;
+    //            velocidade = 600;
 
                 
-                Vector3 offset = transform.forward * 2.0f; 
-                player.transform.position = transform.position + offset;
+    //            Vector3 offset = transform.forward * 2.0f; 
+    //            player.transform.position = transform.position + offset;
 
-                player.velocidade = 350;
-                //player.GetComponent<Rigidbody>().isKinematic = false;
-            }
-        }
-    }
-
-
-
-
-
-
+    //            player.velocidade = 350;
+    //            //player.GetComponent<Rigidbody>().isKinematic = false;
+    //        }
+    //    }
+    //}
 
     private void FixedUpdate()
     {
@@ -82,6 +71,7 @@ public class Inimigo : NetworkBehaviour
 
     private void Update()
     {
+        //if(jogador == null)
         if (Input.GetMouseButtonDown(0))
         {
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, distanciaAtaque);

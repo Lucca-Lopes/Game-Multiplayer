@@ -9,6 +9,12 @@ public class SpawnManager : NetworkBehaviour
     [SerializeField] private GameObject[] spawnPoints;
     [SerializeField] private GameObject entitySpawnpoint;
 
+    private void Awake()
+    {
+        entitySpawnpoint = GameObject.FindGameObjectWithTag("SpawnEntity");
+        spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+    }
+
     public override void OnNetworkSpawn()
     {
         if (IsOwner && IsHost)
@@ -19,6 +25,8 @@ public class SpawnManager : NetworkBehaviour
         {
             InstanciarSobrevivente();
         }
+        
+        base.OnNetworkSpawn();
     }
 
     void InstanciarAssassino()
@@ -28,7 +36,7 @@ public class SpawnManager : NetworkBehaviour
             entity = Resources.Load<GameObject>("Prefabs/Entity");
         }
         Instantiate(entity, gameObject.transform);
-        GameManager.AddPlayer(OwnerClientId);
+        //GameManager.AddPlayer(OwnerClientId);
         transform.position = entitySpawnpoint.transform.position;
     }
 
@@ -39,7 +47,7 @@ public class SpawnManager : NetworkBehaviour
             sobrevivente = Resources.Load<GameObject>("Prefabs/Player");
         }
         var sobreviventeInstanciado = Instantiate(sobrevivente, transform);
-        GameManager.AddPlayer(OwnerClientId, sobreviventeInstanciado.GetComponent<Personagem>());
+        //GameManager.AddPlayer(OwnerClientId, sobreviventeInstanciado.GetComponent<Personagem>());
         transform.position = RandomSurvivorSpawn();
     }
 
