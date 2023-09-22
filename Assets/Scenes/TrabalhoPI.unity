@@ -5554,7 +5554,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 522811750}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!124 &522811752
 Behaviour:
   m_ObjectHideFlags: 0
@@ -5741,7 +5741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c153d4cf67a234c94c6700fb04a323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stopClientButton: {fileID: 544633430}
+  stopHostButton: {fileID: 544633430}
 --- !u!114 &544633430
 MonoBehaviour:
   m_ObjectHideFlags: 0

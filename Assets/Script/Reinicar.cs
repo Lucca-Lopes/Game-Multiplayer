@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Reinicar : MonoBehaviour
 {
-    [SerializeField] private Button stopClientButton;
+    [SerializeField] private Button stopHostButton;
     public void RestartScene()
     {
         // Obtém o nome da cena atual e recarrega a cena
@@ -16,9 +16,10 @@ public class Reinicar : MonoBehaviour
         
         Time.timeScale = 1;
     }
+
     private void Awake()
     {
-        stopClientButton.onClick.AddListener(() => {
+        stopHostButton.onClick.AddListener(() => {
             NetworkManager.Singleton.Shutdown();
         });
     }
