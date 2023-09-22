@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e7169ecf321a3043b853099844e53dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  sobrevivente: {fileID: 0}
   entity: {fileID: 0}
   spawnPoints: []
   entitySpawnpoint: {fileID: 0}

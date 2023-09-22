@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Unity.Netcode;
 using Unity.Collections;
+using Cinemachine;
 
 public class Personagem : NetworkBehaviour
 {
@@ -27,7 +28,8 @@ public class Personagem : NetworkBehaviour
     public bool isBeingCarried = false;
     private Inimigo carryingEnemy;
     public Transform previousParent;
-
+    [SerializeField] private CinemachineVirtualCamera vc;
+    [SerializeField] private AudioListener listener;
     public float fillRate = 0.05f;
     public void SerCarregadoPorInimigo(Inimigo enemy)
     {
@@ -54,6 +56,15 @@ public class Personagem : NetworkBehaviour
         if (IsClient && IsOwner)
         {
             vidaJogador.OnValueChanged += OnLifeChanged;
+        }
+        if(IsOwner)
+        {
+        listener.enabled = true;
+            vc.Priority = 1;
+        }
+        else
+        {
+            vc.Priority = 0;
         }
     }
 
