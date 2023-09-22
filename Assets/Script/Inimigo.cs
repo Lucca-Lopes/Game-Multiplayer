@@ -1,7 +1,7 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
 using Unity.Netcode;
-
+using Cinemachine;
 public class Inimigo : NetworkBehaviour
 {
     public float distanciaAtaque = 2.0f;
@@ -12,7 +12,8 @@ public class Inimigo : NetworkBehaviour
     private Rigidbody rb;
     //private Personagem jogador; 
     public float distanciaCarregamento = 2.0f;
-
+    [SerializeField] private CinemachineVirtualCamera vc;
+    [SerializeField] private AudioListener listener;
 
     private void Awake()
     {
@@ -25,6 +26,18 @@ public class Inimigo : NetworkBehaviour
         movimento = value.ReadValue<Vector2>();
         
        
+    }
+    public override void OnNetworkSpawn()
+    {
+        if (IsOwner)
+        {
+            listener.enabled = true;
+            vc.Priority = 1;
+        }
+        else
+        {
+            vc.Priority = 0;
+        }
     }
     //public void CarregarJogador(InputAction.CallbackContext value)
     //{
@@ -50,7 +63,7 @@ public class Inimigo : NetworkBehaviour
     //            jogador.isBeingCarried = false;
     //            velocidade = 600;
 
-                
+
     //            Vector3 offset = transform.forward * 2.0f; 
     //            player.transform.position = transform.position + offset;
 
