@@ -12,7 +12,7 @@ public class TimerController : MonoBehaviour
     private void Start()
     {
         UpdateTimerDisplay();
-        StartCoroutine(StartTimer());
+        //StartCoroutine(StartTimer());
     }
 
     private IEnumerator StartTimer()

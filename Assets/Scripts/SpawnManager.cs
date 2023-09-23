@@ -9,47 +9,83 @@ public class SpawnManager : NetworkBehaviour
     [SerializeField] private GameObject[] spawnPoints;
     [SerializeField] private GameObject entitySpawnpoint;
 
-    private void Awake()
-    {
-        entitySpawnpoint = GameObject.FindGameObjectWithTag("SpawnEntity");
-        spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
-    }
+    //private void Awake()
+    //{
+    //    entitySpawnpoint = GameObject.FindGameObjectWithTag("SpawnEntity");
+    //    spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+    //}
 
     public override void OnNetworkSpawn()
     {
-        if (IsOwner && IsHost)
+        if (IsHost)
         {
-            InstanciarAssassino();
+            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, 0);
         }
-        else if (IsOwner && IsClient)
+        else if (IsClient)
         {
-            InstanciarSobrevivente();
+            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, 1);
         }
-        
         base.OnNetworkSpawn();
     }
 
-    void InstanciarAssassino()
+    //void InstanciarAssassino()
+    //{
+    //    if (entity == null)
+    //    {
+    //        entity = Resources.Load<GameObject>("Prefabs/Entity");
+    //    }
+    //    var entidadeInstanciada = Instantiate(entity, transform);
+    //    GameManager.AddPlayer(OwnerClientId);
+    //    transform.position = entitySpawnpoint.transform.position;
+    //    entidadeInstanciada.GetComponent<NetworkObject>().Spawn();
+    //}
+
+    //void InstanciarSobrevivente()
+    //{
+    //    if (sobrevivente == null)
+    //    {
+    //        sobrevivente = Resources.Load<GameObject>("Prefabs/Player");
+    //    }
+    //    var sobreviventeInstanciado = Instantiate(sobrevivente, transform);
+    //    GameManager.AddPlayer(OwnerClientId, sobreviventeInstanciado.GetComponent<Personagem>());
+    //    transform.position = RandomSurvivorSpawn();
+    //    GameManager.Instance.SpawnSobrevivente_ServerRpc(OwnerClientId);
+    //}
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SpawnPlayerServerRpc(ulong clientId, int prefabId)
     {
-        if (entity == null)
+        GameObject newPlayer;
+        if (prefabId == 0)
         {
-            entity = Resources.Load<GameObject>("Prefabs/Entity");
+            newPlayer = Instantiate(entity);
+            GameManager.AddPlayer(OwnerClientId);
+            newPlayer.transform.position = entitySpawnpoint.transform.position;
         }
-        Instantiate(entity, gameObject.transform);
-        //GameManager.AddPlayer(OwnerClientId);
-        transform.position = entitySpawnpoint.transform.position;
+        else
+        {
+            newPlayer = Instantiate(sobrevivente);
+            GameManager.AddPlayer(OwnerClientId, newPlayer.GetComponent<Personagem>());
+            newPlayer.transform.position = RandomSurvivorSpawn();
+        }
+        var netObj = newPlayer.GetComponent<NetworkObject>();
+        newPlayer.SetActive(true);
+        netObj.SpawnAsPlayerObject(clientId, true);
+        netObj.ChangeOwnership(clientId);
     }
 
-    void InstanciarSobrevivente()
-    {
-        if (sobrevivente == null)
-        {
-            sobrevivente = Resources.Load<GameObject>("Prefabs/Player");
-        }
-        var sobreviventeInstanciado = Instantiate(sobrevivente, transform);
-        //GameManager.AddPlayer(OwnerClientId, sobreviventeInstanciado.GetComponent<Personagem>());
-        transform.position = RandomSurvivorSpawn();
-    }
+    //public void SpawnSobrevivente()
+    //{
+    //    if (NetworkManager.Singleton.IsServer)
+    //    {
+    //        var sobreviventes = GameObject.FindGameObjectsWithTag("Sobrevivente");
+
+    //        foreach (GameObject sobrevivente in sobreviventes)
+    //        {
+    //            sobrevivente.GetComponent<NetworkObject>().Spawn();
+    //        }
+    //    }
+    //}
 
     private Vector3 RandomSurvivorSpawn()
     {

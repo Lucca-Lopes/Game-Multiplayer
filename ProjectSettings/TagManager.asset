@@ -6,6 +6,10 @@ TagManager:
   tags:
   - QTEManager
   - Obstaculo
+  - SpawnPoint
+  - SpawnEntity
+  - Grass
+  - Sobrevivente
   layers:
   - Default
   - TransparentFX

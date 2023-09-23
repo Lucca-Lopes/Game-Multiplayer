@@ -31,6 +31,7 @@ public class Personagem : NetworkBehaviour
     [SerializeField] private CinemachineVirtualCamera vc;
     [SerializeField] private AudioListener listener;
     public float fillRate = 0.05f;
+
     public void SerCarregadoPorInimigo(Inimigo enemy)
     {
         isBeingCarried = true;

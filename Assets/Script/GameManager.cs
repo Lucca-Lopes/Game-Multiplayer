@@ -81,18 +81,42 @@ public class GameManager : MonoBehaviour
                 {
                     if (sobreviventes[clientId].vidaJogador.Value > 0)
                     {
-                        sobreviventes[clientId].vidaJogador.Value--;
+                        sobreviventes[clientId].vidaJogador.Value -= quantidade;
                     }
                 }
             }
         }
     }
 
+    //[ServerRpc(RequireOwnership = false)]
+    //public void SpawnSobrevivente_ServerRpc(ulong clientId)
+    //{
+    //    if (NetworkManager.Singleton.IsServer)
+    //    {
+    //        sobreviventes[clientId].gameObject.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
+    //        //sobrevivente.GetComponent<NetworkObject>().Spawn();
+    //    }
+    //}
+
+    //[ServerRpc(RequireOwnership = false)]
+    //public void SpawnSobrevivente_ServerRpc()
+    //{
+    //    if (NetworkManager.Singleton.IsServer)
+    //    {
+    //        var sobreviventes = GameObject.FindGameObjectsWithTag("Sobrevivente");
+
+    //        foreach(GameObject sobrevivente in sobreviventes)
+    //        {
+    //            sobrevivente.GetComponent<NetworkObject>().Spawn();
+    //        } 
+    //    }
+    //}
+
     public static void AddPlayer(ulong clientId, Personagem sobrevivente = null)
     {
         Debug.Log(clientId);
-        //if (!Instance.jogadoresConectados.Contains(clientId))
-        //{
+        if (!Instance.jogadoresConectados.Contains(clientId))
+        {
             Debug.Log(clientId);
             Instance.jogadoresConectados.Add(clientId);
             if(sobrevivente != null)
@@ -102,7 +126,9 @@ public class GameManager : MonoBehaviour
                     Instance.sobreviventes.Add(clientId, sobrevivente);
                 }
             }
-        //}
+        }
+        Debug.Log("Jogadores conectados: " + Instance.jogadoresConectados.Count);
+        Debug.Log("Sobreviventes conectados: " + Instance.sobreviventes.Count);
     }
 
     public static void RemovePlayer(ulong clientId)
