@@ -2,6 +2,8 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using Unity.Netcode;
 using Cinemachine;
+using Unity.Collections;
+
 public class Inimigo : NetworkBehaviour
 {
     public float distanciaAtaque = 2.0f;
@@ -13,7 +15,10 @@ public class Inimigo : NetworkBehaviour
     //private Personagem jogador; 
     public float distanciaCarregamento = 2.0f;
     [SerializeField] private CinemachineVirtualCamera vc;
-   // [SerializeField] private AudioListener listener;
+    // [SerializeField] private AudioListener listener;
+
+    public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    [SerializeField] TMPro.TextMeshProUGUI displayName;
 
     private void Awake()
     {
@@ -21,17 +26,29 @@ public class Inimigo : NetworkBehaviour
         //interactaction.performed += CarregarJogador;
         rb = GetComponent<Rigidbody>();
     }
+
+    private void Start()
+    {
+        if (IsOwner)
+        {
+            nomeJogador.Value = GameManager.PlayerName;
+        }
+
+    }
+
     public void SetMovimento(InputAction.CallbackContext value)
     {
         movimento = value.ReadValue<Vector2>();
         
        
     }
+
     public override void OnNetworkSpawn()
     {
         if (IsOwner)
         {
-           // listener.enabled = true;
+            nomeJogador.OnValueChanged += OnPlayerNameChanged;
+            // listener.enabled = true;
             vc.Priority = 1;
         }
         else
@@ -39,6 +56,17 @@ public class Inimigo : NetworkBehaviour
             vc.Priority = 0;
         }
     }
+
+    public override void OnNetworkDespawn()
+    {
+        nomeJogador.OnValueChanged -= OnPlayerNameChanged;
+    }
+
+    void OnPlayerNameChanged(FixedString32Bytes previous, FixedString32Bytes current)
+    {
+        displayName.text = current.ToString();
+    }
+
     //public void CarregarJogador(InputAction.CallbackContext value)
     //{
     //    if (jogador.vidas <= 0 && value.started)

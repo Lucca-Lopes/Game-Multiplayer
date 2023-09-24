@@ -10,6 +10,9 @@ public class NetworkManagerUI : MonoBehaviour
     [SerializeField] private Button hostButton;
     [SerializeField] private Button clientButton;
 
+    [SerializeField] TMPro.TextMeshProUGUI displayName;
+    [SerializeField] GameObject interfacePlayerName;
+
     private void Awake()
     {
         serverButton.onClick.AddListener(() => { 
@@ -25,11 +28,23 @@ public class NetworkManagerUI : MonoBehaviour
 
     public void StatHostHandler()
     {
-        NetworkManager.Singleton.StartHost();
+        if (GameManager.PlayerName != string.Empty)
+        {
+            NetworkManager.Singleton.StartHost();
+            interfacePlayerName.SetActive(false);
+        }
+        else
+            displayName.gameObject.SetActive(true);
     }
 
     public void StartClientHandler()
     {
-        NetworkManager.Singleton.StartClient();
+        if (GameManager.PlayerName != string.Empty)
+        {
+            NetworkManager.Singleton.StartClient();
+            interfacePlayerName.SetActive(false);
+        }
+        else
+            displayName.gameObject.SetActive(true);
     }
 }

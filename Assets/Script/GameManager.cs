@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     string playerName;
+    private bool timerAtivo = false;
 
     List<ulong> jogadoresConectados = new();
     Dictionary<ulong, Personagem> sobreviventes = new();
@@ -66,9 +67,11 @@ public class GameManager : MonoBehaviour
         if (NetworkManager.Singleton.IsServer)
         {
             Debug.Log($"Cliente {clientId} conectado");
-            if(jogadoresConectados.Count > 1)
+            if(clientId > 0 && !timerAtivo)
             {
                 var timerObj = GameObject.FindGameObjectWithTag("Timer");
+                timerObj.SetActive(true);
+                timerAtivo = true;
                 StartCoroutine(timerObj.GetComponent<TimerController>().StartTimer());
             }
         }

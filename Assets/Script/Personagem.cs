@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using Unity.Netcode;
 using Unity.Collections;
 using Cinemachine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Personagem : NetworkBehaviour
 {
@@ -14,6 +15,8 @@ public class Personagem : NetworkBehaviour
     //public QuickTimeManager qteManager;
 
     public NetworkVariable<int> vidaJogador = new(2);
+    public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    [SerializeField] TMPro.TextMeshProUGUI displayName;
 
     public GameObject objetoInterativo;
     public float distanciaMaxima = 3.0f;
@@ -52,13 +55,24 @@ public class Personagem : NetworkBehaviour
         
     }
 
+    private void Start()
+    {
+        if (IsOwner)
+        {
+            nomeJogador.Value = GameManager.PlayerName;
+        }
+
+    }
+
     public override void OnNetworkSpawn()
     {
         if (IsClient && IsOwner)
         {
             vidaJogador.OnValueChanged += OnLifeChanged;
+            nomeJogador.OnValueChanged += OnPlayerNameChanged;
+
         }
-        if(IsOwner)
+        if (IsOwner)
         {
        // listener.enabled = true;
             vc.Priority = 10;
@@ -68,6 +82,13 @@ public class Personagem : NetworkBehaviour
             vc.Priority = 0;
         }
     }
+
+    public override void OnNetworkDespawn()
+    {
+        nomeJogador.OnValueChanged -= OnPlayerNameChanged;
+        vidaJogador.OnValueChanged -= OnLifeChanged;
+    }
+
 
     void OnLifeChanged(int previous, int current)
     {
@@ -89,6 +110,11 @@ public class Personagem : NetworkBehaviour
                 velocidade = 600;
             }
         }
+    }
+
+    void OnPlayerNameChanged(FixedString32Bytes previous, FixedString32Bytes current)
+    {
+        displayName.text = current.ToString();
     }
 
     public void SetMovimento(InputAction.CallbackContext value)
