@@ -29,7 +29,7 @@ public class Personagem : NetworkBehaviour
     private Inimigo carryingEnemy;
     public Transform previousParent;
     [SerializeField] private CinemachineVirtualCamera vc;
-    [SerializeField] private AudioListener listener;
+    //[SerializeField] private AudioListener listener;
     public float fillRate = 0.05f;
 
     public void SerCarregadoPorInimigo(Inimigo enemy)
@@ -60,8 +60,8 @@ public class Personagem : NetworkBehaviour
         }
         if(IsOwner)
         {
-        listener.enabled = true;
-            vc.Priority = 1;
+       // listener.enabled = true;
+            vc.Priority = 10;
         }
         else
         {

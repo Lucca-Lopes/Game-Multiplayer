@@ -13,7 +13,7 @@ public class Inimigo : NetworkBehaviour
     //private Personagem jogador; 
     public float distanciaCarregamento = 2.0f;
     [SerializeField] private CinemachineVirtualCamera vc;
-    [SerializeField] private AudioListener listener;
+   // [SerializeField] private AudioListener listener;
 
     private void Awake()
     {
@@ -31,7 +31,7 @@ public class Inimigo : NetworkBehaviour
     {
         if (IsOwner)
         {
-            listener.enabled = true;
+           // listener.enabled = true;
             vc.Priority = 1;
         }
         else
