@@ -8,23 +8,25 @@ public class MenuPrincipalManager : MonoBehaviour
     [SerializeField] private string nomeDoLevelDeJOgo;
     [SerializeField] private GameObject painelMenuInicial;
     [SerializeField] private GameObject painelOpcoes;
+    [SerializeField] private GameObject painelConfiguracao;
     [SerializeField] private GameObject paineResolucao;
     [SerializeField] private GameObject painelSom;
     [SerializeField] private GameObject Voltar;
     [SerializeField] private GameObject painelGameOver;
-    //[SerializeField] private GameObject painelClassificacao;
+    [SerializeField] private GameObject painelMovimentacao;
+    [SerializeField] private GameObject painelObjetivo;
     [SerializeField] private GameObject painelClassificacao;
+    [SerializeField] private GameObject painelTutorial;
     public void Jogar()
     {
-        Debug.Log("O jogo foi iniciado");
-        //SceneManager.LoadScene("Jogo");
+        SceneManager.LoadScene(1);
     }
-   public void AbrirOpcoes()
+    public void AbrirOpcoes()
     {
         painelMenuInicial.SetActive(false);
         painelOpcoes.SetActive(true);
     }
-   public void FecharOpcoes()
+    public void FecharOpcoes()
     {
         painelOpcoes.SetActive(false);
         painelMenuInicial.SetActive(true);
@@ -49,7 +51,12 @@ public class MenuPrincipalManager : MonoBehaviour
         paineResolucao.SetActive(false);
         painelMenuInicial.SetActive(true);
     }  
-   public void SairJOgo()
+    public void AbrirConfiguracao()
+    {
+        painelMenuInicial.SetActive(false);
+        painelConfiguracao.SetActive(true);
+    }
+    public void SairJOgo()
     {
         Debug.Log("O jogo foi fechado"); 
         Application.Quit();
@@ -64,5 +71,34 @@ public class MenuPrincipalManager : MonoBehaviour
        
         painelClassificacao.SetActive(false);
         painelMenuInicial.SetActive(true);
+    }
+    public void AbrirTutorial()
+    {
+        painelTutorial.SetActive(true);
+        AbreMovimentacao();
+        painelMenuInicial.SetActive(false);
+        
+    }
+
+    public void FecharTutorial()
+    {
+        painelTutorial.SetActive(false);
+        painelMenuInicial.SetActive(true);
+
+    }
+
+    public void CenaMenu()
+    {
+        SceneManager.LoadScene("RenatoInterface");
+    }
+    public void AbreObjetivo()
+    {
+        painelMovimentacao.SetActive(false);
+        painelObjetivo.SetActive(true);
+    }
+    public void AbreMovimentacao()
+    {
+        painelObjetivo.SetActive(false);
+        painelMovimentacao.SetActive(true);
     }
 }

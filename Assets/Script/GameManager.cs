@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 
     string playerName;
     private bool timerAtivo = false;
+    public static bool fimDeJogo = false;
+    public static bool killerWin = false;
 
     List<ulong> jogadoresConectados = new();
     Dictionary<ulong, Personagem> sobreviventes = new();
@@ -82,6 +84,7 @@ public class GameManager : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsServer)
         {
+            var jogadoresMortos = 0;
             foreach (ulong clientId in sobreviventes.Keys)
             {
                 if (clientId == atacadoId)
@@ -91,6 +94,13 @@ public class GameManager : MonoBehaviour
                         sobreviventes[clientId].vidaJogador.Value -= quantidade;
                     }
                 }
+                if (sobreviventes[clientId].isDead)
+                    jogadoresMortos++;
+            }
+            if (jogadoresMortos == sobreviventes.Count)
+            {
+                killerWin = true;
+                fimDeJogo = true;
             }
         }
     }

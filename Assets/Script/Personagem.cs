@@ -27,7 +27,7 @@ public class Personagem : NetworkBehaviour
     private float interactionProgress = 0f;
     private float interactionDuration = 20f;
     public int vidas = 2;
-    private bool isDead = false;
+    public bool isDead = false;
     public bool isBeingCarried = false;
     private Inimigo carryingEnemy;
     public Transform previousParent;

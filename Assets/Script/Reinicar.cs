@@ -8,13 +8,13 @@ using UnityEngine.UI;
 public class Reinicar : MonoBehaviour
 {
     [SerializeField] private Button stopHostButton;
-    public void RestartScene()
+    public void VoltarMenuInicial()
     {
-        // Obtém o nome da cena atual e recarrega a cena
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(currentSceneName);
-        
         Time.timeScale = 1;
+        // Obtï¿½m o nome da cena atual e recarrega a cena
+        //string currentSceneName = SceneManager.GetActiveScene().name;
+        NetworkManager.Singleton.DisconnectClient(NetworkManager.Singleton.LocalClientId);
+        SceneManager.LoadScene(0);
     }
 
     private void Awake()

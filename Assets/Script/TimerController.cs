@@ -8,6 +8,9 @@ public class TimerController : MonoBehaviour
     public TextMeshProUGUI timerText;
     private float timeRemaining = 2 * 60.0f;
     public GameObject fimdejogo;
+    [SerializeField] GameObject textoVitoria;
+    [SerializeField] GameObject textoDerrota;
+    [SerializeField] TextMeshProUGUI textoPontuacao;
 
     private void Start()
     {
@@ -17,18 +20,18 @@ public class TimerController : MonoBehaviour
 
     public IEnumerator StartTimer()
     {
-        while (timeRemaining > 0)
+        while (timeRemaining > 0 && !GameManager.fimDeJogo)
         {
             yield return new WaitForSeconds(1.0f);
             timeRemaining -= 1.0f;
             UpdateTimerDisplay();
            
         }
-        timeRemaining = 0; 
+        if (timeRemaining <= 0)
+            timeRemaining = 0;
         UpdateTimerDisplay();
         Fimdejogo();
         Time.timeScale = 0;
-
     }
 
     private void UpdateTimerDisplay()
@@ -39,8 +42,32 @@ public class TimerController : MonoBehaviour
     }
     public void Fimdejogo()
     {
+        GameManager.fimDeJogo = true;
         fimdejogo.SetActive(true);
-        
+        if (NetworkManager.Singleton.IsHost)
+        {
+            if (GameManager.killerWin)
+            {
+                textoVitoria.SetActive(true);
+            }
+            else
+            {
+                textoDerrota.SetActive(true);
+            }
+            textoPontuacao.text = "Sua pontuação: " + timeRemaining;
+        }
+        else if (NetworkManager.Singleton.IsClient)
+        {
+            if (GameManager.killerWin)
+            {
+                textoDerrota.SetActive(true);
+            }
+            else
+            {
+                textoVitoria.SetActive(true);
+            }
+            textoPontuacao.text = "Sua pontuação: " + (120 - timeRemaining);
+        }
     }
 }
 
