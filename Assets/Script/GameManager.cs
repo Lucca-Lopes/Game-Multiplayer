@@ -65,8 +65,12 @@ public class GameManager : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsServer)
         {
-
             Debug.Log($"Cliente {clientId} conectado");
+            if(jogadoresConectados.Count > 1)
+            {
+                var timerObj = GameObject.FindGameObjectWithTag("Timer");
+                StartCoroutine(timerObj.GetComponent<TimerController>().StartTimer());
+            }
         }
     }
 

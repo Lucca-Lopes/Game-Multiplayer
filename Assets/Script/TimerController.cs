@@ -1,8 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UI;
+
 public class TimerController : MonoBehaviour
 {
     public TextMeshProUGUI timerText;
@@ -15,7 +15,7 @@ public class TimerController : MonoBehaviour
         //StartCoroutine(StartTimer());
     }
 
-    private IEnumerator StartTimer()
+    public IEnumerator StartTimer()
     {
         while (timeRemaining > 0)
         {

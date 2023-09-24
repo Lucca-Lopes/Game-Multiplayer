@@ -26,7 +26,7 @@
             ],
             "bindings": [
                 {
-                    "name": "Teclado Setas",
+                    "name": "WASD",
                     "id": "e3d871ae-c324-40e0-9272-45d6b9e4d970",
                     "path": "2DVector",
                     "interactions": "",
@@ -39,7 +39,7 @@
                 {
                     "name": "up",
                     "id": "988c3ba0-8a37-4243-bf95-0b237eaf0cec",
-                    "path": "<Keyboard>/upArrow",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -50,7 +50,7 @@
                 {
                     "name": "down",
                     "id": "b42cf4d3-054a-49cd-bfac-6fd1edd91a82",
-                    "path": "<Keyboard>/downArrow",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -61,7 +61,7 @@
                 {
                     "name": "left",
                     "id": "f2bf904c-645e-4d7e-8218-bc23b4c4a99e",
-                    "path": "<Keyboard>/leftArrow",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -72,7 +72,7 @@
                 {
                     "name": "right",
                     "id": "348629d4-41fe-4164-94f5-68805f5b32f8",
-                    "path": "<Keyboard>/rightArrow",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

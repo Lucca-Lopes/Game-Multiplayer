@@ -10,6 +10,7 @@ TagManager:
   - SpawnEntity
   - Grass
   - Sobrevivente
+  - Timer
   layers:
   - Default
   - TransparentFX
