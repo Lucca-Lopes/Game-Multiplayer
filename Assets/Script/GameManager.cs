@@ -6,6 +6,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    [SerializeField] GameObject timerObj;
+    [SerializeField] TimerController timerScript;
+
     string playerName;
     private bool timerAtivo = false;
     public static bool fimDeJogo = false;
@@ -28,7 +31,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else if (Instance != this)
         {
@@ -71,10 +74,9 @@ public class GameManager : MonoBehaviour
             Debug.Log($"Cliente {clientId} conectado");
             if(clientId > 0 && !timerAtivo)
             {
-                var timerObj = GameObject.FindGameObjectWithTag("Timer");
                 timerObj.SetActive(true);
                 timerAtivo = true;
-                StartCoroutine(timerObj.GetComponent<TimerController>().StartTimer());
+                StartCoroutine(timerScript.StartTimer());
             }
         }
     }

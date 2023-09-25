@@ -6,45 +6,48 @@ using UnityEngine.UI;
 
 public class NetworkManagerUI : MonoBehaviour
 {
-    [SerializeField] private Button serverButton;
-    [SerializeField] private Button hostButton;
-    [SerializeField] private Button clientButton;
+    //[SerializeField] private Button serverButton;
+    //[SerializeField] private Button hostButton;
+    //[SerializeField] private Button clientButton;
 
-    [SerializeField] TMPro.TextMeshProUGUI displayName;
+    [SerializeField] GameObject errorText;
+    [SerializeField] TMPro.TextMeshProUGUI playerName;
     [SerializeField] GameObject interfacePlayerName;
 
-    private void Awake()
-    {
-        serverButton.onClick.AddListener(() => { 
-            NetworkManager.Singleton.StartServer();
-        } );
-        hostButton.onClick.AddListener(() => {
-            NetworkManager.Singleton.StartHost();
-        });
-        clientButton.onClick.AddListener(() => {
-            NetworkManager.Singleton.StartClient();
-        });
-    }
+    //private void Awake()
+    //{
+    //    serverButton.onClick.AddListener(() => { 
+    //        NetworkManager.Singleton.StartServer();
+    //    } );
+    //    hostButton.onClick.AddListener(() => {
+    //        NetworkManager.Singleton.StartHost();
+    //    });
+    //    clientButton.onClick.AddListener(() => {
+    //        NetworkManager.Singleton.StartClient();
+    //    });
+    //}
 
-    public void StatHostHandler()
+    public void StartHostHandler()
     {
-        if (GameManager.PlayerName != string.Empty)
+        if (playerName.text != string.Empty)
         {
             NetworkManager.Singleton.StartHost();
+            Debug.Log("Nome player: " + playerName.text);
             interfacePlayerName.SetActive(false);
         }
         else
-            displayName.gameObject.SetActive(true);
+            errorText.SetActive(true);
     }
 
     public void StartClientHandler()
     {
-        if (GameManager.PlayerName != string.Empty)
+        if (playerName.text != string.Empty)
         {
             NetworkManager.Singleton.StartClient();
+            Debug.Log("Nome player: " + playerName.text);
             interfacePlayerName.SetActive(false);
         }
         else
-            displayName.gameObject.SetActive(true);
+            errorText.SetActive(true);
     }
 }
