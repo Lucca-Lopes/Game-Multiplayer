@@ -3,6 +3,7 @@ using UnityEngine;
 using Unity.Netcode;
 using Cinemachine;
 using Unity.Collections;
+//using static UnityEngine.Rendering.DebugUI;
 
 public class Inimigo : NetworkBehaviour
 {
@@ -10,19 +11,19 @@ public class Inimigo : NetworkBehaviour
     public int dano = 1;
     public int velocidade = 600;
     private Vector2 movimento;
-    private InputAction interactaction;
     private Rigidbody rb;
-    //private Personagem jogador; 
     public float distanciaCarregamento = 2.0f;
-    [SerializeField] private CinemachineVirtualCamera vc;
-    // [SerializeField] private AudioListener listener;
+    [SerializeField] private CinemachineFreeLook vc;
+    //[SerializeField] EfeitoVisual efeitoScript;
 
     public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [SerializeField] TMPro.TextMeshProUGUI displayName;
 
+    [SerializeField] ParticleSystem efeito;
+
     private void Awake()
     {
-        interactaction = new InputAction("Interact", binding: "<KeyBoard>/Space");
+        //interactaction = new InputAction("Interact", binding: "<KeyBoard>/Space");
         //interactaction.performed += CarregarJogador;
         rb = GetComponent<Rigidbody>();
     }
@@ -33,23 +34,24 @@ public class Inimigo : NetworkBehaviour
         {
             nomeJogador.Value = GameManager.PlayerName;
         }
-
     }
 
     public void SetMovimento(InputAction.CallbackContext value)
     {
         movimento = value.ReadValue<Vector2>();
-        
-       
     }
 
     public override void OnNetworkSpawn()
     {
-        if (IsOwner)
+        if (IsClient)
         {
             nomeJogador.OnValueChanged += OnPlayerNameChanged;
+            displayName.text = nomeJogador.Value.ToString();
+        }
+        if (IsOwner)
+        {
             // listener.enabled = true;
-            vc.Priority = 1;
+            vc.Priority = 10;
         }
         else
         {
@@ -110,20 +112,21 @@ public class Inimigo : NetworkBehaviour
         }
     }
 
-    private void Update()
+    public void Atacar(InputAction.CallbackContext context)
     {
-        //if(jogador == null)
-        if (Input.GetMouseButtonDown(0))
+        //if (context.performed)
+        //{
+        Debug.Log("Atacou");
+        efeito.Play();
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, distanciaAtaque);
+        foreach (Collider col in hitColliders)
         {
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, distanciaAtaque);
-            foreach (Collider col in hitColliders)
+            if (col.CompareTag("Player"))
             {
-                if (col.CompareTag("Player"))
-                {
-                    //col.GetComponent<Personagem>().ReceberDano(dano);
-                    GameManager.Instance.CausarDano_ServerRpc(1, col.GetComponent<Personagem>().OwnerClientId);
-                }
+                //col.GetComponent<Personagem>().ReceberDano(dano);
+                GameManager.Instance.CausarDano_ServerRpc(1, col.GetComponent<Personagem>().OwnerClientId);
             }
         }
+        //}
     }
 }

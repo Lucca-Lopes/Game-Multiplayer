@@ -31,7 +31,7 @@ public class Personagem : NetworkBehaviour
     public bool isBeingCarried = false;
     private Inimigo carryingEnemy;
     public Transform previousParent;
-    [SerializeField] private CinemachineVirtualCamera vc;
+    [SerializeField] private CinemachineFreeLook vc;
     //[SerializeField] private AudioListener listener;
     public float fillRate = 0.05f;
 
@@ -66,11 +66,11 @@ public class Personagem : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (IsClient && IsOwner)
+        if (IsClient)
         {
             vidaJogador.OnValueChanged += OnLifeChanged;
             nomeJogador.OnValueChanged += OnPlayerNameChanged;
-
+            displayName.text = nomeJogador.Value.ToString();
         }
         if (IsOwner)
         {

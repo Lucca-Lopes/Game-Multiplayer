@@ -11,7 +11,7 @@ public class NetworkManagerUI : MonoBehaviour
     //[SerializeField] private Button clientButton;
 
     [SerializeField] GameObject errorText;
-    [SerializeField] TMPro.TextMeshProUGUI playerName;
+    [SerializeField] TMPro.TMP_InputField playerName;
     [SerializeField] GameObject interfacePlayerName;
 
     //private void Awake()
@@ -29,10 +29,10 @@ public class NetworkManagerUI : MonoBehaviour
 
     public void StartHostHandler()
     {
-        if (playerName.text != string.Empty)
+        if (!IsInputFieldEmpty(playerName))
         {
+            GameManager.PlayerName = playerName.text;
             NetworkManager.Singleton.StartHost();
-            Debug.Log("Nome player: " + playerName.text);
             interfacePlayerName.SetActive(false);
         }
         else
@@ -41,13 +41,25 @@ public class NetworkManagerUI : MonoBehaviour
 
     public void StartClientHandler()
     {
-        if (playerName.text != string.Empty)
+        if (!IsInputFieldEmpty(playerName))
         {
-            NetworkManager.Singleton.StartClient();
-            Debug.Log("Nome player: " + playerName.text);
-            interfacePlayerName.SetActive(false);
+            if (!NetworkManager.Singleton.IsHost && !NetworkManager.Singleton.IsServer) {
+                GameManager.PlayerName = playerName.text;
+                NetworkManager.Singleton.StartClient();
+                interfacePlayerName.SetActive(false);
+            }
         }
         else
             errorText.SetActive(true);
+    }
+
+    bool IsStringEmpty(string value)
+    {
+        return string.IsNullOrEmpty(value);
+    }
+
+    bool IsInputFieldEmpty(TMPro.TMP_InputField inputField)
+    {
+        return IsStringEmpty(inputField.text);
     }
 }

@@ -37,6 +37,15 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Atacar"",
+                    ""type"": ""Button"",
+                    ""id"": ""0c0b5a1a-d128-41fe-ac3d-a5dcab102c05"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Interagir"",
                     ""type"": ""Button"",
                     ""id"": ""13cbdc7a-90cd-46c9-b5d1-9734d49bf18f"",
@@ -178,6 +187,39 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
                     ""action"": ""Interagir"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a90d33d6-473c-4f20-881b-27e98bb85ef9"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Atacar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""27a968da-fb4a-47ec-bd1c-8340d4bca4e4"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Atacar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d7731d3a-c3d7-4a5c-8052-fa80e697f0a8"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Atacar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -187,6 +229,7 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
         // Inimigo
         m_Inimigo = asset.FindActionMap("Inimigo", throwIfNotFound: true);
         m_Inimigo_Movimento = m_Inimigo.FindAction("Movimento", throwIfNotFound: true);
+        m_Inimigo_Atacar = m_Inimigo.FindAction("Atacar", throwIfNotFound: true);
         m_Inimigo_Interagir = m_Inimigo.FindAction("Interagir", throwIfNotFound: true);
     }
 
@@ -250,12 +293,14 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Inimigo;
     private List<IInimigoActions> m_InimigoActionsCallbackInterfaces = new List<IInimigoActions>();
     private readonly InputAction m_Inimigo_Movimento;
+    private readonly InputAction m_Inimigo_Atacar;
     private readonly InputAction m_Inimigo_Interagir;
     public struct InimigoActions
     {
         private @Inimigoinputactions1 m_Wrapper;
         public InimigoActions(@Inimigoinputactions1 wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movimento => m_Wrapper.m_Inimigo_Movimento;
+        public InputAction @Atacar => m_Wrapper.m_Inimigo_Atacar;
         public InputAction @Interagir => m_Wrapper.m_Inimigo_Interagir;
         public InputActionMap Get() { return m_Wrapper.m_Inimigo; }
         public void Enable() { Get().Enable(); }
@@ -269,6 +314,9 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
             @Movimento.started += instance.OnMovimento;
             @Movimento.performed += instance.OnMovimento;
             @Movimento.canceled += instance.OnMovimento;
+            @Atacar.started += instance.OnAtacar;
+            @Atacar.performed += instance.OnAtacar;
+            @Atacar.canceled += instance.OnAtacar;
             @Interagir.started += instance.OnInteragir;
             @Interagir.performed += instance.OnInteragir;
             @Interagir.canceled += instance.OnInteragir;
@@ -279,6 +327,9 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
             @Movimento.started -= instance.OnMovimento;
             @Movimento.performed -= instance.OnMovimento;
             @Movimento.canceled -= instance.OnMovimento;
+            @Atacar.started -= instance.OnAtacar;
+            @Atacar.performed -= instance.OnAtacar;
+            @Atacar.canceled -= instance.OnAtacar;
             @Interagir.started -= instance.OnInteragir;
             @Interagir.performed -= instance.OnInteragir;
             @Interagir.canceled -= instance.OnInteragir;
@@ -302,6 +353,7 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
     public interface IInimigoActions
     {
         void OnMovimento(InputAction.CallbackContext context);
+        void OnAtacar(InputAction.CallbackContext context);
         void OnInteragir(InputAction.CallbackContext context);
     }
 }

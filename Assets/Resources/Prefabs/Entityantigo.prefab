@@ -166,10 +166,14 @@ MonoBehaviour:
     m_ActionId: 0c5118fa-1829-4043-a413-b10cc662acac
     m_ActionName: Inimigo/Movimento[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
   - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 13cbdc7a-90cd-46c9-b5d1-9734d49bf18f
+    m_ActionName: Inimigo/Interagir[/Keyboard/space]
+  - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 713132868858386380}
+      - m_Target: {fileID: 7073088577410277851}
         m_TargetAssemblyTypeName: Inimigo, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: Atacar
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -179,8 +183,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 13cbdc7a-90cd-46c9-b5d1-9734d49bf18f
-    m_ActionName: Inimigo/Interagir[/Keyboard/space]
+    m_ActionId: 0c0b5a1a-d128-41fe-ac3d-a5dcab102c05
+    m_ActionName: Inimigo/Atacar[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Inimigo
@@ -202,7 +206,7 @@ MonoBehaviour:
   dano: 1
   velocidade: 600
   distanciaCarregamento: 2
-  vc: {fileID: 0}
+  vc: {fileID: 6693537207311688482}
   nomeJogador:
     m_InternalValue:
       utf8LengthInBytes: 0
@@ -239,6 +243,7 @@ MonoBehaviour:
         byte0028: 0
         byte0029: 0
   displayName: {fileID: 6333294048047880325}
+  efeito: {fileID: 58075397701839584, guid: daa083991e6b0a44cab1ab396d362938, type: 3}
 --- !u!114 &8698436858876720347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -590,7 +595,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2503711708782211015}
-  m_LocalRotation: {x: 0.12451125, y: 0.000000012804364, z: -0.0000000016067909, w: 0.9922182}
+  m_LocalRotation: {x: 0.12451125, y: -0.000000012804364, z: 0.0000000016067909, w: 0.9922182}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1338,7 +1343,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7904836191796916832}
-  m_LocalRotation: {x: 0.14253858, y: 0.000000008515345, z: -0.0000000012262865, w: 0.98978925}
+  m_LocalRotation: {x: 0.14253858, y: 0.000000008515702, z: -0.0000000012263379, w: 0.98978925}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1426,8 +1431,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8502764462724178583}
-  m_LocalRotation: {x: 0.12451124, y: 0.000000032223607, z: -0.0000000040436685, w: 0.9922182}
-  m_LocalPosition: {x: 0, y: 2.5, z: -8.5}
+  m_LocalRotation: {x: 0.0889288, y: 0.0000000074210624, z: -6.625712e-10, w: 0.996038}
+  m_LocalPosition: {x: 60.9, y: 29.07, z: 28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1605,7 +1610,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 1
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 5415486931816953190}
   m_Follow: {fileID: 5415486931816953190}
@@ -1766,7 +1771,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 50}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 800, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1461380847259285961
 CanvasRenderer:
@@ -1839,7 +1844,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
