@@ -13,7 +13,6 @@ public class Reinicar : MonoBehaviour
         Time.timeScale = 1;
         // Obt�m o nome da cena atual e recarrega a cena
         //string currentSceneName = SceneManager.GetActiveScene().name;
-        NetworkManager.Singleton.DisconnectClient(NetworkManager.Singleton.LocalClientId);
         SceneManager.LoadScene(0);
     }
 

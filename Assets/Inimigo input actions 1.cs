@@ -53,6 +53,15 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ControleCamera"",
+                    ""type"": ""Value"",
+                    ""id"": ""64b99652-3784-4538-b148-f35e7e44dd20"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -220,6 +229,17 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
                     ""action"": ""Atacar"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""05dbfa78-827a-4cff-abdf-60412ad545eb"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ControleCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -231,6 +251,7 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
         m_Inimigo_Movimento = m_Inimigo.FindAction("Movimento", throwIfNotFound: true);
         m_Inimigo_Atacar = m_Inimigo.FindAction("Atacar", throwIfNotFound: true);
         m_Inimigo_Interagir = m_Inimigo.FindAction("Interagir", throwIfNotFound: true);
+        m_Inimigo_ControleCamera = m_Inimigo.FindAction("ControleCamera", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -295,6 +316,7 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
     private readonly InputAction m_Inimigo_Movimento;
     private readonly InputAction m_Inimigo_Atacar;
     private readonly InputAction m_Inimigo_Interagir;
+    private readonly InputAction m_Inimigo_ControleCamera;
     public struct InimigoActions
     {
         private @Inimigoinputactions1 m_Wrapper;
@@ -302,6 +324,7 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
         public InputAction @Movimento => m_Wrapper.m_Inimigo_Movimento;
         public InputAction @Atacar => m_Wrapper.m_Inimigo_Atacar;
         public InputAction @Interagir => m_Wrapper.m_Inimigo_Interagir;
+        public InputAction @ControleCamera => m_Wrapper.m_Inimigo_ControleCamera;
         public InputActionMap Get() { return m_Wrapper.m_Inimigo; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -320,6 +343,9 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
             @Interagir.started += instance.OnInteragir;
             @Interagir.performed += instance.OnInteragir;
             @Interagir.canceled += instance.OnInteragir;
+            @ControleCamera.started += instance.OnControleCamera;
+            @ControleCamera.performed += instance.OnControleCamera;
+            @ControleCamera.canceled += instance.OnControleCamera;
         }
 
         private void UnregisterCallbacks(IInimigoActions instance)
@@ -333,6 +359,9 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
             @Interagir.started -= instance.OnInteragir;
             @Interagir.performed -= instance.OnInteragir;
             @Interagir.canceled -= instance.OnInteragir;
+            @ControleCamera.started -= instance.OnControleCamera;
+            @ControleCamera.performed -= instance.OnControleCamera;
+            @ControleCamera.canceled -= instance.OnControleCamera;
         }
 
         public void RemoveCallbacks(IInimigoActions instance)
@@ -355,5 +384,6 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
         void OnMovimento(InputAction.CallbackContext context);
         void OnAtacar(InputAction.CallbackContext context);
         void OnInteragir(InputAction.CallbackContext context);
+        void OnControleCamera(InputAction.CallbackContext context);
     }
 }
