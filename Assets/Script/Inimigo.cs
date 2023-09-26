@@ -11,9 +11,11 @@ public class Inimigo : NetworkBehaviour
     public int dano = 1;
     public int velocidade = 600;
     private Vector2 movimento;
+    private Vector2 mouseInput;
     private Rigidbody rb;
     public float distanciaCarregamento = 2.0f;
     [SerializeField] private CinemachineFreeLook vc;
+
     //[SerializeField] EfeitoVisual efeitoScript;
 
     public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -40,7 +42,10 @@ public class Inimigo : NetworkBehaviour
     {
         movimento = value.ReadValue<Vector2>();
     }
-
+    public void SetMouseInput(InputAction.CallbackContext value)
+    {
+        mouseInput = value.ReadValue<Vector2>();
+    }
     public override void OnNetworkSpawn()
     {
         if (IsClient)
@@ -105,13 +110,31 @@ public class Inimigo : NetworkBehaviour
 
     private void FixedUpdate()
     {
- 
+
         if (rb != null)
         {
-            rb.AddForce(new Vector3(movimento.x, 0, movimento.y) * Time.fixedDeltaTime * velocidade);
-        }
-    }
+            // Calcular a direção com base na rotação atual
+            Vector3 moveDirection = Quaternion.Euler(0, vc.State.CorrectedOrientation.eulerAngles.y, 0) * new Vector3(movimento.x, 0, movimento.y);
 
+            // Aplicar uma força na direção calculada
+            rb.AddForce(moveDirection.normalized * Time.fixedDeltaTime * velocidade);
+        }
+        RotateWithMouseInput();
+    }
+    private void RotateWithMouseInput()
+    {
+        // Obter a rotação atual da câmera
+        Quaternion cameraRotation = vc.State.CorrectedOrientation;
+
+        // Converter o input do mouse em uma rotação local
+        Vector3 localRotation = new Vector3(-mouseInput.y, mouseInput.x, 0);
+
+        // Aplicar a rotação local à rotação da câmera
+        Quaternion newRotation = cameraRotation * Quaternion.Euler(localRotation);
+
+        // Definir a rotação do personagem para a nova rotação
+        transform.rotation = newRotation;
+    }
     public void Atacar(InputAction.CallbackContext context)
     {
         //if (context.performed)

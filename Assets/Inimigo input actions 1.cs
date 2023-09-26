@@ -53,6 +53,15 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""camera"",
+                    ""type"": ""Value"",
+                    ""id"": ""ba395aba-64d7-4bd0-a100-c26b662b3ca1"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -220,6 +229,17 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
                     ""action"": ""Atacar"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""55f6716a-d1f2-4986-a6e0-f39e447d6a14"",
+                    ""path"": ""<Mouse>/delta/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -231,6 +251,7 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
         m_Inimigo_Movimento = m_Inimigo.FindAction("Movimento", throwIfNotFound: true);
         m_Inimigo_Atacar = m_Inimigo.FindAction("Atacar", throwIfNotFound: true);
         m_Inimigo_Interagir = m_Inimigo.FindAction("Interagir", throwIfNotFound: true);
+        m_Inimigo_camera = m_Inimigo.FindAction("camera", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -295,6 +316,7 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
     private readonly InputAction m_Inimigo_Movimento;
     private readonly InputAction m_Inimigo_Atacar;
     private readonly InputAction m_Inimigo_Interagir;
+    private readonly InputAction m_Inimigo_camera;
     public struct InimigoActions
     {
         private @Inimigoinputactions1 m_Wrapper;
@@ -302,6 +324,7 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
         public InputAction @Movimento => m_Wrapper.m_Inimigo_Movimento;
         public InputAction @Atacar => m_Wrapper.m_Inimigo_Atacar;
         public InputAction @Interagir => m_Wrapper.m_Inimigo_Interagir;
+        public InputAction @camera => m_Wrapper.m_Inimigo_camera;
         public InputActionMap Get() { return m_Wrapper.m_Inimigo; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -320,6 +343,9 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
             @Interagir.started += instance.OnInteragir;
             @Interagir.performed += instance.OnInteragir;
             @Interagir.canceled += instance.OnInteragir;
+            @camera.started += instance.OnCamera;
+            @camera.performed += instance.OnCamera;
+            @camera.canceled += instance.OnCamera;
         }
 
         private void UnregisterCallbacks(IInimigoActions instance)
@@ -333,6 +359,9 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
             @Interagir.started -= instance.OnInteragir;
             @Interagir.performed -= instance.OnInteragir;
             @Interagir.canceled -= instance.OnInteragir;
+            @camera.started -= instance.OnCamera;
+            @camera.performed -= instance.OnCamera;
+            @camera.canceled -= instance.OnCamera;
         }
 
         public void RemoveCallbacks(IInimigoActions instance)
@@ -355,5 +384,6 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
         void OnMovimento(InputAction.CallbackContext context);
         void OnAtacar(InputAction.CallbackContext context);
         void OnInteragir(InputAction.CallbackContext context);
+        void OnCamera(InputAction.CallbackContext context);
     }
 }

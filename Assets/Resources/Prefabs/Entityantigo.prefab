@@ -185,6 +185,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 0c0b5a1a-d128-41fe-ac3d-a5dcab102c05
     m_ActionName: Inimigo/Atacar[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7073088577410277851}
+        m_TargetAssemblyTypeName: Inimigo, Assembly-CSharp
+        m_MethodName: RotacionarPersonagem
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ba395aba-64d7-4bd0-a100-c26b662b3ca1
+    m_ActionName: Inimigo/camera[/Mouse/delta/x,/Mouse/delta/y]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Inimigo

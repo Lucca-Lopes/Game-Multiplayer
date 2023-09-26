@@ -377,6 +377,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d860cdd1-73f7-4002-9afb-a073371f0bfe
     m_ActionName: Jogador/Interagir[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5927750250814076835}
+        m_TargetAssemblyTypeName: Personagem, Assembly-CSharp
+        m_MethodName: SetMouseInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1a42ebd8-5936-4ba8-b41d-909f3d0ffb7a
+    m_ActionName: Jogador/camera[/Mouse/delta/x,/Mouse/delta/y]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Jogador
