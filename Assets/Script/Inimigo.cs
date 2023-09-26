@@ -114,19 +114,21 @@ public class Inimigo : NetworkBehaviour
 
     public void Atacar(InputAction.CallbackContext context)
     {
-        //if (context.performed)
-        //{
-        Debug.Log("Atacou");
-        efeito.Play();
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, distanciaAtaque);
-        foreach (Collider col in hitColliders)
+        if (context.performed)
         {
-            if (col.CompareTag("Player"))
+            if (IsOwner)
             {
-                //col.GetComponent<Personagem>().ReceberDano(dano);
-                GameManager.Instance.CausarDano_ServerRpc(1, col.GetComponent<Personagem>().OwnerClientId);
+                Debug.Log("Atacou");
+                efeito.Play();
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position, distanciaAtaque);
+                foreach (Collider col in hitColliders)
+                {
+                    if (col.gameObject.CompareTag("Sobrevivente"))
+                    {
+                        GameManager.Instance.CausarDano_ServerRpc(1, col.GetComponent<Personagem>().OwnerClientId);
+                    }
+                }
             }
         }
-        //}
     }
 }

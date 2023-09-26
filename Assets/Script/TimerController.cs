@@ -3,14 +3,21 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class TimerController : MonoBehaviour
+public class TimerController : NetworkBehaviour
 {
     public TextMeshProUGUI timerText;
+    [SerializeField] GameObject timerObj;
     private float timeRemaining = 2 * 60.0f;
     public GameObject fimdejogo;
+
     [SerializeField] GameObject textoVitoria;
     [SerializeField] GameObject textoDerrota;
     [SerializeField] TextMeshProUGUI textoPontuacao;
+
+    public override void OnNetworkSpawn()
+    {
+        GameManager.Instance.timerAtivo.OnValueChanged += StartTimer;
+    }
 
     private void Start()
     {
@@ -18,9 +25,18 @@ public class TimerController : MonoBehaviour
         //StartCoroutine(StartTimer());
     }
 
-    public IEnumerator StartTimer()
+    public void StartTimer(bool previous, bool current)
     {
-        while (timeRemaining > 0 && !GameManager.fimDeJogo)
+        if (current == true)
+        {
+            timerObj.SetActive(true);
+            StartCoroutine(RunTimer());
+        }
+    }
+
+    public IEnumerator RunTimer()
+    {
+        while (timeRemaining > 0 && GameManager.Instance.timerAtivo.Value)
         {
             yield return new WaitForSeconds(1.0f);
             timeRemaining -= 1.0f;
@@ -42,11 +58,10 @@ public class TimerController : MonoBehaviour
     }
     public void Fimdejogo()
     {
-        GameManager.fimDeJogo = true;
         fimdejogo.SetActive(true);
         if (NetworkManager.Singleton.IsHost)
         {
-            if (GameManager.killerWin)
+            if (GameManager.Instance.killerWin.Value)
             {
                 textoVitoria.SetActive(true);
             }
@@ -58,7 +73,7 @@ public class TimerController : MonoBehaviour
         }
         else if (NetworkManager.Singleton.IsClient)
         {
-            if (GameManager.killerWin)
+            if (GameManager.Instance.killerWin.Value)
             {
                 textoDerrota.SetActive(true);
             }

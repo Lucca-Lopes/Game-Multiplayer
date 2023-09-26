@@ -2,20 +2,22 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
 
-    [SerializeField] GameObject timerObj;
-    [SerializeField] TimerController timerScript;
+    
+    //[SerializeField] TimerController timerScript;
 
     string playerName;
-    private bool timerAtivo = false;
-    public static bool fimDeJogo = false;
-    public static bool killerWin = false;
+
+    public NetworkVariable<bool> timerAtivo = new(false);
+    public NetworkVariable<bool> killerWin = new(false);
 
     List<ulong> jogadoresConectados = new();
     Dictionary<ulong, Personagem> sobreviventes = new();
+
+    private int jogadoresMortos = 0;
 
     public static string PlayerName
     {
@@ -53,6 +55,10 @@ public class GameManager : MonoBehaviour
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectedHandler;
         }
     }
+    //public override void OnNetworkSpawn()
+    //{
+    //    timerAtivo.OnValueChanged += StartTimer;
+    //}
 
     private void OnClientDisconnectedHandler(ulong clientId)
     {
@@ -72,11 +78,9 @@ public class GameManager : MonoBehaviour
         if (NetworkManager.Singleton.IsServer)
         {
             Debug.Log($"Cliente {clientId} conectado");
-            if(clientId > 0 && !timerAtivo)
+            if(clientId > 0 && !timerAtivo.Value)
             {
-                timerObj.SetActive(true);
-                timerAtivo = true;
-                StartCoroutine(timerScript.StartTimer());
+                timerAtivo.Value = true;
             }
         }
     }
@@ -86,23 +90,52 @@ public class GameManager : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsServer)
         {
-            var jogadoresMortos = 0;
-            foreach (ulong clientId in sobreviventes.Keys)
+            var sobreviventesAtuais = GameObject.FindGameObjectsWithTag("Sobrevivente");
+
+            foreach(GameObject sobrevivente in sobreviventesAtuais)
             {
-                if (clientId == atacadoId)
+                var personagemComponent = sobrevivente.GetComponent<Personagem>();
+                if (personagemComponent.OwnerClientId == atacadoId)
                 {
-                    if (sobreviventes[clientId].vidaJogador.Value > 0)
-                    {
-                        sobreviventes[clientId].vidaJogador.Value -= quantidade;
-                    }
+                    if (personagemComponent.vidaJogador.Value > 0)
+                        personagemComponent.vidaJogador.Value--;
+                    if (personagemComponent.isDead)
+                        jogadoresMortos++;
                 }
-                if (sobreviventes[clientId].isDead)
-                    jogadoresMortos++;
             }
-            if (jogadoresMortos == sobreviventes.Count)
+
+
+            //Debug.Log("Recebeu o ataque: " +atacadoId);
+            //if (sobreviventes[atacadoId].vidaJogador.Value > 0)
+            //{
+            //    sobreviventes[atacadoId].vidaJogador.Value -= quantidade;
+            //    Debug.Log("Vida sobrevivente: " + sobreviventes[atacadoId].vidaJogador.Value);
+            //}
+            //if (sobreviventes[atacadoId].isDead)
+            //{
+            //    jogadoresMortos++;
+            //}
+
+
+            //foreach (ulong clientId in Instance.sobreviventes.Keys)
+            //{
+            //Debug.Log("KeyAtual: " + clientId);
+            //if (clientId == atacadoId)
+                //{
+                    //Debug.Log("Recebeu o ataque: " + atacadoId + ", encontrado: " +clientId);
+                    //if (sobreviventes[clientId].vidaJogador.Value > 0)
+                    //{
+                    //    sobreviventes[clientId].vidaJogador.Value -= quantidade;
+                    //    Debug.Log(sobreviventes[clientId].vidaJogador.Value);
+                    //}
+                //}
+                //if (sobreviventes[clientId].isDead)
+                //    jogadoresMortos++;
+            //}
+            if (jogadoresMortos == sobreviventesAtuais.Length)
             {
-                killerWin = true;
-                fimDeJogo = true;
+                killerWin.Value = true;
+                Instance.timerAtivo.Value = false;
             }
         }
     }
@@ -142,6 +175,8 @@ public class GameManager : MonoBehaviour
             {
                 if (!Instance.sobreviventes.ContainsKey(clientId))
                 {
+                    Debug.Log("key novo jogador: " + clientId);
+                    Debug.Log("qunatidade sobreviventes: " + Instance.sobreviventes.Count);
                     Instance.sobreviventes.Add(clientId, sobrevivente);
                 }
             }

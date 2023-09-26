@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e78345849ee45f748abe4e2663b897fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanciaAtaque: 2
+  distanciaAtaque: 5
   dano: 1
   velocidade: 600
   distanciaCarregamento: 2
