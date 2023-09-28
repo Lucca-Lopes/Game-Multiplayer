@@ -47,9 +47,9 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Interagir"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""13cbdc7a-90cd-46c9-b5d1-9734d49bf18f"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true

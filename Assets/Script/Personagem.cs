@@ -31,6 +31,7 @@ public class Personagem : NetworkBehaviour
     public bool isDead = false;
     public bool isBeingCarried = false;
     private Inimigo carryingEnemy;
+    private Inimigo enemy;
     public Transform previousParent;
     [SerializeField] private CinemachineFreeLook vc;
     //[SerializeField] private AudioListener listener;
@@ -38,14 +39,49 @@ public class Personagem : NetworkBehaviour
 
     public void SerCarregadoPorInimigo(Inimigo enemy)
     {
+        if (IsOwner)
+        {
+            SerCarregadoPorInimigo_ServerRpc(NetworkObject.OwnerClientId);
+        }
+    }
+
+    [ServerRpc]
+    public void SerCarregadoPorInimigo_ServerRpc(ulong clientId)
+    {
+        // Lógica para sincronizar o jogador sendo carregado com o servidor aqui.
         isBeingCarried = true;
         carryingEnemy = enemy;
-        previousParent = transform.parent; 
+        previousParent = transform.parent;
         transform.SetParent(enemy.transform);
-        //this.rb.isKinematic = true;
-                                              
         velocidade = 200;
     }
+
+    public void PararDeCarregar()
+    {
+        if (IsOwner)
+        {
+            PararDeCarregar_ServerRpc(NetworkObject.OwnerClientId);
+        }
+    }
+
+    [ServerRpc]
+    public void PararDeCarregar_ServerRpc(ulong clientId)
+    {
+        // Lógica para sincronizar o jogador parando de ser carregado com o servidor aqui.
+        isBeingCarried = false;
+        carryingEnemy = null;
+        transform.SetParent(previousParent);
+        velocidade = 600;
+
+        // Defina a posição do jogador carregado com algum deslocamento
+        Vector3 offset = transform.forward * 2.0f;
+        transform.position = transform.position + offset;
+
+        // Restaure a velocidade e a física do jogador
+        velocidade = 350;
+        GetComponent<Rigidbody>().isKinematic = false;
+    }
+
 
 
     private void Awake()
@@ -145,16 +181,23 @@ public class Personagem : NetworkBehaviour
             float distancia = Vector3.Distance(transform.position, objetoInterativo.transform.position);
             if (distancia <= distanciaMaxima)
             {
-                Debug.Log("Iniciando intera��o...");
+                Debug.Log("Iniciando interação...");
                 progressBar.gameObject.SetActive(true);
                 isInteracting = true;
+
+                // Chame a lógica de carregamento do jogador inimigo
+                if (carryingEnemy != null)
+                {
+                    carryingEnemy.CarregarJogador(context);
+                }
             }
             else
             {
-                Debug.Log("Voc� est� muito longe para interagir com o objeto.");
+                Debug.Log("Você está muito longe para interagir com o objeto.");
             }
         }
     }
+
 
     //public void ReceberDano(int quantidade)
     //{

@@ -13,6 +13,9 @@ public class Inimigo : NetworkBehaviour
     private Vector2 movimento;
     private Vector2 mouseInput;
     private Rigidbody rb;
+    public Personagem jogador;
+    private Personagem jogadorCarregado;
+
     public float distanciaCarregamento = 2.0f;
     [SerializeField] private CinemachineFreeLook vc;
     //[SerializeField] EfeitoVisual efeitoScript;
@@ -75,39 +78,23 @@ public class Inimigo : NetworkBehaviour
         displayName.text = current.ToString();
     }
 
-    //public void CarregarJogador(InputAction.CallbackContext value)
-    //{
-    //    if (jogador.vidas <= 0 && value.started)
-    //    {
-    //        float distanciaJogadorInimigo = Vector3.Distance(transform.position, jogador.transform.position);
-    //        if (distanciaJogadorInimigo <= distanciaCarregamento) 
-    //        {
-    //            Personagem player = FindObjectOfType<Personagem>();
-    //            if (player != null)
-    //            {
-    //                player.SerCarregadoPorInimigo(this);
-    //                velocidade = 800;
-    //            }
-    //        }
-    //    }
-    //    else if (value.canceled && jogador.isBeingCarried)
-    //    {
-    //        Personagem player = FindObjectOfType<Personagem>();
-    //        if (player != null)
-    //        {
-    //            player.transform.SetParent(jogador.previousParent);
-    //            jogador.isBeingCarried = false;
-    //            velocidade = 600;
+    public void CarregarJogador(InputAction.CallbackContext value)
+    {
+        if (jogador.vidas <= 0 && value.started)
+        {
+            float distanciaJogadorInimigo = Vector3.Distance(transform.position, jogador.transform.position);
+            if (distanciaJogadorInimigo <= distanciaCarregamento)
+            {
+                jogador.SerCarregadoPorInimigo(this); // Chame o método para carregar o jogador
+                velocidade = 800;
+            }
+        }
+        else if (value.canceled && jogador.isBeingCarried)
+        {
+            jogador.PararDeCarregar(); // Chame o método para parar de carregar o jogador
+        }
+    }
 
-
-    //            Vector3 offset = transform.forward * 2.0f; 
-    //            player.transform.position = transform.position + offset;
-
-    //            player.velocidade = 350;
-    //            //player.GetComponent<Rigidbody>().isKinematic = false;
-    //        }
-    //    }
-    //}
 
     private void FixedUpdate()
     {

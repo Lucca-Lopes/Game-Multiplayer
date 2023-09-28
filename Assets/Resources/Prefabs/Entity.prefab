@@ -168,9 +168,9 @@ MonoBehaviour:
     m_ActionName: Inimigo/Movimento[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 713132868858386380}
+      - m_Target: {fileID: 7073088577410277851}
         m_TargetAssemblyTypeName: Inimigo, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: CarregarJogador
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -186,6 +186,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 0c0b5a1a-d128-41fe-ac3d-a5dcab102c05
     m_ActionName: Inimigo/Atacar[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 64b99652-3784-4538-b148-f35e7e44dd20
+    m_ActionName: Inimigo/ControleCamera[/Mouse/delta]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Inimigo
@@ -208,7 +212,6 @@ MonoBehaviour:
   velocidade: 600
   distanciaCarregamento: 2
   vc: {fileID: 0}
-  efeitoScript: {fileID: 8220042388327484171}
   nomeJogador:
     m_InternalValue:
       utf8LengthInBytes: 0
@@ -245,6 +248,7 @@ MonoBehaviour:
         byte0028: 0
         byte0029: 0
   displayName: {fileID: 6333294048047880325}
+  efeito: {fileID: 0}
 --- !u!114 &8698436858876720347
 MonoBehaviour:
   m_ObjectHideFlags: 0
