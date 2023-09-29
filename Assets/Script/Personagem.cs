@@ -13,6 +13,7 @@ public class Personagem : NetworkBehaviour
     private Vector2 mouseInput;
     private InputAction interactAction;
     public int velocidade = 600;
+    public GameManager gameManager;
     //public QuickTimeManager qteManager;
 
     public NetworkVariable<int> vidaJogador = new(2);
@@ -45,6 +46,7 @@ public class Personagem : NetworkBehaviour
         }
     }
 
+    
     [ServerRpc]
     public void SerCarregadoPorInimigo_ServerRpc(ulong clientId)
     {
@@ -55,6 +57,7 @@ public class Personagem : NetworkBehaviour
         transform.SetParent(enemy.transform);
         velocidade = 200;
     }
+
 
     public void PararDeCarregar()
     {
@@ -89,7 +92,8 @@ public class Personagem : NetworkBehaviour
         rb = GetComponent<Rigidbody>();
         interactAction = new InputAction("Interact", binding: "<Keyboard>/e");
         interactAction.performed += Interact;
-        
+        gameManager = GameObject.FindObjectOfType<GameManager>();
+
     }
 
     private void Start()

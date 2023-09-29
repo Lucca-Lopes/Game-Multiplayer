@@ -3,6 +3,7 @@ using UnityEngine;
 using Unity.Netcode;
 using Cinemachine;
 using Unity.Collections;
+using System;
 //using static UnityEngine.Rendering.DebugUI;
 
 public class Inimigo : NetworkBehaviour
@@ -10,15 +11,18 @@ public class Inimigo : NetworkBehaviour
     public float distanciaAtaque = 2.0f;
     public int dano = 1;
     public int velocidade = 600;
+    private InputAction interactaction;
     private Vector2 movimento;
     private Vector2 mouseInput;
     private Rigidbody rb;
-    public Personagem jogador;
+    private Personagem jogador;
+    private InputAction interactAction;
     private Personagem jogadorCarregado;
-
+    private  GameManager gameManager;
     public float distanciaCarregamento = 2.0f;
     [SerializeField] private CinemachineFreeLook vc;
     //[SerializeField] EfeitoVisual efeitoScript;
+    private Personagem jogadorSendoCarregado;
 
     public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [SerializeField] TMPro.TextMeshProUGUI displayName;
@@ -27,9 +31,10 @@ public class Inimigo : NetworkBehaviour
 
     private void Awake()
     {
-        //interactaction = new InputAction("Interact", binding: "<KeyBoard>/Space");
-        //interactaction.performed += CarregarJogador;
+        interactAction = new InputAction("Interagir", binding: "<Keyboard>/space");
+        interactAction.performed += CarregarJogador;
         rb = GetComponent<Rigidbody>();
+        gameManager = GameObject.FindObjectOfType<GameManager>();
     }
 
     private void Start()
@@ -80,20 +85,37 @@ public class Inimigo : NetworkBehaviour
 
     public void CarregarJogador(InputAction.CallbackContext value)
     {
-        if (jogador.vidas <= 0 && value.started)
+        if (jogador != null && jogador.vidas > 0 && value.started)
         {
             float distanciaJogadorInimigo = Vector3.Distance(transform.position, jogador.transform.position);
             if (distanciaJogadorInimigo <= distanciaCarregamento)
             {
-                jogador.SerCarregadoPorInimigo(this); // Chame o método para carregar o jogador
-                velocidade = 800;
+                if (jogadorSendoCarregado == null)
+                {
+                    jogadorSendoCarregado = jogador;
+                    jogadorSendoCarregado.SerCarregadoPorInimigo(this);
+                    velocidade = 800;
+                }
             }
         }
-        else if (value.canceled && jogador.isBeingCarried)
+        else if (value.canceled && jogadorSendoCarregado != null && jogadorSendoCarregado.isBeingCarried)
         {
-            jogador.PararDeCarregar(); // Chame o método para parar de carregar o jogador
+            jogadorSendoCarregado.transform.SetParent(jogadorSendoCarregado.previousParent);
+            jogadorSendoCarregado.isBeingCarried = false;
+            velocidade = 600;
+
+            Vector3 offset = transform.forward * 2.0f;
+            jogadorSendoCarregado.transform.position = transform.position + offset;
+
+            jogadorSendoCarregado.velocidade = 350;
+            jogadorSendoCarregado.GetComponent<Rigidbody>().isKinematic = false;
+
+            jogadorSendoCarregado = null;
         }
     }
+
+
+
 
 
     private void FixedUpdate()
@@ -142,5 +164,10 @@ public class Inimigo : NetworkBehaviour
                 }
             }
         }
+    }
+
+    public static implicit operator Inimigo(Personagem v)
+    {
+        throw new NotImplementedException();
     }
 }
