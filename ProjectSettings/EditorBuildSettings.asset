@@ -23,4 +23,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/camera.unity
     guid: 24c8db0889d8fc64cb7d213c81f73b92
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: f4ffabbfac96f7c42b747ef838a12dd2,
+      type: 2}

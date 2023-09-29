@@ -13,6 +13,7 @@ public class GameManager : NetworkBehaviour
 
     public NetworkVariable<bool> timerAtivo = new(false);
     public NetworkVariable<bool> killerWin = new(false);
+    private List<ulong> jogadoresCarregados = new List<ulong>();
 
     List<ulong> jogadoresConectados = new();
     Dictionary<ulong, Personagem> sobreviventes = new();
@@ -184,8 +185,16 @@ public class GameManager : NetworkBehaviour
         Debug.Log("Jogadores conectados: " + Instance.jogadoresConectados.Count);
         Debug.Log("Sobreviventes conectados: " + Instance.sobreviventes.Count);
     }
+    public void JogadorCarregado(ulong jogadorId)
+    {
+        jogadoresCarregados.Add(jogadorId);
+    }
+    public void JogadorLiberado(ulong jogadorId)
+    {
+        jogadoresCarregados.Remove(jogadorId);
+    }
 
-    public static void RemovePlayer(ulong clientId)
+        public static void RemovePlayer(ulong clientId)
     {
         if (Instance.jogadoresConectados != null && Instance.jogadoresConectados.Contains(clientId))
         {

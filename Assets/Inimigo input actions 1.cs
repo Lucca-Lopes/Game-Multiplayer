@@ -47,7 +47,7 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Interagir"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""13cbdc7a-90cd-46c9-b5d1-9734d49bf18f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -59,6 +59,15 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""64b99652-3784-4538-b148-f35e7e44dd20"",
                     ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""cancelar"",
+                    ""type"": ""Button"",
+                    ""id"": ""82f09c4e-891f-4acd-9119-9e9d797cbf7f"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -240,6 +249,17 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
                     ""action"": ""ControleCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""30ef227a-aec4-4d0f-a2b0-8d3aa55de5fc"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""cancelar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -252,6 +272,7 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
         m_Inimigo_Atacar = m_Inimigo.FindAction("Atacar", throwIfNotFound: true);
         m_Inimigo_Interagir = m_Inimigo.FindAction("Interagir", throwIfNotFound: true);
         m_Inimigo_ControleCamera = m_Inimigo.FindAction("ControleCamera", throwIfNotFound: true);
+        m_Inimigo_cancelar = m_Inimigo.FindAction("cancelar", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -317,6 +338,7 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
     private readonly InputAction m_Inimigo_Atacar;
     private readonly InputAction m_Inimigo_Interagir;
     private readonly InputAction m_Inimigo_ControleCamera;
+    private readonly InputAction m_Inimigo_cancelar;
     public struct InimigoActions
     {
         private @Inimigoinputactions1 m_Wrapper;
@@ -325,6 +347,7 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
         public InputAction @Atacar => m_Wrapper.m_Inimigo_Atacar;
         public InputAction @Interagir => m_Wrapper.m_Inimigo_Interagir;
         public InputAction @ControleCamera => m_Wrapper.m_Inimigo_ControleCamera;
+        public InputAction @cancelar => m_Wrapper.m_Inimigo_cancelar;
         public InputActionMap Get() { return m_Wrapper.m_Inimigo; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -346,6 +369,9 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
             @ControleCamera.started += instance.OnControleCamera;
             @ControleCamera.performed += instance.OnControleCamera;
             @ControleCamera.canceled += instance.OnControleCamera;
+            @cancelar.started += instance.OnCancelar;
+            @cancelar.performed += instance.OnCancelar;
+            @cancelar.canceled += instance.OnCancelar;
         }
 
         private void UnregisterCallbacks(IInimigoActions instance)
@@ -362,6 +388,9 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
             @ControleCamera.started -= instance.OnControleCamera;
             @ControleCamera.performed -= instance.OnControleCamera;
             @ControleCamera.canceled -= instance.OnControleCamera;
+            @cancelar.started -= instance.OnCancelar;
+            @cancelar.performed -= instance.OnCancelar;
+            @cancelar.canceled -= instance.OnCancelar;
         }
 
         public void RemoveCallbacks(IInimigoActions instance)
@@ -385,5 +414,6 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
         void OnAtacar(InputAction.CallbackContext context);
         void OnInteragir(InputAction.CallbackContext context);
         void OnControleCamera(InputAction.CallbackContext context);
+        void OnCancelar(InputAction.CallbackContext context);
     }
 }

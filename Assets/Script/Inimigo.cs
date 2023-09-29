@@ -19,6 +19,8 @@ public class Inimigo : NetworkBehaviour
     private InputAction interactAction;
     private Personagem jogadorCarregado;
     private  GameManager gameManager;
+    public ulong networkObjectId;
+
     public float distanciaCarregamento = 2.0f;
     [SerializeField] private CinemachineFreeLook vc;
     //[SerializeField] EfeitoVisual efeitoScript;
@@ -31,8 +33,10 @@ public class Inimigo : NetworkBehaviour
 
     private void Awake()
     {
-        interactAction = new InputAction("Interagir", binding: "<Keyboard>/space");
+        interactAction = new InputAction("Interact", binding: "<Keyboard>/space");
         interactAction.performed += CarregarJogador;
+        interactAction.canceled += LiberarJogador; // Adicione este seção para o evento "canceled"
+
         rb = GetComponent<Rigidbody>();
         gameManager = GameObject.FindObjectOfType<GameManager>();
     }
@@ -82,38 +86,61 @@ public class Inimigo : NetworkBehaviour
     {
         displayName.text = current.ToString();
     }
+    [ClientRpc]
+    private void InformarCarregamentoClientRpc(ulong jogadorId, bool carregando)
+    {
+        if (IsOwner)
+        {
+            GameManager.Instance.JogadorCarregado(jogadorId);
+            if (!carregando)
+            {
+                GameManager.Instance.JogadorLiberado(jogadorId);
+            }
+        }
+    }
+
 
     public void CarregarJogador(InputAction.CallbackContext value)
     {
-        if (jogador != null && jogador.vidas > 0 && value.started)
+        if (jogador.vidas <= 0 && value.started)
         {
             float distanciaJogadorInimigo = Vector3.Distance(transform.position, jogador.transform.position);
             if (distanciaJogadorInimigo <= distanciaCarregamento)
             {
-                if (jogadorSendoCarregado == null)
+                Personagem player = FindObjectOfType<Personagem>();
+                if (player != null)
                 {
-                    jogadorSendoCarregado = jogador;
-                    jogadorSendoCarregado.SerCarregadoPorInimigo(this);
+                    player.SerCarregadoPorInimigo(this);
                     velocidade = 800;
+
+                    // Notificar o GameManager que o jogador está sendo carregado
+                    InformarCarregamentoClientRpc(player.OwnerClientId, true);
                 }
             }
         }
-        else if (value.canceled && jogadorSendoCarregado != null && jogadorSendoCarregado.isBeingCarried)
-        {
-            jogadorSendoCarregado.transform.SetParent(jogadorSendoCarregado.previousParent);
-            jogadorSendoCarregado.isBeingCarried = false;
-            velocidade = 600;
-
-            Vector3 offset = transform.forward * 2.0f;
-            jogadorSendoCarregado.transform.position = transform.position + offset;
-
-            jogadorSendoCarregado.velocidade = 350;
-            jogadorSendoCarregado.GetComponent<Rigidbody>().isKinematic = false;
-
-            jogadorSendoCarregado = null;
-        }
     }
 
+    public void LiberarJogador(InputAction.CallbackContext context)
+    {
+        if (context.canceled)
+        {
+            Personagem player = FindObjectOfType<Personagem>();
+            if (player != null)
+            {
+                player.transform.SetParent(jogador.previousParent);
+                jogador.isBeingCarried = false;
+                velocidade = 600;
+
+                Vector3 offset = transform.forward * 2.0f;
+                player.transform.position = transform.position + offset;
+
+                player.velocidade = 350;
+
+                // Notificar o GameManager que o jogador foi liberado
+                InformarCarregamentoClientRpc(player.OwnerClientId, false);
+            }
+        }
+    }
 
 
 

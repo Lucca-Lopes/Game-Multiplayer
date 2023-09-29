@@ -46,18 +46,30 @@ public class Personagem : NetworkBehaviour
         }
     }
 
-    
     [ServerRpc]
     public void SerCarregadoPorInimigo_ServerRpc(ulong clientId)
     {
-        // Lógica para sincronizar o jogador sendo carregado com o servidor aqui.
+        
+        isBeingCarried = true;
+        carryingEnemy = enemy;
+        previousParent = transform.parent;
+        transform.SetParent(enemy.transform);
+        velocidade = 200;
+
+        SerCarregadoPorInimigo_ClientRpc();
+    }
+
+    [ClientRpc]
+    private void SerCarregadoPorInimigo_ClientRpc()
+    {
+       
         isBeingCarried = true;
         carryingEnemy = enemy;
         previousParent = transform.parent;
         transform.SetParent(enemy.transform);
         velocidade = 200;
     }
-
+    
 
     public void PararDeCarregar()
     {

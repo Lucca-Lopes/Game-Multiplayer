@@ -213,6 +213,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 64b99652-3784-4538-b148-f35e7e44dd20
     m_ActionName: Inimigo/ControleCamera[/Mouse/delta/x,/Mouse/delta/y]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7073088577410277851}
+        m_TargetAssemblyTypeName: Inimigo, Assembly-CSharp
+        m_MethodName: LiberarJogador
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 82f09c4e-891f-4acd-9119-9e9d797cbf7f
+    m_ActionName: Inimigo/cancelar[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Inimigo
@@ -233,7 +249,7 @@ MonoBehaviour:
   distanciaAtaque: 5
   dano: 1
   velocidade: 600
-  jogador: {fileID: 0}
+  networkObjectId: 0
   distanciaCarregamento: 2
   vc: {fileID: 6693537207311688482}
   nomeJogador:
