@@ -33,9 +33,9 @@ public class Inimigo : NetworkBehaviour
 
     private void Awake()
     {
-        interactAction = new InputAction("Interact", binding: "<Keyboard>/space");
+        interactAction = new InputAction("Interagir", binding: "<Keyboard>/space");
         interactAction.performed += CarregarJogador;
-        interactAction.canceled += LiberarJogador; // Adicione este seção para o evento "canceled"
+        
 
         rb = GetComponent<Rigidbody>();
         gameManager = GameObject.FindObjectOfType<GameManager>();
@@ -117,12 +117,9 @@ public class Inimigo : NetworkBehaviour
                     InformarCarregamentoClientRpc(player.OwnerClientId, true);
                 }
             }
-        }
-    }
 
-    public void LiberarJogador(InputAction.CallbackContext context)
-    {
-        if (context.canceled)
+        }
+        else if (value.canceled && jogador.isBeingCarried)
         {
             Personagem player = FindObjectOfType<Personagem>();
             if (player != null)
@@ -141,6 +138,7 @@ public class Inimigo : NetworkBehaviour
             }
         }
     }
+
 
 
 
