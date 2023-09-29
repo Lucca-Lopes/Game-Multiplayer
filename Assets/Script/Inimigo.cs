@@ -111,13 +111,10 @@ public class Inimigo : NetworkBehaviour
                 if (player != null)
                 {
                     player.SerCarregadoPorInimigo(this);
+                    GameManager.AddPlayer(player.NetworkObjectId, player);
                     velocidade = 800;
-
-                    // Notificar o GameManager que o jogador está sendo carregado
-                    InformarCarregamentoClientRpc(player.OwnerClientId, true);
                 }
             }
-
         }
         else if (value.canceled && jogador.isBeingCarried)
         {
@@ -130,14 +127,11 @@ public class Inimigo : NetworkBehaviour
 
                 Vector3 offset = transform.forward * 2.0f;
                 player.transform.position = transform.position + offset;
-
                 player.velocidade = 350;
-
-                // Notificar o GameManager que o jogador foi liberado
-                InformarCarregamentoClientRpc(player.OwnerClientId, false);
             }
         }
     }
+
 
 
 
