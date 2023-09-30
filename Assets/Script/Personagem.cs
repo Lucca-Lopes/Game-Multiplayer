@@ -30,7 +30,7 @@ public class Personagem : NetworkBehaviour
     private float interactionDuration = 20f;
     public int vidas = 2;
     public bool isDead = false;
-    public bool isBeingCarried = false;
+    public NetworkVariable <bool> isBeingCarried =new (false);
     private Inimigo carryingEnemy;
     private Inimigo enemy;
     public Transform previousParent;
@@ -40,61 +40,13 @@ public class Personagem : NetworkBehaviour
 
     public void SerCarregadoPorInimigo(Inimigo enemy)
     {
-        if (IsOwner)
-        {
-            SerCarregadoPorInimigo_ServerRpc(NetworkObject.OwnerClientId);
-        }
-    }
-
-    [ServerRpc]
-    public void SerCarregadoPorInimigo_ServerRpc(ulong clientId)
-    {
-        
-        isBeingCarried = true;
+        isBeingCarried.Value = true;
         carryingEnemy = enemy;
         previousParent = transform.parent;
         transform.SetParent(enemy.transform);
+        //this.rb.isKinematic = true;
+
         velocidade = 200;
-
-        SerCarregadoPorInimigo_ClientRpc();
-    }
-
-    [ClientRpc]
-    private void SerCarregadoPorInimigo_ClientRpc()
-    {
-       
-        isBeingCarried = true;
-        carryingEnemy = enemy;
-        previousParent = transform.parent;
-        transform.SetParent(enemy.transform);
-        velocidade = 200;
-    }
-    
-
-    public void PararDeCarregar()
-    {
-        if (IsOwner)
-        {
-            PararDeCarregar_ServerRpc(NetworkObject.OwnerClientId);
-        }
-    }
-
-    [ServerRpc]
-    public void PararDeCarregar_ServerRpc(ulong clientId)
-    {
-        // Lógica para sincronizar o jogador parando de ser carregado com o servidor aqui.
-        isBeingCarried = false;
-        carryingEnemy = null;
-        transform.SetParent(previousParent);
-        velocidade = 600;
-
-        // Defina a posição do jogador carregado com algum deslocamento
-        Vector3 offset = transform.forward * 2.0f;
-        transform.position = transform.position + offset;
-
-        // Restaure a velocidade e a física do jogador
-        velocidade = 350;
-        GetComponent<Rigidbody>().isKinematic = false;
     }
 
 
@@ -255,7 +207,7 @@ public class Personagem : NetworkBehaviour
     }
     private void FixedUpdate()
     {
-        if (isBeingCarried)
+        if (isBeingCarried.Value)
         {
             Vector3 desiredPosition = carryingEnemy.transform.position + Vector3.up * 2.01f;
             rb.MovePosition(desiredPosition);

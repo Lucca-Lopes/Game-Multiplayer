@@ -47,7 +47,7 @@ public partial class @Inimigoinputactions1: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Interagir"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""13cbdc7a-90cd-46c9-b5d1-9734d49bf18f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",

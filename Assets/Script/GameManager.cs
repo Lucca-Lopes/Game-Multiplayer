@@ -185,15 +185,7 @@ public class GameManager : NetworkBehaviour
         Debug.Log("Jogadores conectados: " + Instance.jogadoresConectados.Count);
         Debug.Log("Sobreviventes conectados: " + Instance.sobreviventes.Count);
     }
-    public void JogadorCarregado(ulong jogadorId)
-    {
-        jogadoresCarregados.Add(jogadorId);
-    }
-    public void JogadorLiberado(ulong jogadorId)
-    {
-        jogadoresCarregados.Remove(jogadorId);
-    }
-
+   
         public static void RemovePlayer(ulong clientId)
     {
         if (Instance.jogadoresConectados != null && Instance.jogadoresConectados.Contains(clientId))

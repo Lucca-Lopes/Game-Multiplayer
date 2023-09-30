@@ -10,21 +10,22 @@ public class Inimigo : NetworkBehaviour
 {
     public float distanciaAtaque = 2.0f;
     public int dano = 1;
-    public int velocidade = 600;
+    public  int velocidade = 600;
     private InputAction interactaction;
     private Vector2 movimento;
     private Vector2 mouseInput;
     private Rigidbody rb;
     private Personagem jogador;
     private InputAction interactAction;
-    private Personagem jogadorCarregado;
+    
     private  GameManager gameManager;
-    public ulong networkObjectId;
+    public event Action<Personagem> JogadorCarregandoEvent;
 
     public float distanciaCarregamento = 2.0f;
     [SerializeField] private CinemachineFreeLook vc;
     //[SerializeField] EfeitoVisual efeitoScript;
-    private Personagem jogadorSendoCarregado;
+    public NetworkVariable<Personagem> jogadorSendoCarregado = new(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
 
     public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [SerializeField] TMPro.TextMeshProUGUI displayName;
@@ -86,19 +87,6 @@ public class Inimigo : NetworkBehaviour
     {
         displayName.text = current.ToString();
     }
-    [ClientRpc]
-    private void InformarCarregamentoClientRpc(ulong jogadorId, bool carregando)
-    {
-        if (IsOwner)
-        {
-            GameManager.Instance.JogadorCarregado(jogadorId);
-            if (!carregando)
-            {
-                GameManager.Instance.JogadorLiberado(jogadorId);
-            }
-        }
-    }
-
 
     public void CarregarJogador(InputAction.CallbackContext value)
     {
@@ -107,28 +95,37 @@ public class Inimigo : NetworkBehaviour
             float distanciaJogadorInimigo = Vector3.Distance(transform.position, jogador.transform.position);
             if (distanciaJogadorInimigo <= distanciaCarregamento)
             {
-                Personagem player = FindObjectOfType<Personagem>();
-                if (player != null)
-                {
-                    player.SerCarregadoPorInimigo(this);
-                    GameManager.AddPlayer(player.NetworkObjectId, player);
-                    velocidade = 800;
-                }
+                // Enviar a variável de rede do jogador para o servidor.
+                jogadorSendoCarregado.Value = jogador;
+
+                // Disparar o evento 'JogadorCarregandoEvent'.
+                JogadorCarregandoEvent?.Invoke(jogador);
             }
         }
-        else if (value.canceled && jogador.isBeingCarried)
+        else if (value.canceled && jogador.isBeingCarried.Value)
         {
-            Personagem player = FindObjectOfType<Personagem>();
-            if (player != null)
-            {
-                player.transform.SetParent(jogador.previousParent);
-                jogador.isBeingCarried = false;
-                velocidade = 600;
+            // Descarregar o jogador.
+            jogadorSendoCarregado.Value = null;
 
-                Vector3 offset = transform.forward * 2.0f;
-                player.transform.position = transform.position + offset;
-                player.velocidade = 350;
-            }
+            // Disparar o evento 'JogadorCarregandoDesabilitadoEvent'.
+            //JogadorCarregandoDesabilitadoEvent?.Invoke();
+        }
+    }
+    private void ParallelSyncUpdate()
+    {
+        if (jogadorSendoCarregado.Value != null)
+        {
+            // Posição do jogador carregado.
+            Vector3 jogadorCarregandoPosicao = jogadorSendoCarregado.Value.transform.position;
+
+            // Posição do inimigo.
+            Vector3 inimigoPosicao = transform.position;
+
+            // Nova posição do jogador carregado.
+            jogadorCarregandoPosicao = inimigoPosicao + (transform.forward * 2.0f);
+
+            // Atualizar a posição do jogador carregado no cliente e no servidor.
+            jogadorSendoCarregado.Value.transform.position = jogadorCarregandoPosicao;
         }
     }
 
