@@ -172,14 +172,51 @@ MonoBehaviour:
   velocidade: 600
   vidaJogador:
     m_InternalValue: 2
-  objetoInterativo: {fileID: 0}
+  nomeJogador:
+    m_InternalValue:
+      utf8LengthInBytes: 0
+      bytes:
+        offset0000:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        byte0016: 0
+        byte0017: 0
+        byte0018: 0
+        byte0019: 0
+        byte0020: 0
+        byte0021: 0
+        byte0022: 0
+        byte0023: 0
+        byte0024: 0
+        byte0025: 0
+        byte0026: 0
+        byte0027: 0
+        byte0028: 0
+        byte0029: 0
+  displayName: {fileID: 0}
+  objetoInterativo: {fileID: 2914637921125396360, guid: a26226f0bd0b18e438d7191ed1d3ebf1,
+    type: 3}
   distanciaMaxima: 3
   progressBar: {fileID: 0}
   vidas: 2
+  isDead: 0
   isBeingCarried: 0
   previousParent: {fileID: 0}
   vc: {fileID: 0}
-  listener: {fileID: 0}
   fillRate: 0.05
 --- !u!114 &1702821112720666250
 MonoBehaviour:
@@ -231,6 +268,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: d860cdd1-73f7-4002-9afb-a073371f0bfe
     m_ActionName: Jogador/Interagir[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 16ad29e0-6d6a-442e-aa15-12f77595ec26
+    m_ActionName: Jogador/MoverCamera[/Mouse/delta]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Jogador

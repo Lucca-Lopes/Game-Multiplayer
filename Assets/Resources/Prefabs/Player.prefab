@@ -499,9 +499,11 @@ MonoBehaviour:
         byte0028: 0
         byte0029: 0
   displayName: {fileID: 6661324863342999710}
-  objetoInterativo: {fileID: 0}
-  distanciaMaxima: 3
-  progressBar: {fileID: 0}
+  objetoInterativo: {fileID: 2914637921125396360, guid: a26226f0bd0b18e438d7191ed1d3ebf1,
+    type: 3}
+  distanciaMaxima: 93
+  progressBar: {fileID: 6860392908902547268, guid: 7a12c71fd79a3294daccf0acaa79c5af,
+    type: 3}
   vidas: 2
   isDead: 0
   isBeingCarried: 0

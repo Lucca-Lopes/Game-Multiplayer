@@ -20,7 +20,7 @@ public class Personagem : NetworkBehaviour
     [SerializeField] TMPro.TextMeshProUGUI displayName;
 
     public GameObject objetoInterativo;
-    public float distanciaMaxima = 3.0f;
+    public float distanciaMaxima = 93.0f;
 
 
     public Slider progressBar;
@@ -53,6 +53,7 @@ public class Personagem : NetworkBehaviour
         rb = GetComponent<Rigidbody>();
         interactAction = new InputAction("Interact", binding: "<Keyboard>/e");
         interactAction.performed += Interact;
+       
         
     }
 
@@ -137,10 +138,10 @@ public class Personagem : NetworkBehaviour
     {
         interactAction.Disable();
     }
-
-    public void Interact(InputAction.CallbackContext context)
+    /*
+    public void Interagir()
     {
-        if (context.performed && !isInteracting && !isDead)
+        if(Input.GetKeyDown(KeyCode.E))
         {
             float distancia = Vector3.Distance(transform.position, objetoInterativo.transform.position);
             if (distancia <= distanciaMaxima)
@@ -154,26 +155,58 @@ public class Personagem : NetworkBehaviour
                 Debug.Log("Voc� est� muito longe para interagir com o objeto.");
             }
         }
+        if (isDead == true)
+        {
+            isInteracting = false;
+        }
     }
+    */
+    public void Interact(InputAction.CallbackContext context)
+    {
+        if (context.performed && !isInteracting && !isDead)
+        {
+            float distancia = Vector3.Distance(transform.position, objetoInterativo.transform.position);
 
-    //public void ReceberDano(int quantidade)
-    //{
-    //    if (!isDead)
-    //    {
-    //        vidas -= quantidade;
-    //        if (vidas <= 0)
-    //        {
-    //            isDead = true;
-    //            Debug.Log("Voc� morreu!");
-    //            velocidade = 350;
+            if (distancia <= distanciaMaxima)
+            {
+                Debug.Log("Iniciando intera��o...");
+                progressBar.gameObject.SetActive(true);
+                isInteracting = true;
+            }
+            else
+            {
+                Debug.Log("Voc� est� muito longe para interagir com o objeto.");
+            }
+        }
+        //Desativa a interação quando esta morto 
+        if(isDead == true)
+        {
+            isInteracting = false;
+            Debug.Log("Vc esta caido, não pode fazer isso");
+        }
+    }
+    
+/*
+    public void ReceberDano(int quantidade)
+    {
+        if (!isDead)
+        {
+            vidas -= quantidade;
+            if (vidas <= 0)
+            {
+                isDead = true;
+                Debug.Log("Voc� morreu!");
+                velocidade = 350;
 
-    //        }
-    //    }
-    //}
+            }
+        }
+    }
+*/
 
 
     private void Update()
     {
+       
         if (isInteracting)
         {
             interactionProgress += Time.deltaTime * fillRate;
@@ -210,7 +243,9 @@ public class Personagem : NetworkBehaviour
             rb.AddForce(moveDirection.normalized * Time.fixedDeltaTime * velocidade);
         }
         RotateWithMouseInput();
+       
     }
+    
 
     private void RotateWithMouseInput()
     {

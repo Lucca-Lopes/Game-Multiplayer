@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/camera.unity
     guid: 24c8db0889d8fc64cb7d213c81f73b92
+  - enabled: 1
+    path: Assets/Scenes/CopiaTrampoPI.unity
+    guid: f0108767a76b03249b40ff3e8316ab2c
   m_configObjects: {}
