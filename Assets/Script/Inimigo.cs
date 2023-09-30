@@ -3,30 +3,40 @@ using UnityEngine;
 using Unity.Netcode;
 using Cinemachine;
 using Unity.Collections;
+using System.Collections;
 //using static UnityEngine.Rendering.DebugUI;
 
 public class Inimigo : NetworkBehaviour
 {
+    [Header("Network Variables")]
+    public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+    [Header("Assemblies")]
+    [SerializeField] AnimationEvents animations;
+    [SerializeField] private CinemachineFreeLook vc;
+    [SerializeField] TMPro.TextMeshProUGUI displayName;
+    [SerializeField] ParticleSystem efeito;
+    //[SerializeField] EfeitoVisual efeitoScript;
+
+    [Header("Configurações")]
     public float distanciaAtaque = 2.0f;
     public int dano = 1;
     public int velocidade = 600;
+    public float distanciaCarregamento = 2.0f;
+
+    //variáveis internas
     private Vector2 movimento;
     private Vector2 mouseInput;
     private Rigidbody rb;
-    public float distanciaCarregamento = 2.0f;
-    [SerializeField] private CinemachineFreeLook vc;
-    //[SerializeField] EfeitoVisual efeitoScript;
-
-    public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    [SerializeField] TMPro.TextMeshProUGUI displayName;
-
-    [SerializeField] ParticleSystem efeito;
-
+    //private CharacterController characterController;
+    private bool canWalk = true;
+    
     private void Awake()
     {
         //interactaction = new InputAction("Interact", binding: "<KeyBoard>/Space");
         //interactaction.performed += CarregarJogador;
         rb = GetComponent<Rigidbody>();
+        //characterController = GetComponent<CharacterController>();
     }
 
     private void Start()
@@ -39,7 +49,14 @@ public class Inimigo : NetworkBehaviour
 
     public void SetMovimento(InputAction.CallbackContext value)
     {
-        movimento = value.ReadValue<Vector2>();
+        if (canWalk)
+        {
+            movimento = value.ReadValue<Vector2>();
+            if (value.ReadValue<Vector2>() != Vector2.zero)
+                animations.andando = true;
+            else
+                animations.andando = false;
+        }
     }
 
     public void SetMouseInput(InputAction.CallbackContext value)
@@ -109,6 +126,8 @@ public class Inimigo : NetworkBehaviour
     //    }
     //}
 
+
+    //Movimento usando Rigdbody
     private void FixedUpdate()
     {
         if (rb != null)
@@ -121,6 +140,14 @@ public class Inimigo : NetworkBehaviour
         }
         RotateWithMouseInput();
     }
+
+    //Movimento usando CharacterController
+    //private void Update()
+    //{
+    //    Vector3 mov = new(movimento.x, 0, movimento.y);
+    //    characterController.Move(mov * Time.deltaTime * velocidade);
+    //    RotateWithMouseInput();
+    //}
 
     private void RotateWithMouseInput()
     {
@@ -143,6 +170,7 @@ public class Inimigo : NetworkBehaviour
         {
             if (IsOwner)
             {
+                StartCoroutine(AnimacaoAtacar());
                 Debug.Log("Atacou");
                 efeito.Play();
                 Collider[] hitColliders = Physics.OverlapSphere(transform.position, distanciaAtaque);
@@ -155,5 +183,20 @@ public class Inimigo : NetworkBehaviour
                 }
             }
         }
+        //if (context.canceled)
+        //{
+        //    animations.atacando = false;
+        //    canWalk = true;
+        //}
+    }
+
+    IEnumerator AnimacaoAtacar()
+    {
+        canWalk = false;
+        animations.atacando = true;
+        rb.velocity = Vector3.zero;
+        yield return new WaitForSeconds(2.0f);
+        animations.atacando = false;
+        canWalk = true;
     }
 }

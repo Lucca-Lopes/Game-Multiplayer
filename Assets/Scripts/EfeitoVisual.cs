@@ -7,12 +7,12 @@ public class EfeitoVisual : MonoBehaviour
     [SerializeField] ParticleSystem efeito;
 
     // Update is called once per frame
-    private void Update()
+    void Update()
     {
-        efeito.Play();
-    }
-    public void AtivarEfeito()
-    {
-        efeito.Play();
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            efeito.Play();
+
+        }
     }
 }
