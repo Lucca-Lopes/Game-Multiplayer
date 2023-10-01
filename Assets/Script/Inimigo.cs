@@ -19,12 +19,10 @@ public class Inimigo : NetworkBehaviour
     private InputAction interactAction;
     
     private  GameManager gameManager;
-    public event Action<Personagem> JogadorCarregandoEvent;
-
+   
     public float distanciaCarregamento = 2.0f;
     [SerializeField] private CinemachineFreeLook vc;
-    //[SerializeField] EfeitoVisual efeitoScript;
-    public NetworkVariable<Personagem> jogadorSendoCarregado = new(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    
 
 
     public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -90,42 +88,21 @@ public class Inimigo : NetworkBehaviour
 
     public void CarregarJogador(InputAction.CallbackContext value)
     {
-        if (jogador.vidas <= 0 && value.started)
+        if (jogador != null && jogador.vidas <= 0 && value.started)
         {
+            if (jogador.isBeingCarried.Value)
+            {
+                // O jogador já está sendo carregado
+                return;
+            }
+
             float distanciaJogadorInimigo = Vector3.Distance(transform.position, jogador.transform.position);
             if (distanciaJogadorInimigo <= distanciaCarregamento)
             {
-                // Enviar a variável de rede do jogador para o servidor.
-                jogadorSendoCarregado.Value = jogador;
-
-                // Disparar o evento 'JogadorCarregandoEvent'.
-                JogadorCarregandoEvent?.Invoke(jogador);
+                // Carregar o jogador
+                GameManager.Instance.carregarjogador_serverrpc();
+                velocidade = 800;
             }
-        }
-        else if (value.canceled && jogador.isBeingCarried.Value)
-        {
-            // Descarregar o jogador.
-            jogadorSendoCarregado.Value = null;
-
-            // Disparar o evento 'JogadorCarregandoDesabilitadoEvent'.
-            //JogadorCarregandoDesabilitadoEvent?.Invoke();
-        }
-    }
-    private void ParallelSyncUpdate()
-    {
-        if (jogadorSendoCarregado.Value != null)
-        {
-            // Posição do jogador carregado.
-            Vector3 jogadorCarregandoPosicao = jogadorSendoCarregado.Value.transform.position;
-
-            // Posição do inimigo.
-            Vector3 inimigoPosicao = transform.position;
-
-            // Nova posição do jogador carregado.
-            jogadorCarregandoPosicao = inimigoPosicao + (transform.forward * 2.0f);
-
-            // Atualizar a posição do jogador carregado no cliente e no servidor.
-            jogadorSendoCarregado.Value.transform.position = jogadorCarregandoPosicao;
         }
     }
 
