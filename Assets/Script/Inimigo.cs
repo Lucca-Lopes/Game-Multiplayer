@@ -17,7 +17,6 @@ public class Inimigo : NetworkBehaviour
     private Rigidbody rb;
     private Personagem jogador;
     private InputAction interactAction;
-    
     private  GameManager gameManager;
    
     public float distanciaCarregamento = 2.0f;
@@ -88,23 +87,45 @@ public class Inimigo : NetworkBehaviour
 
     public void CarregarJogador(InputAction.CallbackContext value)
     {
-        if (jogador != null && jogador.vidas <= 0 && value.started)
+        if (jogador == null)
         {
-            if (jogador.isBeingCarried.Value)
+            jogador = FindObjectOfType<Personagem>();
+            if (jogador == null)
             {
-                // O jogador já está sendo carregado
+                Debug.Log("Jogador não encontrado");
                 return;
             }
+        }
 
-            float distanciaJogadorInimigo = Vector3.Distance(transform.position, jogador.transform.position);
-            if (distanciaJogadorInimigo <= distanciaCarregamento)
+        if (jogador.vidaJogador.Value <= 0 && value.started)
+        {
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, distanciaCarregamento);
+            if (hitColliders.Length > 0)
             {
-                // Carregar o jogador
-                GameManager.Instance.carregarjogador_serverrpc();
+                //GameManager.Instance.carregarjogador_serverrpc();
+                jogador.SerCarregadoPorInimigo(this);
                 velocidade = 800;
             }
         }
+        else if (value.canceled && jogador.isBeingCarried.Value)
+        {
+            Personagem player = FindObjectOfType<Personagem>();
+            if (player != null)
+            {
+                player.transform.SetParent(jogador.previousParent);
+                jogador.isBeingCarried.Value = false;
+                velocidade = 600;
+
+                Vector3 offset = transform.forward * 2.0f;
+                player.transform.position = transform.position + offset;
+
+                player.velocidade = 350;
+                //player.GetComponent<Rigidbody>().isKinematic = false;
+            }
+        }
     }
+
+
 
 
 
@@ -157,10 +178,5 @@ public class Inimigo : NetworkBehaviour
                 }
             }
         }
-    }
-
-    public static implicit operator Inimigo(Personagem v)
-    {
-        throw new NotImplementedException();
     }
 }

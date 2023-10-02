@@ -15,6 +15,8 @@ public class GameManager : NetworkBehaviour
     public NetworkVariable<bool> killerWin = new(false);
     private List<ulong> jogadoresCarregados = new List<ulong>();
     private Personagem jogador;
+   
+
     List<ulong> jogadoresConectados = new();
     Dictionary<ulong, Personagem> sobreviventes = new();
 
@@ -140,16 +142,23 @@ public class GameManager : NetworkBehaviour
             }
         }
     }
-    [ServerRpc(RequireOwnership =false)]
+    [ServerRpc(RequireOwnership = false)]
     public void carregarjogador_serverrpc()
     {
-        jogador.isBeingCarried.Value = true;
-        jogador.carryingEnemy.Value = jogador.enemy;
-        jogador.previousParent = transform.parent;
-        transform.SetParent(jogador.enemy.transform);
-        //this.rb.isKinematic = true;
+        if (NetworkManager.Singleton.IsServer)
+        {
+            if (jogador != null)
+            {
+                jogador.isBeingCarried.Value = true;
+            }
+            jogador.carryingEnemy = jogador.enemy;
+            jogador.previousParent = transform.parent;
+            transform.SetParent(jogador.enemy.transform);
+            //this.rb.isKinematic = true;
 
-        jogador.velocidade = 200;
+            jogador.velocidade = 200;
+        }
+
     }
     //[ServerRpc(RequireOwnership = false)]
     //public void SpawnSobrevivente_ServerRpc(ulong clientId)

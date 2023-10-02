@@ -31,7 +31,7 @@ public class Personagem : NetworkBehaviour
     public int vidas = 2;
     public bool isDead = false;
     public NetworkVariable <bool> isBeingCarried =new (false);
-    public NetworkVariable<Inimigo> carryingEnemy =new();
+    public Inimigo carryingEnemy;
     public Inimigo enemy;
     public Transform previousParent;
     [SerializeField] private CinemachineFreeLook vc;
@@ -41,7 +41,7 @@ public class Personagem : NetworkBehaviour
     public void SerCarregadoPorInimigo(Inimigo enemy)
     {
         isBeingCarried.Value = true;
-        carryingEnemy.Value = enemy;
+        carryingEnemy= enemy;
         previousParent = transform.parent;
         transform.SetParent(enemy.transform);
         //this.rb.isKinematic = true;
@@ -156,7 +156,7 @@ public class Personagem : NetworkBehaviour
                 // Chame a lógica de carregamento do jogador inimigo
                 if (carryingEnemy != null)
                 {
-                    carryingEnemy.Value.CarregarJogador(context);
+                    carryingEnemy.CarregarJogador(context);
                 }
             }
             else
@@ -209,8 +209,11 @@ public class Personagem : NetworkBehaviour
     {
         if (isBeingCarried.Value)
         {
-            Vector3 desiredPosition = carryingEnemy.Value.transform.position + Vector3.up * 2.01f;
-            rb.MovePosition(desiredPosition);
+            if (carryingEnemy != null)
+            {
+                Vector3 desiredPosition = carryingEnemy.transform.position + Vector3.up * 2.0f;
+                rb.MovePosition(desiredPosition);
+            }
         }
         else
         {
