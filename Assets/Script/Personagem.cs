@@ -40,6 +40,7 @@ public class Personagem : NetworkBehaviour
 
     public void SerCarregadoPorInimigo(Inimigo enemy)
     {
+       
         isBeingCarried.Value = true;
         carryingEnemy= enemy;
         previousParent = transform.parent;
@@ -47,6 +48,7 @@ public class Personagem : NetworkBehaviour
         //this.rb.isKinematic = true;
 
         velocidade = 200;
+        
     }
 
 
@@ -207,13 +209,22 @@ public class Personagem : NetworkBehaviour
     }
     private void FixedUpdate()
     {
+       
+        if (carryingEnemy == null)
+        {
+            carryingEnemy = FindObjectOfType<Inimigo>();
+        }
+
+        
         if (isBeingCarried.Value)
         {
-            if (carryingEnemy != null)
-            {
-                Vector3 desiredPosition = carryingEnemy.transform.position + Vector3.up * 2.0f;
-                rb.MovePosition(desiredPosition);
-            }
+            
+            rb.MovePosition(carryingEnemy.transform.position);
+
+            
+            Vector3 offset = carryingEnemy.transform.position - rb.position;
+            offset.y = 2;
+            rb.MovePosition(rb.position + offset);
         }
         else
         {

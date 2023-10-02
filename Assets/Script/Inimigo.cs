@@ -116,8 +116,7 @@ public class Inimigo : NetworkBehaviour
                 jogador.isBeingCarried.Value = false;
                 velocidade = 600;
 
-                Vector3 offset = transform.forward * 2.0f;
-                player.transform.position = transform.position + offset;
+                jogador.transform.position = this.transform.position;
 
                 player.velocidade = 350;
                 //player.GetComponent<Rigidbody>().isKinematic = false;

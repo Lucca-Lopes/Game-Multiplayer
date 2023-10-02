@@ -145,6 +145,12 @@ public class GameManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void carregarjogador_serverrpc()
     {
+        jogador = FindObjectOfType<Personagem>();
+        if (jogador == null)
+        {
+            return;
+        }
+
         if (NetworkManager.Singleton.IsServer)
         {
             if (jogador != null)
@@ -160,6 +166,8 @@ public class GameManager : NetworkBehaviour
         }
 
     }
+
+
     //[ServerRpc(RequireOwnership = false)]
     //public void SpawnSobrevivente_ServerRpc(ulong clientId)
     //{
