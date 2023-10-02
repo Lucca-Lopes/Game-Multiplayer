@@ -222,6 +222,8 @@ MonoBehaviour:
   dano: 1
   velocidade: 600
   distanciaCarregamento: 2
+  outroJogador: {fileID: 5927750250814076835, guid: 97294d3598210448fa0927c810aa0933,
+    type: 3}
   vc: {fileID: 6693537207311688482}
   nomeJogador:
     m_InternalValue:
@@ -611,7 +613,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2503711708782211015}
-  m_LocalRotation: {x: 0.12451125, y: -0.000000012708083, z: 0.0000000015947089, w: 0.9922182}
+  m_LocalRotation: {x: 0.12451125, y: -0.000000012803986, z: 0.0000000016067437, w: 0.9922182}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -696,7 +698,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2768137275858578000}
-  m_LocalRotation: {x: 0.10649046, y: 0.000000004317636, z: -4.6241652e-10, w: 0.9943138}
+  m_LocalRotation: {x: 0.10649046, y: -0.000000004277056, z: 4.5807044e-10, w: 0.9943138}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1359,8 +1361,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7904836191796916832}
-  m_LocalRotation: {x: 0.14253858, y: -0.0000000077985485, z: 0.0000000011230611,
-    w: 0.98978925}
+  m_LocalRotation: {x: 0.14253858, y: -0.000000008469664, z: 0.0000000012197081, w: 0.98978925}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

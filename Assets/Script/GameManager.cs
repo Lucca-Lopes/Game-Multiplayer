@@ -84,23 +84,54 @@ public class GameManager : NetworkBehaviour
             }
         }
     }
+   // [ServerRpc(RequireOwnership = false)]
+    
+        
 
     [ServerRpc(RequireOwnership = false)]
     public void CausarDano_ServerRpc(int quantidade, ulong atacadoId)
     {
+       
         if (NetworkManager.Singleton.IsServer)
         {
             var sobreviventesAtuais = GameObject.FindGameObjectsWithTag("Sobrevivente");
+           // var inimigoComponent = GameObject.FindGameObjectsWithTag("Inimigo");
 
-            foreach(GameObject sobrevivente in sobreviventesAtuais)
+           
+            foreach (GameObject sobrevivente in sobreviventesAtuais)
             {
+                
                 var personagemComponent = sobrevivente.GetComponent<Personagem>();
+                
                 if (personagemComponent.OwnerClientId == atacadoId)
                 {
                     if (personagemComponent.vidaJogador.Value > 0)
+                    {
                         personagemComponent.vidaJogador.Value--;
+                    }
+                       
+
                     if (personagemComponent.isDead)
+                    {
                         jogadoresMortos++;
+                        Debug.Log("Um jogador morreu");
+                        Debug.Log(jogadoresMortos);
+                    }
+                    
+                   /* 
+                    if(personagemComponent.vidaJogador.Value <= 0)
+                    {
+                        Debug.Log("Não é possovel atacar este player");
+                        
+                       
+                    }
+                    if (personagemComponent.vidaJogador.Value > 0)
+                    {
+                        Debug.Log("Este player pode ser atacado");
+                        
+                    }
+                   */
+
                 }
             }
 
@@ -132,11 +163,20 @@ public class GameManager : NetworkBehaviour
                 //if (sobreviventes[clientId].isDead)
                 //    jogadoresMortos++;
             //}
-            if (jogadoresMortos == sobreviventesAtuais.Length)
+            if(jogadoresMortos == 2)
             {
+                Debug.Log("O killer ganhou");
                 killerWin.Value = true;
                 Instance.timerAtivo.Value = false;
             }
+            /*
+            if (jogadoresMortos == sobreviventesAtuais.Length)
+            {
+                Debug.Log("O killer ganhou");
+                killerWin.Value = true;
+                Instance.timerAtivo.Value = false;
+            }
+            */
         }
     }
 

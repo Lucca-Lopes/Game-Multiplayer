@@ -35,6 +35,7 @@ public class Personagem : NetworkBehaviour
     [SerializeField] private CinemachineFreeLook vc;
     //[SerializeField] private AudioListener listener;
     public float fillRate = 0.05f;
+    internal int vidaPlayer;
 
     public void SerCarregadoPorInimigo(Inimigo enemy)
     {

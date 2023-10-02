@@ -14,8 +14,11 @@ public class Inimigo : NetworkBehaviour
     private Vector2 mouseInput;
     private Rigidbody rb;
     public float distanciaCarregamento = 2.0f;
+    public Personagem outroJogador; 
     [SerializeField] private CinemachineFreeLook vc;
     //[SerializeField] EfeitoVisual efeitoScript;
+
+
 
     public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [SerializeField] TMPro.TextMeshProUGUI displayName;
@@ -35,6 +38,10 @@ public class Inimigo : NetworkBehaviour
         {
             nomeJogador.Value = GameManager.PlayerName;
         }
+    }
+    private void Update()
+    {
+        ParaAtaque();
     }
 
     public void SetMovimento(InputAction.CallbackContext value)
@@ -120,6 +127,7 @@ public class Inimigo : NetworkBehaviour
             rb.AddForce(moveDirection.normalized * Time.fixedDeltaTime * velocidade);
         }
         RotateWithMouseInput();
+       // ParaAtaque();
     }
 
     private void RotateWithMouseInput()
@@ -154,6 +162,22 @@ public class Inimigo : NetworkBehaviour
                     }
                 }
             }
+        }
+    }
+    public void ParaAtaque()
+    {
+        // Verificar se o outro jogador está disponível e se a vida dele é maior que 0
+        if (outroJogador.vidaPlayer > 0)
+        {
+            Debug.Log("Posso dar dano");
+            // Se a vida do outro jogador for maior que 0, definir meuAtaque para 1
+            dano = 1;
+        }
+        else
+        {
+            Debug.Log("Não posso dar dano");
+            // Se a vida do outro jogador for 0 ou menos, definir meuAtaque para 0
+            dano = 0;
         }
     }
 }

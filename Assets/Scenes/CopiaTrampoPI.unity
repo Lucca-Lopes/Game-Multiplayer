@@ -12981,7 +12981,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objetoParaAtivar: {fileID: 2053544066}
   player: {fileID: 2641189381229173686, guid: 97294d3598210448fa0927c810aa0933, type: 3}
-  scriptPersonagem: {fileID: 1478887519}
+  scriptPersonagem: {fileID: 0}
   player2: {fileID: 2641189381229173686, guid: 97294d3598210448fa0927c810aa0933, type: 3}
   distanciaMinimaParaAtivar: 3
 --- !u!1 &1150709311
@@ -16589,98 +16589,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 900, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1478887518
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1478887520}
-  - component: {fileID: 1478887519}
-  m_Layer: 0
-  m_Name: PersonagemOBJ?
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1478887519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1478887518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56b80a45a4322bd45b62b47d72fab1c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  velocidade: 600
-  vidaJogador:
-    m_InternalValue: 2
-  nomeJogador:
-    m_InternalValue:
-      utf8LengthInBytes: 0
-      bytes:
-        offset0000:
-          byte0000: 0
-          byte0001: 0
-          byte0002: 0
-          byte0003: 0
-          byte0004: 0
-          byte0005: 0
-          byte0006: 0
-          byte0007: 0
-          byte0008: 0
-          byte0009: 0
-          byte0010: 0
-          byte0011: 0
-          byte0012: 0
-          byte0013: 0
-          byte0014: 0
-          byte0015: 0
-        byte0016: 0
-        byte0017: 0
-        byte0018: 0
-        byte0019: 0
-        byte0020: 0
-        byte0021: 0
-        byte0022: 0
-        byte0023: 0
-        byte0024: 0
-        byte0025: 0
-        byte0026: 0
-        byte0027: 0
-        byte0028: 0
-        byte0029: 0
-  displayName: {fileID: 0}
-  objetoInterativo: {fileID: 0}
-  distanciaMaxima: 93
-  progressBar: {fileID: 0}
-  vidas: 2
-  isDead: 0
-  isBeingCarried: 0
-  previousParent: {fileID: 0}
-  vc: {fileID: 0}
-  fillRate: 0.05
---- !u!4 &1478887520
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1478887518}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 71.6253, y: 20.733711, z: 53.327614}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 15
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1479292528 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1069567032315564, guid: bdf8e7438a7816543998181bd3067573,
