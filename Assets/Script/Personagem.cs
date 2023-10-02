@@ -38,6 +38,9 @@ public class Personagem : NetworkBehaviour
     [SerializeField] private CinemachineFreeLook vc;
     private  bool wasInteractingBeforeMoving =false;
     private bool isMoving = false;
+    private float progressBarPositionBeforeInterrupt = 0f;
+    private bool isMovingBeforeInteraction = false;
+
 
     //[SerializeField] private AudioListener listener;
     public float fillRate = 0.05f;
@@ -181,29 +184,37 @@ public class Personagem : NetworkBehaviour
             }
         }
     }
-    
+
     private void StartInteraction()
     {
         Debug.Log("Iniciando interação...");
         progressBar.gameObject.SetActive(true);
         isInteracting = true;
 
-        if (!wasInteractingBeforeMoving)
-        {
-            interactionProgress = 0f;
-        }
+        // Defina wasInteractingBeforeMoving como true quando iniciar a interação
+        wasInteractingBeforeMoving = true;
 
         isAnyPlayerInteracting = true;
-        wasInteractingBeforeMoving = false;
     }
-    
+
+
+
     private void ResumeInteraction()
     {
         Debug.Log("Retomando interação...");
         progressBar.gameObject.SetActive(true);
         isInteracting = true;
         isAnyPlayerInteracting = true;
+
+        // Defina wasInteractingBeforeMoving como true ao retomar a interação
+        wasInteractingBeforeMoving = true;
+
+        // Configure a posição da barra de progresso com base na posição anterior
+        progressBar.value = progressBarPositionBeforeInterrupt;
     }
+
+
+
 
 
     //public void ReceberDano(int quantidade)
@@ -226,7 +237,7 @@ public class Personagem : NetworkBehaviour
     {
         if (isInteracting)
         {
-            if (!isMoving) // Verifique se o personagem não está se movendo
+            if (!isMoving)
             {
                 interactionProgress += Time.deltaTime * fillRate;
                 progressBar.value = Mathf.Clamp01(interactionProgress / interactionDuration);
@@ -239,23 +250,27 @@ public class Personagem : NetworkBehaviour
                     progressBar.gameObject.SetActive(false);
                     interactionProgress = 0f;
                     progressBar.value = 0f;
-
-                    //qteManager.IniciarQTE();
                 }
             }
-            else
+            else if (!wasInteractingBeforeMoving)
             {
-                // O personagem está se movendo, pare a interação
+                // O personagem está se movendo, interrompa a interação e redefina wasInteractingBeforeMoving
                 Debug.Log("Interação interrompida devido ao movimento.");
                 progressBar.gameObject.SetActive(false);
                 interactionProgress = 0f;
                 progressBar.value = 0f;
                 isInteracting = false;
                 wasInteractingBeforeMoving = false;
-                isAnyPlayerInteracting = false;
             }
         }
+
+        // Resto do seu código...
     }
+
+
+
+
+
 
     private void FixedUpdate()
     {
