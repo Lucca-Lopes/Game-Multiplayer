@@ -34,7 +34,11 @@ public class Personagem : NetworkBehaviour
     public Inimigo carryingEnemy;
     public Inimigo enemy;
     public Transform previousParent;
+    private bool isAnyPlayerInteracting =false;
     [SerializeField] private CinemachineFreeLook vc;
+    private  bool wasInteractingBeforeMoving =false;
+    private bool isMoving = false;
+
     //[SerializeField] private AudioListener listener;
     public float fillRate = 0.05f;
 
@@ -127,7 +131,10 @@ public class Personagem : NetworkBehaviour
     public void SetMovimento(InputAction.CallbackContext value)
     {
         movimento = value.ReadValue<Vector2>();
+        // Verifique se o movimento é não nulo (ou seja, o jogador está se movendo)
+        isMoving = movimento.magnitude > 0;
     }
+
 
     public void SetMouseInput(InputAction.CallbackContext value)
     {
@@ -146,19 +153,26 @@ public class Personagem : NetworkBehaviour
 
     public void Interact(InputAction.CallbackContext context)
     {
-        if (context.performed && !isInteracting && !isDead)
+        if (context.performed && !isDead)
         {
             float distancia = Vector3.Distance(transform.position, objetoInterativo.transform.position);
             if (distancia <= distanciaMaxima)
             {
-                Debug.Log("Iniciando interação...");
-                progressBar.gameObject.SetActive(true);
-                isInteracting = true;
-
-                // Chame a lógica de carregamento do jogador inimigo
-                if (carryingEnemy != null)
+                if (isAnyPlayerInteracting)
                 {
-                    carryingEnemy.CarregarJogador(context);
+                    Debug.Log("Outro jogador já está interagindo.");
+                    return;
+                }
+
+                if (isInteracting)
+                {
+
+                    ResumeInteraction();
+                }
+                else
+                {
+
+                    StartInteraction();
                 }
             }
             else
@@ -166,6 +180,29 @@ public class Personagem : NetworkBehaviour
                 Debug.Log("Você está muito longe para interagir com o objeto.");
             }
         }
+    }
+    
+    private void StartInteraction()
+    {
+        Debug.Log("Iniciando interação...");
+        progressBar.gameObject.SetActive(true);
+        isInteracting = true;
+
+        if (!wasInteractingBeforeMoving)
+        {
+            interactionProgress = 0f;
+        }
+
+        isAnyPlayerInteracting = true;
+        wasInteractingBeforeMoving = false;
+    }
+    
+    private void ResumeInteraction()
+    {
+        Debug.Log("Retomando interação...");
+        progressBar.gameObject.SetActive(true);
+        isInteracting = true;
+        isAnyPlayerInteracting = true;
     }
 
 
@@ -189,24 +226,37 @@ public class Personagem : NetworkBehaviour
     {
         if (isInteracting)
         {
-            interactionProgress += Time.deltaTime * fillRate;
-            progressBar.value = Mathf.Clamp01(interactionProgress / interactionDuration);
-
-            if (interactionProgress >= interactionDuration)
+            if (!isMoving) // Verifique se o personagem não está se movendo
             {
-                Debug.Log("Intera��o conclu�da!");
-                
-                isInteracting = false;
+                interactionProgress += Time.deltaTime * fillRate;
+                progressBar.value = Mathf.Clamp01(interactionProgress / interactionDuration);
+
+                if (interactionProgress >= interactionDuration)
+                {
+                    Debug.Log("Interação concluída!");
+
+                    isInteracting = false;
+                    progressBar.gameObject.SetActive(false);
+                    interactionProgress = 0f;
+                    progressBar.value = 0f;
+
+                    //qteManager.IniciarQTE();
+                }
+            }
+            else
+            {
+                // O personagem está se movendo, pare a interação
+                Debug.Log("Interação interrompida devido ao movimento.");
                 progressBar.gameObject.SetActive(false);
                 interactionProgress = 0f;
                 progressBar.value = 0f;
-               
-                //qteManager.IniciarQTE();
-
-
+                isInteracting = false;
+                wasInteractingBeforeMoving = false;
+                isAnyPlayerInteracting = false;
             }
         }
     }
+
     private void FixedUpdate()
     {
        

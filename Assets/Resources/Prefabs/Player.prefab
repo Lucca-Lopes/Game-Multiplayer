@@ -461,6 +461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocidade: 600
+  gameManager: {fileID: 0}
   vidaJogador:
     m_InternalValue: 2
   nomeJogador:
@@ -499,12 +500,16 @@ MonoBehaviour:
         byte0028: 0
         byte0029: 0
   displayName: {fileID: 6661324863342999710}
-  objetoInterativo: {fileID: 0}
+  objetoInterativo: {fileID: 2914637921125396360, guid: a26226f0bd0b18e438d7191ed1d3ebf1,
+    type: 3}
   distanciaMaxima: 3
   progressBar: {fileID: 0}
   vidas: 2
   isDead: 0
-  isBeingCarried: 0
+  isBeingCarried:
+    m_InternalValue: 0
+  carryingEnemy: {fileID: 0}
+  enemy: {fileID: 0}
   previousParent: {fileID: 0}
   vc: {fileID: 3064300724014396515}
   fillRate: 1
