@@ -5,6 +5,7 @@ using Unity.Netcode;
 using Unity.Collections;
 using Cinemachine;
 using static UnityEngine.Rendering.DebugUI;
+using Unity.VisualScripting;
 
 public class Personagem : NetworkBehaviour
 {
@@ -47,7 +48,8 @@ public class Personagem : NetworkBehaviour
         velocidade = 200;
     }
 
-
+  
+    
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -113,6 +115,7 @@ public class Personagem : NetworkBehaviour
             }
         }
     }
+    
 
     void OnPlayerNameChanged(FixedString32Bytes previous, FixedString32Bytes current)
     {
@@ -226,6 +229,26 @@ public class Personagem : NetworkBehaviour
 
             }
         }
+        
+    {
+        
+    }
+        VidaPlayerNaCama();
+    }
+    
+    public void VidaPlayerNaCama()
+    {
+        
+        if (isDead == true)
+        {
+            GameObject.FindGameObjectsWithTag("cama");
+            isDead = true;
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        VidaPlayerNaCama();
+
     }
     private void FixedUpdate()
     {

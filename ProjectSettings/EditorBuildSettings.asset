@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CopiaTrampoPI.unity
     guid: f0108767a76b03249b40ff3e8316ab2c
+  - enabled: 1
+    path: Assets/Scenes/SobreviventeMorrerCama - Enzo.unity
+    guid: faa496f011dc59c488712fdbce2653ff
   m_configObjects: {}

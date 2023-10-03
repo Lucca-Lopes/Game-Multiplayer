@@ -11,6 +11,7 @@ TagManager:
   - Grass
   - Sobrevivente
   - Timer
+  - cama
   layers:
   - Default
   - TransparentFX
