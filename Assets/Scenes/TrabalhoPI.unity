@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -328,6 +328,25 @@ Transform:
   m_Father: {fileID: 582873862}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &14790261 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2914637921125396360, guid: a26226f0bd0b18e438d7191ed1d3ebf1,
+    type: 3}
+  m_PrefabInstance: {fileID: 252177137}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &14790265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14790261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91319e6e4bd538f48a29808f42dca469, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progressBar: {fileID: 323499938}
 --- !u!1 &38871615
 GameObject:
   m_ObjectHideFlags: 0
@@ -3131,6 +3150,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Valvula
       objectReference: {fileID: 0}
+    - target: {fileID: 2914637921125396360, guid: a26226f0bd0b18e438d7191ed1d3ebf1,
+        type: 3}
+      propertyPath: m_TagString
+      value: objeto
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a26226f0bd0b18e438d7191ed1d3ebf1, type: 3}
 --- !u!1001 &269828714
@@ -3781,7 +3805,7 @@ GameObject:
   - component: {fileID: 323499938}
   m_Layer: 5
   m_Name: Slider
-  m_TagString: Untagged
+  m_TagString: ProgressBar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

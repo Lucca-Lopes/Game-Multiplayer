@@ -6,7 +6,7 @@ using Unity.Collections;
 using Cinemachine;
 using static UnityEngine.Rendering.DebugUI;
 
-public class Personagem : NetworkBehaviour
+public class Personagem1 : NetworkBehaviour
 {
     private Rigidbody rb;
     private Vector2 movimento;
@@ -25,9 +25,9 @@ public class Personagem : NetworkBehaviour
 
 
     public Slider progressBar;
-     internal bool isInteracting = false;
-    public  float interactionProgress = 0f;
-    internal float interactionDuration = 20f;
+    private bool isInteracting = false;
+    private float interactionProgress = 0f;
+    private float interactionDuration = 20f;
     public int vidas = 2;
     public bool isDead = false;
     public NetworkVariable <bool> isBeingCarried =new (false);
@@ -36,14 +36,14 @@ public class Personagem : NetworkBehaviour
     public objeto obj;
     
     public Transform previousParent;
-    public bool isAnyPlayerInteracting =false;
+    private bool isAnyPlayerInteracting =false;
     [SerializeField] private CinemachineFreeLook vc;
-    public   bool wasInteractingBeforeMoving =false;
-    public bool isMoving = false;
-    public  float progressBarPositionBeforeInterrupt = 0f;
+    private  bool wasInteractingBeforeMoving =false;
+    private bool isMoving = false;
+    private float progressBarPositionBeforeInterrupt = 0f;
     private bool isMovingBeforeInteraction = false;
     public objeto objeto;
-    private GameObject progressBarObject;
+
     //[SerializeField] private AudioListener listener;
     public float fillRate = 0.05f;
 
@@ -162,28 +162,9 @@ public class Personagem : NetworkBehaviour
     {
         if (context.performed && !isDead)
         {
-            GameObject[] objetosInterativos = GameObject.FindGameObjectsWithTag("objeto"); 
-
-            if (objetosInterativos.Length == 0)
-            {
-                Debug.Log("Nenhum objeto interativo encontrado com a tag especificada.");
-                return;
-            }
-
-            GameObject objetoMaisProximo = null;
-            float distanciaMaisProxima = float.MaxValue;
-
-            foreach (GameObject objeto in objetosInterativos)
-            {
-                float distancia = Vector3.Distance(transform.position, objeto.transform.position);
-                if (distancia < distanciaMaxima && distancia < distanciaMaisProxima)
-                {
-                    objetoMaisProximo = objeto;
-                    distanciaMaisProxima = distancia;
-                }
-            }
-
-            if (objetoMaisProximo != null)
+            GameObject.FindGameObjectsWithTag("objeto");
+            float distancia = Vector3.Distance(transform.position, objetoInterativo.transform.position);
+            if (distancia <= distanciaMaxima)
             {
                 if (isAnyPlayerInteracting)
                 {
@@ -193,50 +174,32 @@ public class Personagem : NetworkBehaviour
 
                 if (isInteracting)
                 {
+
                     ResumeInteraction();
                 }
                 else
                 {
-                    objetoInterativo = objetoMaisProximo; // Atualiza o objetoInterativo para o objeto mais próximo encontrado
+
                     StartInteraction();
                 }
             }
             else
             {
-                Debug.Log("Você está muito longe para interagir com qualquer objeto.");
+                Debug.Log("Você está muito longe para interagir com o objeto.");
             }
         }
     }
 
-
-
     private void StartInteraction()
     {
         Debug.Log("Iniciando interação...");
+        progressBar.gameObject.SetActive(true);
+        isInteracting = true;
 
-        // Encontre o objeto da barra de progresso com base na tag
-        progressBarObject = GameObject.FindGameObjectWithTag("ProgressBar");
+        
+        wasInteractingBeforeMoving = true;
 
-        if (progressBarObject != null)
-        {
-            // Obtenha o componente Slider da barra de progresso
-            progressBar = progressBarObject.GetComponent<Slider>();
-            if (progressBar != null)
-            {
-                progressBar.gameObject.SetActive(true);
-                isInteracting = true;
-                wasInteractingBeforeMoving = true;
-                isAnyPlayerInteracting = true;
-            }
-            else
-            {
-                Debug.LogError("O objeto encontrado com a tag 'ProgressBar' não possui um componente Slider.");
-            }
-        }
-        else
-        {
-            Debug.LogError("Nenhum objeto encontrado com a tag 'ProgressBar'. Certifique-se de que a barra de progresso tenha essa tag atribuída.");
-        }
+        isAnyPlayerInteracting = true;
     }
 
 
@@ -279,7 +242,7 @@ public class Personagem : NetworkBehaviour
     {
         if (isInteracting)
         {
-            if (!isMoving) // Verifique se o personagem não está se movendo
+            if (!isMoving)
             {
                 interactionProgress += Time.deltaTime * fillRate;
                 progressBar.value = Mathf.Clamp01(interactionProgress / interactionDuration);
@@ -292,22 +255,21 @@ public class Personagem : NetworkBehaviour
                     progressBar.gameObject.SetActive(false);
                     interactionProgress = 0f;
                     progressBar.value = 0f;
-
-                    //qteManager.IniciarQTE();
                 }
             }
-            else
+            else if (!wasInteractingBeforeMoving)
             {
-                // O personagem está se movendo, pare a interação
+                // O personagem está se movendo, interrompa a interação e redefina wasInteractingBeforeMoving
                 Debug.Log("Interação interrompida devido ao movimento.");
                 progressBar.gameObject.SetActive(false);
                 interactionProgress = 0f;
                 progressBar.value = 0f;
                 isInteracting = false;
                 wasInteractingBeforeMoving = false;
-                isAnyPlayerInteracting = false;
             }
         }
+
+        
     }
 
 

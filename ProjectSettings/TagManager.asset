@@ -11,6 +11,8 @@ TagManager:
   - Grass
   - Sobrevivente
   - Timer
+  - objeto
+  - ProgressBar
   layers:
   - Default
   - TransparentFX
