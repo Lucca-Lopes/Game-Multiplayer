@@ -36,6 +36,7 @@ public class Personagem : NetworkBehaviour
     //[SerializeField] private AudioListener listener;
     public float fillRate = 0.05f;
     internal int vidaPlayer;
+    public GameObject Player;
 
     public void SerCarregadoPorInimigo(Inimigo enemy)
     {
@@ -227,7 +228,34 @@ public class Personagem : NetworkBehaviour
 
             }
         }
+        TrocarTag();
+        /*
+        if(vidaJogador.Value <= 0)
+        {
+            isDead = true;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            vidaJogador.Value--;
+        }
+        */
     }
+    void TrocarTag()
+    {
+        if (isDead == true)
+        {
+            // Remova a tag atual do player
+            Player.tag = "Dormindo"; // Substitua "NovaTag" pelo nome da nova tag desejada
+           // Debug.Log("Tag do player trocada para: " + Player.tag);
+        }
+        if(isDead == false)
+        {
+            Player.tag = "Sobrevivente";
+            
+        }
+    }
+    
     private void FixedUpdate()
     {
         if (isBeingCarried)

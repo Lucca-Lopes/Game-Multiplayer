@@ -41,7 +41,7 @@ public class Inimigo : NetworkBehaviour
     }
     private void Update()
     {
-        ParaAtaque();
+        //ParaAtaque();
     }
 
     public void SetMovimento(InputAction.CallbackContext value)
@@ -154,11 +154,13 @@ public class Inimigo : NetworkBehaviour
                 Debug.Log("Atacou");
                 efeito.Play();
                 Collider[] hitColliders = Physics.OverlapSphere(transform.position, distanciaAtaque);
+;             
                 foreach (Collider col in hitColliders)
                 {
                     if (col.gameObject.CompareTag("Sobrevivente"))
                     {
                         GameManager.Instance.CausarDano_ServerRpc(1, col.GetComponent<Personagem>().OwnerClientId);
+                       
                     }
                 }
             }
@@ -173,9 +175,11 @@ public class Inimigo : NetworkBehaviour
             // Se a vida do outro jogador for maior que 0, definir meuAtaque para 1
             dano = 1;
         }
-        else
+      
+       
+        if(outroJogador.vidaPlayer <= 0)
         {
-            Debug.Log("Não posso dar dano");
+            Debug.Log("Não posso dar dano linha 180");
             // Se a vida do outro jogador for 0 ou menos, definir meuAtaque para 0
             dano = 0;
         }
