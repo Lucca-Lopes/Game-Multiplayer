@@ -7,7 +7,7 @@ using Cinemachine;
 using static UnityEngine.Rendering.DebugUI;
 using Unity.VisualScripting;
 
-public class Personagem : NetworkBehaviour
+public class Personagem1 : NetworkBehaviour
 {
     private Rigidbody rb;
     private Vector2 movimento;
