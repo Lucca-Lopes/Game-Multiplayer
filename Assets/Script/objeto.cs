@@ -39,10 +39,7 @@ public class objeto : MonoBehaviour
                 progressBar.gameObject.SetActive(true);
             }
 
-            
             interactionProgress = 0f;
-
-           
             isInteracting = true;
             wasInteractingBeforeMoving = true;
             isAnyPlayerInteracting = true;
@@ -58,63 +55,67 @@ public class objeto : MonoBehaviour
         Debug.Log("Retomando interação...");
         progressBar.gameObject.SetActive(true);
 
-       
         isInteracting = true;
         isAnyPlayerInteracting = true;
         wasInteractingBeforeMoving = true;
 
-       
         progressBar.value = jogador.progressBarPositionBeforeInterrupt;
     }
 
     void Update()
     {
-        
-
         if (isInteracting)
         {
-            if (!jogador || !jogador.isMoving) 
+            if (CheckDistance(jogador))
             {
-              
                 interactionProgress += Time.deltaTime * fillRate;
-
-                
                 interactionProgress = Mathf.Clamp01(interactionProgress);
-
-                
                 progressBar.value = interactionProgress;
 
                 if (interactionProgress >= 1f)
                 {
-                    
                     Debug.Log("Interação concluída!");
 
-                   
                     isInteracting = false;
                     progressBar.gameObject.SetActive(false);
                     interactionProgress = 0f;
 
-                   
-                    objectsCompleted+=1;
-                    
+                    objectsCompleted += 1;
 
-                    
                     isInteractionAvailable = false;
                 }
             }
             else
             {
-               
-                Debug.Log("Interação interrompida devido ao movimento.");
+                Debug.Log("Interação pausada devido à distância.");
                 progressBar.gameObject.SetActive(false);
-                interactionProgress = 0f;
                 isInteracting = false;
                 wasInteractingBeforeMoving = false;
-                isAnyPlayerInteracting = false;
             }
         }
     }
 
+    private bool CheckDistance(Personagem jogador)
+    {
+        // Verificar se o jogador existe
+        bool isPlayerValid = jogador != null;
+
+        // Se o jogador existir, verifique a distância
+        if (isPlayerValid)
+        {
+            // Verifique a distância entre o objeto e o jogador
+            float distance = Vector3.Distance(transform.position, jogador.transform.position);
+
+            // Adicione a altura do objeto e do jogador à distância
+            distance += transform.position.y + (jogador?.transform.position.y ?? 0f);
+
+            // Se a distância for menor que um determinado valor, então o jogador está na distância do objeto
+            return distance < 3f;
+        }
+
+        // Se o jogador não existir, retorne false
+        return false;
+
+    }
+
 }
-
-
