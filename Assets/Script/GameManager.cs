@@ -15,7 +15,7 @@ public class GameManager : NetworkBehaviour
     public NetworkVariable<bool> killerWin = new(false);
 
     List<ulong> jogadoresConectados = new();
-    Dictionary<ulong, Personagem> sobreviventes = new();
+    Dictionary<ulong, Personagem > sobreviventes = new();
 
     private int jogadoresMortos = 0;
 
@@ -78,11 +78,12 @@ public class GameManager : NetworkBehaviour
         if (NetworkManager.Singleton.IsServer)
         {
             Debug.Log($"Cliente {clientId} conectado");
-            if(clientId > 0 && !timerAtivo.Value)
+            //o número a baixo é sempre um a menos da quantidade de clientes que estão jogando a mesmo tempo, ou seja, se tem 2 crianças, o numero deve ser 1, e se tem 3 crianças, o numero deve ser 2
+            if(clientId > 2 && !timerAtivo.Value)         
             {
                 timerAtivo.Value = true;
             }
-
+          
             Debug.Log("Deu certo linha 86");
              if(jogadoresMortos == 2)
             {

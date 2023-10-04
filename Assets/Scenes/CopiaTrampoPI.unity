@@ -16501,9 +16501,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 415601834
-  AlwaysReplicateAsRoot: 1
+  AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 0
-  ActiveSceneSynchronization: 0
+  ActiveSceneSynchronization: 1
   SceneMigrationSynchronization: 1
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
@@ -23481,7 +23481,7 @@ MonoBehaviour:
   GlobalObjectIdHash: 1298037460
   AlwaysReplicateAsRoot: 1
   SynchronizeTransform: 0
-  ActiveSceneSynchronization: 0
+  ActiveSceneSynchronization: 1
   SceneMigrationSynchronization: 1
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
