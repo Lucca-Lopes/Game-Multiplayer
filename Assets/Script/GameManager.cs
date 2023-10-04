@@ -15,7 +15,9 @@ public class GameManager : NetworkBehaviour
     public NetworkVariable<bool> killerWin = new(false);
     private List<ulong> jogadoresCarregados = new List<ulong>();
     private Personagem jogador;
-   
+    public NetworkVariable<int> objectsCompleted = new();
+
+
 
     List<ulong> jogadoresConectados = new();
     Dictionary<ulong, Personagem> sobreviventes = new();
@@ -30,7 +32,10 @@ public class GameManager : NetworkBehaviour
             Instance.playerName = value;
         }
     }
-
+    public void objetivoscompletados()
+    {
+        objectsCompleted.Value+=1;
+    }
     private void Awake()
     {
         if (Instance == null)
