@@ -82,8 +82,19 @@ public class GameManager : NetworkBehaviour
             {
                 timerAtivo.Value = true;
             }
+
+            Debug.Log("Deu certo linha 86");
+             if(jogadoresMortos == 2)
+            {
+                killerWin.Value = true;
+            }
+           
         }
+       
+
     }
+
+    
    // [ServerRpc(RequireOwnership = false)]
     
         
@@ -117,24 +128,32 @@ public class GameManager : NetworkBehaviour
                         Debug.Log("Um jogador morreu");
                         Debug.Log(jogadoresMortos);
                     }
-                    
-                   /* 
-                    if(personagemComponent.vidaJogador.Value <= 0)
+
+                    /* 
+                     if(personagemComponent.vidaJogador.Value <= 0)
+                     {
+                         Debug.Log("Não é possovel atacar este player");
+
+
+                     }
+                     if (personagemComponent.vidaJogador.Value > 0)
+                     {
+                         Debug.Log("Este player pode ser atacado");
+
+                     }
+                    */
+                   
+                    if (jogadoresMortos == 2)
                     {
-                        Debug.Log("Não é possovel atacar este player");
-                        
-                       
+                        Debug.Log("O killer ganhou linha 148");
+                        killerWin.Value = true;
+                        Instance.timerAtivo.Value = false;
                     }
-                    if (personagemComponent.vidaJogador.Value > 0)
-                    {
-                        Debug.Log("Este player pode ser atacado");
-                        
-                    }
-                   */
 
                 }
             }
 
+           
 
             //Debug.Log("Recebeu o ataque: " +atacadoId);
             //if (sobreviventes[atacadoId].vidaJogador.Value > 0)
@@ -152,23 +171,18 @@ public class GameManager : NetworkBehaviour
             //{
             //Debug.Log("KeyAtual: " + clientId);
             //if (clientId == atacadoId)
-                //{
-                    //Debug.Log("Recebeu o ataque: " + atacadoId + ", encontrado: " +clientId);
-                    //if (sobreviventes[clientId].vidaJogador.Value > 0)
-                    //{
-                    //    sobreviventes[clientId].vidaJogador.Value -= quantidade;
-                    //    Debug.Log(sobreviventes[clientId].vidaJogador.Value);
-                    //}
-                //}
-                //if (sobreviventes[clientId].isDead)
-                //    jogadoresMortos++;
+            //{
+            //Debug.Log("Recebeu o ataque: " + atacadoId + ", encontrado: " +clientId);
+            //if (sobreviventes[clientId].vidaJogador.Value > 0)
+            //{
+            //    sobreviventes[clientId].vidaJogador.Value -= quantidade;
+            //    Debug.Log(sobreviventes[clientId].vidaJogador.Value);
             //}
-            if(jogadoresMortos == 2)
-            {
-                Debug.Log("O killer ganhou");
-                killerWin.Value = true;
-                Instance.timerAtivo.Value = false;
-            }
+            //}
+            //if (sobreviventes[clientId].isDead)
+            //    jogadoresMortos++;
+            //}
+
             /*
             if (jogadoresMortos == sobreviventesAtuais.Length)
             {
