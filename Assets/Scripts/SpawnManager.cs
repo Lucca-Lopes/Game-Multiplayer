@@ -58,15 +58,16 @@ public class SpawnManager : NetworkBehaviour
         GameObject newPlayer;
         if (prefabId == 0)
         {
-            newPlayer = Instantiate(sobrevivente);
-            GameManager.AddPlayer(OwnerClientId, newPlayer.GetComponent<Personagem>());
-            newPlayer.transform.position = RandomSurvivorSpawn();
-        }
-        else
-        {
             newPlayer = Instantiate(entity);
             GameManager.AddPlayer(OwnerClientId);
             newPlayer.transform.position = entitySpawnpoint.transform.position;
+        }
+        else
+        {
+            newPlayer = Instantiate(sobrevivente);
+            GameManager.AddPlayer(OwnerClientId, newPlayer.GetComponent<Personagem>());
+            newPlayer.transform.position = RandomSurvivorSpawn();
+            
             
         }
         var netObj = newPlayer.GetComponent<NetworkObject>();
