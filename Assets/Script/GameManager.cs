@@ -36,6 +36,7 @@ public class GameManager : NetworkBehaviour
     {
         objectsCompleted.Value+=1;
     }
+
     private void Awake()
     {
         if (Instance == null)
