@@ -34,7 +34,8 @@ public class Personagem : NetworkBehaviour
     public Inimigo carryingEnemy;
     public Inimigo enemy;
     public objeto obj;
-    
+    public static Personagem Instance;
+
     public Transform previousParent;
     public bool isAnyPlayerInteracting =false;
     [SerializeField] private CinemachineFreeLook vc;
@@ -82,7 +83,7 @@ public class Personagem : NetworkBehaviour
         }
 
     }
-
+  
     public override void OnNetworkSpawn()
     {
         if (IsClient)
@@ -141,6 +142,7 @@ public class Personagem : NetworkBehaviour
         movimento = value.ReadValue<Vector2>();
         // Verifique se o movimento é não nulo (ou seja, o jogador está se movendo)
         isMoving = movimento.magnitude > 0;
+        
     }
 
 

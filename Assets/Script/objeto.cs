@@ -13,7 +13,8 @@ public class objeto : MonoBehaviour
     private bool isInteracting = false;
     public bool wasInteractingBeforeMoving = false;
     public bool isAnyPlayerInteracting = false;
-    private bool isInteractionAvailable = true;
+    private bool isInteractionAvailable = true; 
+    public float maxInteractionDistance = 3f;
 
     private GameObject jogadors;
     public void SetJogador(Personagem player)
@@ -27,6 +28,7 @@ public class objeto : MonoBehaviour
     void Start()
     {
         jogadors = GameObject.Find("Player");
+
     }
 
     public void StartInteraction()
@@ -44,8 +46,8 @@ public class objeto : MonoBehaviour
 
 
             isInteracting = true;
-            wasInteractingBeforeMoving = true;
-            isAnyPlayerInteracting = true;
+           wasInteractingBeforeMoving = true;
+           isAnyPlayerInteracting = true;
         }
         else
         {
@@ -75,6 +77,7 @@ public class objeto : MonoBehaviour
         {
             if (!jogador || !jogador.isMoving)
             {
+
 
                 interactionProgress += Time.deltaTime * fillRate;
 
@@ -109,7 +112,7 @@ public class objeto : MonoBehaviour
                 progressBar.gameObject.SetActive(false);
                 interactionProgress = 0f;
                 isInteracting = false;
-                wasInteractingBeforeMoving = false;
+               wasInteractingBeforeMoving = false;
                 isAnyPlayerInteracting = false;
             }
         }

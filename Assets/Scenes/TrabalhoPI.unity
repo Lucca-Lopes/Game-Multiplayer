@@ -351,6 +351,7 @@ MonoBehaviour:
   interactionProgress: 0
   wasInteractingBeforeMoving: 0
   isAnyPlayerInteracting: 0
+  maxInteractionDistance: 3
   objectsCompleted: 0
 --- !u!65 &14790269
 BoxCollider:
@@ -3173,7 +3174,8 @@ PrefabInstance:
       propertyPath: m_TagString
       value: objeto
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 14790265, guid: a26226f0bd0b18e438d7191ed1d3ebf1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a26226f0bd0b18e438d7191ed1d3ebf1, type: 3}
 --- !u!1001 &269828714
 PrefabInstance:
@@ -11009,7 +11011,8 @@ PrefabInstance:
       propertyPath: m_TagString
       value: objeto
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 14790265, guid: a26226f0bd0b18e438d7191ed1d3ebf1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a26226f0bd0b18e438d7191ed1d3ebf1, type: 3}
 --- !u!1 &956049994 stripped
 GameObject:
@@ -20933,6 +20936,7 @@ MonoBehaviour:
   interactionProgress: 0
   wasInteractingBeforeMoving: 0
   isAnyPlayerInteracting: 0
+  maxInteractionDistance: 3
   objectsCompleted: 0
 --- !u!65 &1806596064
 BoxCollider:
