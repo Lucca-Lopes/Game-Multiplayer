@@ -10,7 +10,7 @@ public class objeto : MonoBehaviour
     private Personagem jogador;
     public float fillRate = 0.05f;
     public float interactionProgress = 0f;
-    private bool isInteracting = false;
+    public  bool isInteracting = false;
     public bool wasInteractingBeforeMoving = false;
     public bool isAnyPlayerInteracting = false;
     private bool isInteractionAvailable = true; 
@@ -54,6 +54,15 @@ public class objeto : MonoBehaviour
             Debug.Log("A interação não está disponível.");
         }
     }
+    public void StopInteraction()
+    {
+        Debug.Log("Interação interrompida pelo jogador.");
+        progressBar.gameObject.SetActive(false);
+        interactionProgress = 0f;
+        isInteracting = false;
+        wasInteractingBeforeMoving = false;
+        isAnyPlayerInteracting = false;
+    }
 
     public void ResumeInteraction()
     {
@@ -66,7 +75,7 @@ public class objeto : MonoBehaviour
         wasInteractingBeforeMoving = true;
 
 
-        progressBar.value = jogador.progressBarPositionBeforeInterrupt;
+       
     }
 
     void Update()
