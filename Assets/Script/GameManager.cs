@@ -168,7 +168,7 @@ public class GameManager : NetworkBehaviour
             transform.SetParent(jogador.enemy.transform);
             //this.rb.isKinematic = true;
 
-            jogador.velocidade = 200;
+            jogador.speedMultiplier = 3.0f;
         }
 
     }

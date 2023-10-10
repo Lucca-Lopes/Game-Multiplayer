@@ -118,7 +118,7 @@ public class Inimigo : NetworkBehaviour
 
                 jogador.transform.position = this.transform.position;
 
-                player.velocidade = 350;
+                player.speedMultiplier = 3.0f;
                 //player.GetComponent<Rigidbody>().isKinematic = false;
             }
         }

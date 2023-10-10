@@ -12,7 +12,8 @@ public class Personagem : NetworkBehaviour
     private Vector2 movimento;
     private Vector2 mouseInput;
     private InputAction interactAction;
-    public int velocidade = 600;
+    public float speedMultiplier = 6.0f;
+
     public GameManager gameManager;
     //public QuickTimeManager qteManager;
 
@@ -59,7 +60,7 @@ public class Personagem : NetworkBehaviour
         transform.SetParent(enemy.transform);
         //this.rb.isKinematic = true;
 
-        velocidade = 200;
+        speedMultiplier = 3.0f;
         
     }
 
@@ -119,7 +120,7 @@ public class Personagem : NetworkBehaviour
             {
                 isDead = true;
                 Debug.Log("Voce morreu!");
-                velocidade = 350;
+                 speedMultiplier= 3.0f;
             }
         }
         else
@@ -128,7 +129,7 @@ public class Personagem : NetworkBehaviour
             {
                 isDead = false;
                 Debug.Log("Voce reviveu!");
-                velocidade = 600;
+                speedMultiplier = 3.0f;
             }
         }
     }
@@ -297,19 +298,15 @@ public class Personagem : NetworkBehaviour
 
     private void FixedUpdate()
     {
-       
         if (carryingEnemy == null)
         {
             carryingEnemy = FindObjectOfType<Inimigo>();
         }
 
-        
         if (isBeingCarried.Value)
         {
-            
             rb.MovePosition(carryingEnemy.transform.position);
 
-            
             Vector3 offset = carryingEnemy.transform.position - rb.position;
             offset.y = 2;
             rb.MovePosition(rb.position + offset);
@@ -319,11 +316,16 @@ public class Personagem : NetworkBehaviour
             // Calcular a direção com base na rotação atual
             Vector3 moveDirection = Quaternion.Euler(0, vc.State.CorrectedOrientation.eulerAngles.y, 0) * new Vector3(movimento.x, 0, movimento.y);
 
-            // Aplicar uma força na direção calculada
-            rb.AddForce(moveDirection.normalized * Time.fixedDeltaTime * velocidade);
+            // Mover o personagem usando Translate()
+            transform.Translate(moveDirection.normalized * Time.fixedDeltaTime * speedMultiplier, Space.World);
         }
+
         RotateWithMouseInput();
     }
+
+
+
+
 
     private void RotateWithMouseInput()
     {
