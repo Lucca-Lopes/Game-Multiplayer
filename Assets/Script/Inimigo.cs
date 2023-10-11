@@ -10,7 +10,8 @@ public class Inimigo : NetworkBehaviour
 {
     public float distanciaAtaque = 2.0f;
     public int dano = 1;
-    public  int velocidade = 600;
+    public float speedMultiplier = 6.0f;
+
     private InputAction interactaction;
     private Vector2 movimento;
     private Vector2 mouseInput;
@@ -104,7 +105,7 @@ public class Inimigo : NetworkBehaviour
             {
                 //GameManager.Instance.carregarjogador_serverrpc();
                 jogador.SerCarregadoPorInimigo(this);
-                velocidade = 800;
+                speedMultiplier = 3.0f;
             }
         }
         else if (value.canceled && jogador.isBeingCarried.Value)
@@ -114,11 +115,11 @@ public class Inimigo : NetworkBehaviour
             {
                 player.transform.SetParent(jogador.previousParent);
                 jogador.isBeingCarried.Value = false;
-                velocidade = 600;
+                speedMultiplier = 6.0f ;
 
                 jogador.transform.position = this.transform.position;
 
-                player.speedMultiplier = 3.0f;
+                player.speedMultiplier = 6.0f;
                 //player.GetComponent<Rigidbody>().isKinematic = false;
             }
         }
@@ -133,16 +134,15 @@ public class Inimigo : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (rb != null)
-        {
-            // Calcular a direção com base na rotação atual
-            Vector3 moveDirection = Quaternion.Euler(0, vc.State.CorrectedOrientation.eulerAngles.y, 0) * new Vector3(movimento.x, 0, movimento.y);
+        // Calcular a direção com base na rotação atual
+        Vector3 moveDirection = Quaternion.Euler(0, vc.State.CorrectedOrientation.eulerAngles.y, 0) * new Vector3(movimento.x, 0, movimento.y);
 
-            // Aplicar uma força na direção calculada
-            rb.AddForce(moveDirection.normalized * Time.fixedDeltaTime * velocidade);
-        }
+        // Mover o inimigo usando Translate()
+        transform.Translate(moveDirection.normalized * Time.fixedDeltaTime * speedMultiplier, Space.World);
+
         RotateWithMouseInput();
     }
+
 
     private void RotateWithMouseInput()
     {

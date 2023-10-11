@@ -32,10 +32,12 @@ public class GameManager : NetworkBehaviour
             Instance.playerName = value;
         }
     }
-    public void objetivoscompletados()
+    [ServerRpc(RequireOwnership = false)]
+    public void objetivoscompletadosServerRpc()
     {
-        objectsCompleted.Value+=1;
+        objectsCompleted.Value += 1;
     }
+
 
     private void Awake()
     {

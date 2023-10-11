@@ -112,7 +112,7 @@ public class objeto : MonoBehaviour
                     progressBar.gameObject.SetActive(false);
                     interactionProgress = 0f;
                     objectsCompleted += 1;
-                    GameManager.Instance.objectsCompleted.Value += 1;
+                    GameManager.Instance.objetivoscompletadosServerRpc();
                     isInteractionAvailable = false;
                 }
             }
