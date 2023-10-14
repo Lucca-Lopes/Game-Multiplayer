@@ -28,15 +28,11 @@ public class Inimigo : NetworkBehaviour
     private Vector2 movimento;
     private Vector2 mouseInput;
     private Rigidbody rb;
-    //private CharacterController characterController;
     private bool canWalk = true;
     
     private void Awake()
     {
-        //interactaction = new InputAction("Interact", binding: "<KeyBoard>/Space");
-        //interactaction.performed += CarregarJogador;
         rb = GetComponent<Rigidbody>();
-        //characterController = GetComponent<CharacterController>();
     }
 
     private void Start()
@@ -49,7 +45,7 @@ public class Inimigo : NetworkBehaviour
 
     public void SetMovimento(InputAction.CallbackContext value)
     {
-        if (canWalk)
+        if (canWalk && IsOwner)
         {
             movimento = value.ReadValue<Vector2>();
             if (value.ReadValue<Vector2>() != Vector2.zero)
@@ -92,41 +88,6 @@ public class Inimigo : NetworkBehaviour
         displayName.text = current.ToString();
     }
 
-    //public void CarregarJogador(InputAction.CallbackContext value)
-    //{
-    //    if (jogador.vidas <= 0 && value.started)
-    //    {
-    //        float distanciaJogadorInimigo = Vector3.Distance(transform.position, jogador.transform.position);
-    //        if (distanciaJogadorInimigo <= distanciaCarregamento) 
-    //        {
-    //            Personagem player = FindObjectOfType<Personagem>();
-    //            if (player != null)
-    //            {
-    //                player.SerCarregadoPorInimigo(this);
-    //                velocidade = 800;
-    //            }
-    //        }
-    //    }
-    //    else if (value.canceled && jogador.isBeingCarried)
-    //    {
-    //        Personagem player = FindObjectOfType<Personagem>();
-    //        if (player != null)
-    //        {
-    //            player.transform.SetParent(jogador.previousParent);
-    //            jogador.isBeingCarried = false;
-    //            velocidade = 600;
-
-
-    //            Vector3 offset = transform.forward * 2.0f; 
-    //            player.transform.position = transform.position + offset;
-
-    //            player.velocidade = 350;
-    //            //player.GetComponent<Rigidbody>().isKinematic = false;
-    //        }
-    //    }
-    //}
-
-
     //Movimento usando Rigdbody
     private void FixedUpdate()
     {
@@ -140,14 +101,6 @@ public class Inimigo : NetworkBehaviour
         }
         RotateWithMouseInput();
     }
-
-    //Movimento usando CharacterController
-    //private void Update()
-    //{
-    //    Vector3 mov = new(movimento.x, 0, movimento.y);
-    //    characterController.Move(mov * Time.deltaTime * velocidade);
-    //    RotateWithMouseInput();
-    //}
 
     private void RotateWithMouseInput()
     {
@@ -183,11 +136,6 @@ public class Inimigo : NetworkBehaviour
                 }
             }
         }
-        //if (context.canceled)
-        //{
-        //    animations.atacando = false;
-        //    canWalk = true;
-        //}
     }
 
     IEnumerator AnimacaoAtacar()

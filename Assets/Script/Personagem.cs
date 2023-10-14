@@ -8,52 +8,35 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class Personagem : NetworkBehaviour
 {
+    //Variáveis de movimento
     private Rigidbody rb;
     private Vector2 movimento;
     private Vector2 mouseInput;
     private InputAction interactAction;
     public int velocidade = 600;
-    //public QuickTimeManager qteManager;
 
-    public NetworkVariable<int> vidaJogador = new(2);
+    //Variáveis do Netcode
+    public NetworkVariable<int> vidaJogador = new(1);
     public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+    //Variável para o Nome
     [SerializeField] TMPro.TextMeshProUGUI displayName;
 
-    public GameObject objetoInterativo;
-    public float distanciaMaxima = 3.0f;
+    //Variável para animação
+    [SerializeField] AnimationManager animations;
 
-
-    public Slider progressBar;
-    private bool isInteracting = false;
-    private float interactionProgress = 0f;
-    private float interactionDuration = 20f;
-    public int vidas = 2;
+    //Variável para controle de vida
     public bool isDead = false;
-    public bool isBeingCarried = false;
-    private Inimigo carryingEnemy;
-    public Transform previousParent;
+
+    //Variável para controle de câmera
     [SerializeField] private CinemachineFreeLook vc;
+
+    //COISAS ANTIGAS
     //[SerializeField] private AudioListener listener;
-    public float fillRate = 0.05f;
-
-    public void SerCarregadoPorInimigo(Inimigo enemy)
-    {
-        isBeingCarried = true;
-        carryingEnemy = enemy;
-        previousParent = transform.parent; 
-        transform.SetParent(enemy.transform);
-        //this.rb.isKinematic = true;
-                                              
-        velocidade = 200;
-    }
-
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        interactAction = new InputAction("Interact", binding: "<Keyboard>/e");
-        interactAction.performed += Interact;
-        
+        rb = GetComponent<Rigidbody>(); 
     }
 
     private void Start()
@@ -67,7 +50,7 @@ public class Personagem : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (IsClient)
+        if (IsClient && IsOwner)
         {
             vidaJogador.OnValueChanged += OnLifeChanged;
             nomeJogador.OnValueChanged += OnPlayerNameChanged;
@@ -86,29 +69,35 @@ public class Personagem : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
-        nomeJogador.OnValueChanged -= OnPlayerNameChanged;
-        vidaJogador.OnValueChanged -= OnLifeChanged;
+        if (IsOwner)
+        {
+            nomeJogador.OnValueChanged -= OnPlayerNameChanged;
+            vidaJogador.OnValueChanged -= OnLifeChanged;
+        }
     }
 
 
     void OnLifeChanged(int previous, int current)
     {
-        if (!isDead)
+        if (IsOwner)
         {
-            if (current <= 0)
+            if (!isDead)
             {
-                isDead = true;
-                Debug.Log("Voce morreu!");
-                velocidade = 350;
+                if (current <= 0)
+                {
+                    isDead = true;
+                    Debug.Log("Personagem - OnLifeChanged - Voce morreu!");
+                    velocidade = 0;
+                    animations.dormindo = true;
+                }
             }
-        }
-        else
-        {
-            if(current > 0)
+
+            if (current > 0)
             {
                 isDead = false;
                 Debug.Log("Voce reviveu!");
                 velocidade = 600;
+                animations.dormindo = false;
             }
         }
     }
@@ -120,7 +109,14 @@ public class Personagem : NetworkBehaviour
 
     public void SetMovimento(InputAction.CallbackContext value)
     {
-        movimento = value.ReadValue<Vector2>();
+        if (IsOwner && !isDead)
+        {
+            movimento = value.ReadValue<Vector2>();
+            if (value.performed)
+                animations.correndo = true;
+            if (value.canceled)
+                animations.correndo = false;
+        }
     }
 
     public void SetMouseInput(InputAction.CallbackContext value)
@@ -128,88 +124,28 @@ public class Personagem : NetworkBehaviour
         mouseInput = value.ReadValue<Vector2>();
     }
 
-    private void OnEnable()
-    {
-        interactAction.Enable();
-    }
-
-    private void OnDisable()
-    {
-        interactAction.Disable();
-    }
-
-    public void Interact(InputAction.CallbackContext context)
-    {
-        if (context.performed && !isInteracting && !isDead)
-        {
-            float distancia = Vector3.Distance(transform.position, objetoInterativo.transform.position);
-            if (distancia <= distanciaMaxima)
-            {
-                Debug.Log("Iniciando intera��o...");
-                progressBar.gameObject.SetActive(true);
-                isInteracting = true;
-            }
-            else
-            {
-                Debug.Log("Voc� est� muito longe para interagir com o objeto.");
-            }
-        }
-    }
-
-    //public void ReceberDano(int quantidade)
+    //private void OnEnable()
     //{
-    //    if (!isDead)
-    //    {
-    //        vidas -= quantidade;
-    //        if (vidas <= 0)
-    //        {
-    //            isDead = true;
-    //            Debug.Log("Voc� morreu!");
-    //            velocidade = 350;
-
-    //        }
-    //    }
+    //    interactAction.Enable();
     //}
 
+    //private void OnDisable()
+    //{
+    //    interactAction.Disable();
+    //}
 
-    private void Update()
-    {
-        if (isInteracting)
-        {
-            interactionProgress += Time.deltaTime * fillRate;
-            progressBar.value = Mathf.Clamp01(interactionProgress / interactionDuration);
-
-            if (interactionProgress >= interactionDuration)
-            {
-                Debug.Log("Intera��o conclu�da!");
-                
-                isInteracting = false;
-                progressBar.gameObject.SetActive(false);
-                interactionProgress = 0f;
-                progressBar.value = 0f;
-               
-                //qteManager.IniciarQTE();
-
-
-            }
-        }
-    }
     private void FixedUpdate()
     {
-        if (isBeingCarried)
-        {
-            Vector3 desiredPosition = carryingEnemy.transform.position + Vector3.up * 2.01f;
-            rb.MovePosition(desiredPosition);
-        }
-        else
+        if (!isDead)
         {
             // Calcular a direção com base na rotação atual
             Vector3 moveDirection = Quaternion.Euler(0, vc.State.CorrectedOrientation.eulerAngles.y, 0) * new Vector3(movimento.x, 0, movimento.y);
 
             // Aplicar uma força na direção calculada
             rb.AddForce(moveDirection.normalized * Time.fixedDeltaTime * velocidade);
+
+            RotateWithMouseInput();
         }
-        RotateWithMouseInput();
     }
 
     private void RotateWithMouseInput()
@@ -226,5 +162,4 @@ public class Personagem : NetworkBehaviour
         // Definir a rotação do personagem para a nova rotação
         transform.rotation = newRotation;
     }
-
 }

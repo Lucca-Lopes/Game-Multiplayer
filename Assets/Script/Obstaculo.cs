@@ -22,7 +22,7 @@ public class Obstaculo : MonoBehaviour
     public void Detecta()
     {
         float distanciaAoPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanciaAoPlayer <= distanciaMinimaParaAtivar && !objetoAtivado && scriptPersonagem.vidas == 0)
+        if (distanciaAoPlayer <= distanciaMinimaParaAtivar && !objetoAtivado)
         {          
             objetoParaAtivar.SetActive(true);
             objetoAtivado = true;

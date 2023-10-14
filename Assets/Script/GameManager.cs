@@ -78,7 +78,7 @@ public class GameManager : NetworkBehaviour
         if (NetworkManager.Singleton.IsServer)
         {
             Debug.Log($"Cliente {clientId} conectado");
-            if(clientId > 0 && !timerAtivo.Value)
+            if(clientId > 1 && !timerAtivo.Value)
             {
                 timerAtivo.Value = true;
             }
@@ -132,11 +132,13 @@ public class GameManager : NetworkBehaviour
                 //if (sobreviventes[clientId].isDead)
                 //    jogadoresMortos++;
             //}
-            if (jogadoresMortos == sobreviventesAtuais.Length)
-            {
-                killerWin.Value = true;
-                Instance.timerAtivo.Value = false;
-            }
+
+
+            //if (jogadoresMortos == sobreviventesAtuais.Length)
+            //{
+            //    killerWin.Value = true;
+            //    Instance.timerAtivo.Value = false;
+            //}
         }
     }
 
