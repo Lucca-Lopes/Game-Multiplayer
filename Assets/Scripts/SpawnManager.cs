@@ -17,15 +17,30 @@ public class SpawnManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (IsHost)
-        {
-            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, 0);
-        }
-        else if (IsClient)
-        {
-            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, 1);
-        }
+        //if (IsHost)
+        //{
+        //    SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, 0);
+        //}
+        //else if (IsClient)
+        //{
+        //    SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, 1);
+        //}
         base.OnNetworkSpawn();
+    }
+
+    public void SpawnPlayers()
+    {
+        foreach(ulong playerId in NetworkManager.Singleton.ConnectedClientsIds)
+        {
+            if (playerId.Equals(0))
+            {
+                SpawnPlayerServerRpc(playerId, 0);
+            }
+            else
+            {
+                SpawnPlayerServerRpc(playerId, 1);
+            }
+        }
     }
 
     //void InstanciarAssassino()

@@ -78,7 +78,7 @@ public class GameManager : NetworkBehaviour
         if (NetworkManager.Singleton.IsServer)
         {
             Debug.Log($"Cliente {clientId} conectado");
-            if(clientId > 1 && !timerAtivo.Value)
+            if(clientId > 2 && !timerAtivo.Value)
             {
                 timerAtivo.Value = true;
             }
