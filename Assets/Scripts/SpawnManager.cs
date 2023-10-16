@@ -17,31 +17,31 @@ public class SpawnManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        //if (IsHost)
-        //{
-        //    SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, 0);
-        //}
-        //else if (IsClient)
-        //{
-        //    SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, 1);
-        //}
+        if (IsHost)
+        {
+            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, 0);
+        }
+        else if (IsClient)
+        {
+            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, 1);
+        }
         base.OnNetworkSpawn();
     }
 
-    public void SpawnPlayers()
-    {
-        foreach(ulong playerId in NetworkManager.Singleton.ConnectedClientsIds)
-        {
-            if (playerId.Equals(0))
-            {
-                SpawnPlayerServerRpc(playerId, 0);
-            }
-            else
-            {
-                SpawnPlayerServerRpc(playerId, 1);
-            }
-        }
-    }
+    //public void SpawnPlayers()
+    //{
+    //    foreach (ulong playerId in NetworkManager.Singleton.ConnectedClientsIds)
+    //    {
+    //        if (playerId.Equals(0))
+    //        {
+    //            SpawnPlayerServerRpc(playerId, 0);
+    //        }
+    //        else
+    //        {
+    //            SpawnPlayerServerRpc(playerId, 1);
+    //        }
+    //    }
+    //}
 
     //void InstanciarAssassino()
     //{
@@ -88,19 +88,6 @@ public class SpawnManager : NetworkBehaviour
         netObj.SpawnAsPlayerObject(clientId, true);
         netObj.ChangeOwnership(clientId);
     }
-
-    //public void SpawnSobrevivente()
-    //{
-    //    if (NetworkManager.Singleton.IsServer)
-    //    {
-    //        var sobreviventes = GameObject.FindGameObjectsWithTag("Sobrevivente");
-
-    //        foreach (GameObject sobrevivente in sobreviventes)
-    //        {
-    //            sobrevivente.GetComponent<NetworkObject>().Spawn();
-    //        }
-    //    }
-    //}
 
     private Vector3 RandomSurvivorSpawn()
     {

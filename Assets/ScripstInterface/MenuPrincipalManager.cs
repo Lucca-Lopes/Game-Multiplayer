@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class MenuPrincipalManager : MonoBehaviour
 {
-    [SerializeField] private string nomeDoLevelDeJOgo;
     [SerializeField] private GameObject painelMenuInicial;
     [SerializeField] private GameObject painelOpcoes;
     [SerializeField] private GameObject painelConfiguracao;
@@ -17,9 +16,17 @@ public class MenuPrincipalManager : MonoBehaviour
     [SerializeField] private GameObject painelObjetivo;
     [SerializeField] private GameObject painelClassificacao;
     [SerializeField] private GameObject painelTutorial;
+    [SerializeField] private GameObject inputNomeJogar;
+
     public void Jogar()
     {
-        SceneManager.LoadScene(1);
+        inputNomeJogar.SetActive(true);
+        painelMenuInicial.SetActive(false);
+    }
+    public void FecharJogar()
+    {
+        painelMenuInicial.SetActive(true);
+        inputNomeJogar.SetActive(false);
     }
     public void AbrirOpcoes()
     {

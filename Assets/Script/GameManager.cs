@@ -14,7 +14,7 @@ public class GameManager : NetworkBehaviour
     public NetworkVariable<bool> timerAtivo = new(false);
     public NetworkVariable<bool> killerWin = new(false);
 
-    List<ulong> jogadoresConectados = new();
+    public List<ulong> jogadoresConectados = new();
     Dictionary<ulong, Personagem> sobreviventes = new();
 
     private int jogadoresMortos = 0;

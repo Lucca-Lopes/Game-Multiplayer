@@ -4,18 +4,16 @@ using Unity.Netcode;
 using Cinemachine;
 using Unity.Collections;
 using System.Collections;
+using TMPro;
 //using static UnityEngine.Rendering.DebugUI;
 
 public class Inimigo : NetworkBehaviour
 {
-    [Header("Network Variables")]
-    public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-
     [Header("Assemblies")]
     [SerializeField] AnimationEvents animations;
     [SerializeField] private CinemachineFreeLook vc;
-    [SerializeField] TMPro.TextMeshProUGUI displayName;
     [SerializeField] ParticleSystem efeito;
+    [SerializeField] TextMeshProUGUI lobbyText;
     //[SerializeField] EfeitoVisual efeitoScript;
 
     [Header("Configurações")]
@@ -35,11 +33,21 @@ public class Inimigo : NetworkBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    private void Start()
+    private void Update()
     {
-        if (IsOwner)
+        if (IsClient)
         {
-            nomeJogador.Value = GameManager.PlayerName;
+            if (GameManager.Instance.jogadoresConectados.Count < 4)
+            {
+                lobbyText.gameObject.SetActive(true);
+                lobbyText.text = "Esperando jogadores... (" + GameManager.Instance.jogadoresConectados.Count + "/4)";
+                canWalk = false;
+            }
+            else
+            {
+                lobbyText.gameObject.SetActive(false);
+                canWalk = true;
+            }
         }
     }
 
@@ -58,34 +66,6 @@ public class Inimigo : NetworkBehaviour
     public void SetMouseInput(InputAction.CallbackContext value)
     {
         mouseInput = value.ReadValue<Vector2>();
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        if (IsClient)
-        {
-            nomeJogador.OnValueChanged += OnPlayerNameChanged;
-            displayName.text = nomeJogador.Value.ToString();
-        }
-        if (IsOwner)
-        {
-            // listener.enabled = true;
-            vc.Priority = 10;
-        }
-        else
-        {
-            vc.Priority = 0;
-        }
-    }
-
-    public override void OnNetworkDespawn()
-    {
-        nomeJogador.OnValueChanged -= OnPlayerNameChanged;
-    }
-
-    void OnPlayerNameChanged(FixedString32Bytes previous, FixedString32Bytes current)
-    {
-        displayName.text = current.ToString();
     }
 
     //Movimento usando Rigdbody

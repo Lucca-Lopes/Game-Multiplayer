@@ -5,6 +5,7 @@ using Unity.Netcode;
 using Unity.Collections;
 using Cinemachine;
 using static UnityEngine.Rendering.DebugUI;
+using TMPro;
 
 public class Personagem : NetworkBehaviour
 {
@@ -12,15 +13,14 @@ public class Personagem : NetworkBehaviour
     private Rigidbody rb;
     private Vector2 movimento;
     private Vector2 mouseInput;
-    private InputAction interactAction;
     public int velocidade = 600;
+    private bool canWalk = true;
+
+    //Variável para controle do lobby
+    [SerializeField] TextMeshProUGUI lobbyText;
 
     //Variáveis do Netcode
     public NetworkVariable<int> vidaJogador = new(1);
-    public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-
-    //Variável para o Nome
-    [SerializeField] TMPro.TextMeshProUGUI displayName;
 
     //Variável para animação
     [SerializeField] AnimationManager animations;
@@ -39,31 +39,11 @@ public class Personagem : NetworkBehaviour
         rb = GetComponent<Rigidbody>(); 
     }
 
-    private void Start()
-    {
-        if (IsOwner)
-        {
-            nomeJogador.Value = GameManager.PlayerName;
-        }
-
-    }
-
     public override void OnNetworkSpawn()
     {
         if (IsClient && IsOwner)
         {
             vidaJogador.OnValueChanged += OnLifeChanged;
-            nomeJogador.OnValueChanged += OnPlayerNameChanged;
-            displayName.text = nomeJogador.Value.ToString();
-        }
-        if (IsOwner)
-        {
-       // listener.enabled = true;
-            vc.Priority = 10;
-        }
-        else
-        {
-            vc.Priority = 0;
         }
     }
 
@@ -71,7 +51,6 @@ public class Personagem : NetworkBehaviour
     {
         if (IsOwner)
         {
-            nomeJogador.OnValueChanged -= OnPlayerNameChanged;
             vidaJogador.OnValueChanged -= OnLifeChanged;
         }
     }
@@ -102,14 +81,9 @@ public class Personagem : NetworkBehaviour
         }
     }
 
-    void OnPlayerNameChanged(FixedString32Bytes previous, FixedString32Bytes current)
-    {
-        displayName.text = current.ToString();
-    }
-
     public void SetMovimento(InputAction.CallbackContext value)
     {
-        if (IsOwner && !isDead)
+        if (IsOwner && !isDead && canWalk)
         {
             movimento = value.ReadValue<Vector2>();
             if (value.performed)
@@ -124,15 +98,23 @@ public class Personagem : NetworkBehaviour
         mouseInput = value.ReadValue<Vector2>();
     }
 
-    //private void OnEnable()
-    //{
-    //    interactAction.Enable();
-    //}
-
-    //private void OnDisable()
-    //{
-    //    interactAction.Disable();
-    //}
+    private void Update()
+    {
+        if (IsClient)
+        {
+            if (GameManager.Instance.jogadoresConectados.Count < 4)
+            {
+                lobbyText.gameObject.SetActive(true);
+                lobbyText.text = "Esperando jogadores... (" + GameManager.Instance.jogadoresConectados.Count + "/4)";
+                canWalk = false;
+            }
+            else
+            {
+                lobbyText.gameObject.SetActive(false);
+                canWalk = true;
+            }
+        }
+    }
 
     private void FixedUpdate()
     {
@@ -143,7 +125,6 @@ public class Personagem : NetworkBehaviour
 
             // Aplicar uma força na direção calculada
             rb.AddForce(moveDirection.normalized * Time.fixedDeltaTime * velocidade);
-
             RotateWithMouseInput();
         }
     }
