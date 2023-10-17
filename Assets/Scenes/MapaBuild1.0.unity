@@ -439,47 +439,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 104981877, guid: fb4bad18f4696134c8042b8a923cd9a8, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 104981877, guid: fb4bad18f4696134c8042b8a923cd9a8, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 104981877, guid: fb4bad18f4696134c8042b8a923cd9a8, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 104981877, guid: fb4bad18f4696134c8042b8a923cd9a8, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 561154172, guid: fb4bad18f4696134c8042b8a923cd9a8, type: 3}
-      propertyPath: interfacePlayerName
-      value: 
-      objectReference: {fileID: 495932196}
-    - target: {fileID: 721922704, guid: fb4bad18f4696134c8042b8a923cd9a8, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 721922704, guid: fb4bad18f4696134c8042b8a923cd9a8, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 721922704, guid: fb4bad18f4696134c8042b8a923cd9a8, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 721922704, guid: fb4bad18f4696134c8042b8a923cd9a8, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5656571227094987489, guid: fb4bad18f4696134c8042b8a923cd9a8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5656571227972906645, guid: fb4bad18f4696134c8042b8a923cd9a8,
         type: 3}
       propertyPath: m_Pivot.x
@@ -592,12 +551,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb4bad18f4696134c8042b8a923cd9a8, type: 3}
---- !u!1 &495932196 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5656571227094987489, guid: fb4bad18f4696134c8042b8a923cd9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 495932193}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &507320632
 GameObject:
   m_ObjectHideFlags: 0

@@ -33,6 +33,19 @@ public class Inimigo : NetworkBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    public override void OnNetworkSpawn()
+    {
+        if (IsOwner)
+        {
+            // listener.enabled = true;
+            vc.Priority = 10;
+        }
+        else
+        {
+            vc.Priority = 0;
+        }
+    }
+
     private void Update()
     {
         if (IsClient)

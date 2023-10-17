@@ -83,6 +83,7 @@ public class GameManager : NetworkBehaviour
                 timerAtivo.Value = true;
             }
         }
+        FetchPlayers();
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -185,6 +186,28 @@ public class GameManager : NetworkBehaviour
         }
         Debug.Log("Jogadores conectados: " + Instance.jogadoresConectados.Count);
         Debug.Log("Sobreviventes conectados: " + Instance.sobreviventes.Count);
+    }
+
+    public static void FetchPlayers()
+    {
+        //if (Instance.IsOwner)
+        //{
+            Instance.jogadoresConectados = new();
+
+            GameObject entidade = GameObject.FindGameObjectWithTag("Player");
+            Instance.jogadoresConectados.Add(entidade.GetComponent<Inimigo>().OwnerClientId);
+
+            GameObject[] criancas = GameObject.FindGameObjectsWithTag("Sobrevivente");
+            foreach (GameObject crianca in criancas)
+            {
+                var scriptCrianca = crianca.GetComponent<Personagem>();
+                Instance.jogadoresConectados.Add(scriptCrianca.OwnerClientId);
+                Instance.sobreviventes.Add(scriptCrianca.OwnerClientId, scriptCrianca);
+            }
+
+            Debug.Log("Jogadores conectados: " + Instance.jogadoresConectados.Count);
+            Debug.Log("Sobreviventes conectados: " + Instance.sobreviventes.Count);
+        //}
     }
 
     public static void RemovePlayer(ulong clientId)

@@ -67,6 +67,8 @@ public class SpawnManager : NetworkBehaviour
     //    GameManager.Instance.SpawnSobrevivente_ServerRpc(OwnerClientId);
     //}
 
+
+
     [ServerRpc(RequireOwnership = false)]
     public void SpawnPlayerServerRpc(ulong clientId, int prefabId)
     {
@@ -74,19 +76,18 @@ public class SpawnManager : NetworkBehaviour
         if (prefabId == 0)
         {
             newPlayer = Instantiate(entity);
-            GameManager.AddPlayer(OwnerClientId);
             newPlayer.transform.position = entitySpawnpoint.transform.position;
         }
         else
         {
             newPlayer = Instantiate(sobrevivente);
-            GameManager.AddPlayer(OwnerClientId, newPlayer.GetComponent<Personagem>());
             newPlayer.transform.position = RandomSurvivorSpawn();
         }
         var netObj = newPlayer.GetComponent<NetworkObject>();
         newPlayer.SetActive(true);
         netObj.SpawnAsPlayerObject(clientId, true);
         netObj.ChangeOwnership(clientId);
+        GameManager.FetchPlayers();
     }
 
     private Vector3 RandomSurvivorSpawn()

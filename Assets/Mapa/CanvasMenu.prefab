@@ -790,7 +790,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   errorTextInput: {fileID: 419369462}
   playerName: {fileID: 1295941075}
-  interfacePlayerName: {fileID: 1003067030}
+  interfacePlayerName: {fileID: 5656571227094987489}
 --- !u!1 &627170155
 GameObject:
   m_ObjectHideFlags: 0

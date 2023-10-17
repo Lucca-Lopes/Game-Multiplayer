@@ -45,6 +45,15 @@ public class Personagem : NetworkBehaviour
         {
             vidaJogador.OnValueChanged += OnLifeChanged;
         }
+        if (IsOwner)
+        {
+            // listener.enabled = true;
+            vc.Priority = 10;
+        }
+        else
+        {
+            vc.Priority = 0;
+        }
     }
 
     public override void OnNetworkDespawn()
