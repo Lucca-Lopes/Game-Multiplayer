@@ -17,7 +17,7 @@ public class GameManager : NetworkBehaviour
     public List<ulong> jogadoresConectados = new();
     Dictionary<ulong, Personagem> sobreviventes = new();
 
-    private int jogadoresMortos = 0;
+    //private int jogadoresMortos = 0;
 
     public static string PlayerName
     {
@@ -83,7 +83,21 @@ public class GameManager : NetworkBehaviour
                 timerAtivo.Value = true;
             }
         }
-        FetchPlayers();
+        //FetchPlayers();
+    }
+
+    public void LiberarMovimento()
+    {
+        GameObject entidade = GameObject.FindGameObjectWithTag("Player");
+        entidade.GetComponent<Inimigo>();
+
+        GameObject[] criancas = GameObject.FindGameObjectsWithTag("Sobrevivente");
+        foreach (GameObject crianca in criancas)
+        {
+            var scriptCrianca = crianca.GetComponent<Personagem>();
+            Instance.jogadoresConectados.Add(scriptCrianca.OwnerClientId);
+            Instance.sobreviventes.Add(scriptCrianca.OwnerClientId, scriptCrianca);
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -91,19 +105,31 @@ public class GameManager : NetworkBehaviour
     {
         if (NetworkManager.Singleton.IsServer)
         {
+            int jogadoresMortos = 0;
             var sobreviventesAtuais = GameObject.FindGameObjectsWithTag("Sobrevivente");
-
-            foreach(GameObject sobrevivente in sobreviventesAtuais)
+            foreach (GameObject sobrevivente in sobreviventesAtuais)
             {
                 var personagemComponent = sobrevivente.GetComponent<Personagem>();
+                if (personagemComponent.vidaJogador.Value == 0)
+                    jogadoresMortos++;
                 if (personagemComponent.OwnerClientId == atacadoId)
                 {
                     if (personagemComponent.vidaJogador.Value > 0)
+                    {
                         personagemComponent.vidaJogador.Value--;
-                    if (personagemComponent.isDead)
                         jogadoresMortos++;
+                    }
                 }
+                
             }
+            if (jogadoresMortos == sobreviventesAtuais.Length)
+            {
+                killerWin.Value = true;
+                Instance.timerAtivo.Value = false;
+                Debug.Log("Acabou o jogo");
+            }
+        }
+    }
 
 
             //Debug.Log("Recebeu o ataque: " +atacadoId);
@@ -135,39 +161,35 @@ public class GameManager : NetworkBehaviour
             //}
 
 
-            //if (jogadoresMortos == sobreviventesAtuais.Length)
-            //{
-            //    killerWin.Value = true;
-            //    Instance.timerAtivo.Value = false;
-            //}
-        }
-    }
+            
+//    }
+//}
 
-    //[ServerRpc(RequireOwnership = false)]
-    //public void SpawnSobrevivente_ServerRpc(ulong clientId)
-    //{
-    //    if (NetworkManager.Singleton.IsServer)
-    //    {
-    //        sobreviventes[clientId].gameObject.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
-    //        //sobrevivente.GetComponent<NetworkObject>().Spawn();
-    //    }
-    //}
+//[ServerRpc(RequireOwnership = false)]
+//public void SpawnSobrevivente_ServerRpc(ulong clientId)
+//{
+//    if (NetworkManager.Singleton.IsServer)
+//    {
+//        sobreviventes[clientId].gameObject.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
+//        //sobrevivente.GetComponent<NetworkObject>().Spawn();
+//    }
+//}
 
-    //[ServerRpc(RequireOwnership = false)]
-    //public void SpawnSobrevivente_ServerRpc()
-    //{
-    //    if (NetworkManager.Singleton.IsServer)
-    //    {
-    //        var sobreviventes = GameObject.FindGameObjectsWithTag("Sobrevivente");
+//[ServerRpc(RequireOwnership = false)]
+//public void SpawnSobrevivente_ServerRpc()
+//{
+//    if (NetworkManager.Singleton.IsServer)
+//    {
+//        var sobreviventes = GameObject.FindGameObjectsWithTag("Sobrevivente");
 
-    //        foreach(GameObject sobrevivente in sobreviventes)
-    //        {
-    //            sobrevivente.GetComponent<NetworkObject>().Spawn();
-    //        } 
-    //    }
-    //}
+//        foreach(GameObject sobrevivente in sobreviventes)
+//        {
+//            sobrevivente.GetComponent<NetworkObject>().Spawn();
+//        } 
+//    }
+//}
 
-    public static void AddPlayer(ulong clientId, Personagem sobrevivente = null)
+public static void AddPlayer(ulong clientId, Personagem sobrevivente = null)
     {
         Debug.Log(clientId);
         if (!Instance.jogadoresConectados.Contains(clientId))

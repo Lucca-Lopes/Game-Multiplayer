@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -7,12 +8,21 @@ public class TimerController : NetworkBehaviour
 {
     public TextMeshProUGUI timerText;
     [SerializeField] GameObject timerObj;
-    private float timeRemaining = 2 * 60.0f;
+    private float timeRemaining = 5 * 60.0f;
     public GameObject fimdejogo;
 
     [SerializeField] GameObject textoVitoria;
     [SerializeField] GameObject textoDerrota;
     [SerializeField] TextMeshProUGUI textoPontuacao;
+
+    public static float timer
+    {
+        get
+        {
+            var timerObj = GameObject.FindGameObjectWithTag("Timer");
+            return timerObj.GetComponent<TimerController>().timeRemaining;
+        }
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -59,6 +69,25 @@ public class TimerController : NetworkBehaviour
     public void Fimdejogo()
     {
         fimdejogo.SetActive(true);
+
+        GameObject entidade = GameObject.FindGameObjectWithTag("Player");
+        var entScript = entidade.GetComponent<Inimigo>();
+
+        GameObject[] criancas = GameObject.FindGameObjectsWithTag("Sobrevivente");
+        List<Personagem> scriptsCriancas = new();
+
+        foreach (GameObject crianca in criancas)
+        {
+            scriptsCriancas.Add(crianca.GetComponent<Personagem>());
+        }
+
+        var txtPontuacao = $"{entScript.nomeJogador.Value} - {timeRemaining} pontos";
+        foreach (Personagem crianca in scriptsCriancas)
+        {
+            txtPontuacao += $"\n{crianca.nomeJogador.Value} - {crianca.pontucaoJogador.Value} pontos";
+        }
+        textoPontuacao.text = txtPontuacao;
+
         if (NetworkManager.Singleton.IsHost)
         {
             if (GameManager.Instance.killerWin.Value)
@@ -69,7 +98,6 @@ public class TimerController : NetworkBehaviour
             {
                 textoDerrota.SetActive(true);
             }
-            textoPontuacao.text = "Sua pontuação: " + timeRemaining;
         }
         else if (NetworkManager.Singleton.IsClient)
         {
@@ -81,7 +109,6 @@ public class TimerController : NetworkBehaviour
             {
                 textoVitoria.SetActive(true);
             }
-            textoPontuacao.text = "Sua pontuação: " + (120 - timeRemaining);
         }
     }
 }

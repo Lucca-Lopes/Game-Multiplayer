@@ -5,22 +5,20 @@ using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using UnityEngine.UI;
 
-public class Reinicar : MonoBehaviour
+public class Reinicar : NetworkBehaviour
 {
-    [SerializeField] private Button stopHostButton;
+    [SerializeField] GameObject telaInicial;
+    [SerializeField] GameObject telaFimDeJogo;
+
     public void VoltarMenuInicial()
     {
+        telaInicial.SetActive(true);
+        telaFimDeJogo.SetActive(false);
         Time.timeScale = 1;
-        // Obt�m o nome da cena atual e recarrega a cena
-        //string currentSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(0);
-    }
-
-    private void Awake()
-    {
-        stopHostButton.onClick.AddListener(() => {
+        NetworkManager.Singleton.StopAllCoroutines();
+        if (IsServer)
+        {
             NetworkManager.Singleton.Shutdown();
-        });
+        }
     }
-
 }

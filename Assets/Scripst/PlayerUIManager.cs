@@ -14,10 +14,10 @@ public class PlayerUIManager : NetworkBehaviour
     [SerializeField] TextMeshProUGUI[] nomesJogadores;
     [SerializeField] GameObject[] checkmarksJogadores;
     [SerializeField] GameObject botaoComecar;
-    private Coroutine heartbeat;
+    //private Coroutine heartbeat;
 
     [Header("NetVar Players prontos")]
-    public NetworkVariable<bool> playerPronto = new(false);
+    
     public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     //Variável para o Nome
@@ -31,7 +31,7 @@ public class PlayerUIManager : NetworkBehaviour
         if (IsOwner)
         {
             nomeJogador.Value = GameManager.PlayerName;
-            heartbeat = StartCoroutine(CheckmarksHeartBeat());
+            //heartbeat = StartCoroutine(CheckmarksHeartBeat());
         }
     }
 
@@ -86,58 +86,51 @@ public class PlayerUIManager : NetworkBehaviour
         }
     }
 
-    private IEnumerator CheckmarksHeartBeat()
-    {
-        while (true)
-        {
-            AtualizarCheckmarksDisplay();
-            yield return new WaitForSeconds(7);
-        }
-    }
+    //private IEnumerator CheckmarksHeartBeat()
+    //{
+    //    while (true)
+    //    {
+    //        AtualizarCheckmarksDisplay();
+    //        yield return new WaitForSeconds(7);
+    //    }
+    //}
 
-    private void AtualizarCheckmarksDisplay()
-    {
-        GameObject entidade = GameObject.FindGameObjectWithTag("Player");
-        GameObject[] criancas = GameObject.FindGameObjectsWithTag("Sobrevivente");
-        List<PlayerUIManager> criancasUIManagers = new();
+    //private void AtualizarCheckmarksDisplay()
+    //{
+    //    GameObject entidade = GameObject.FindGameObjectWithTag("Player");
+    //    GameObject[] criancas = GameObject.FindGameObjectsWithTag("Sobrevivente");
+    //    List<PlayerUIManager> criancasUIManagers = new();
 
-        foreach (GameObject crianca in criancas)
-        {
-            criancasUIManagers.Add(crianca.GetComponent<PlayerUIManager>());
-        }
+    //    foreach (GameObject crianca in criancas)
+    //    {
+    //        criancasUIManagers.Add(crianca.GetComponent<PlayerUIManager>());
+    //    }
 
-        foreach (ulong playerId in NetworkManager.Singleton.ConnectedClientsIds)
-        {
-            if (playerId == 0)
-            {
-                PlayerUIManager entUIManager = entidade.GetComponent<PlayerUIManager>();
-                checkmarksJogadores[0].SetActive(entUIManager.playerPronto.Value);
-            }
-            else
-            {
-                foreach (PlayerUIManager criancaUIManager in criancasUIManagers)
-                {
-                    if (playerId == criancaUIManager.OwnerClientId)
-                        checkmarksJogadores[playerId].SetActive(criancaUIManager.playerPronto.Value);
-                }
-            }
-        }
-    }
+    //    foreach (ulong playerId in NetworkManager.Singleton.ConnectedClientsIds)
+    //    {
+    //        if (playerId == 0)
+    //        {
+    //            PlayerUIManager entUIManager = entidade.GetComponent<PlayerUIManager>();
+    //            checkmarksJogadores[0].SetActive(entUIManager.playerPronto.Value);
+    //        }
+    //        else
+    //        {
+    //            foreach (PlayerUIManager criancaUIManager in criancasUIManagers)
+    //            {
+    //                if (playerId == criancaUIManager.OwnerClientId)
+    //                    checkmarksJogadores[playerId].SetActive(criancaUIManager.playerPronto.Value);
+    //            }
+    //        }
+    //    }
+    //}
 
     public override void OnNetworkDespawn()
     {
         if (IsOwner)
         {
             nomeJogador.OnValueChanged -= OnPlayerNameChanged;
-            StopCoroutine(heartbeat);
+            //StopCoroutine(heartbeat);
         }
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void SetPlayerReady_ServerRpc()
-    {
-        if(IsOwner)
-            playerPronto.Value = true;
     }
 
     void OnPlayerNameChanged(FixedString32Bytes previous, FixedString32Bytes current)

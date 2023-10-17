@@ -22,6 +22,12 @@ public class Inimigo : NetworkBehaviour
     public int velocidade = 600;
     public float distanciaCarregamento = 2.0f;
 
+    [Header("NetVars")]
+    public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+    //Variável para o Nome
+    [SerializeField] TextMeshProUGUI displayName;
+
     //variáveis internas
     private Vector2 movimento;
     private Vector2 mouseInput;
@@ -33,8 +39,21 @@ public class Inimigo : NetworkBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    private void Start()
+    {
+        if (IsOwner)
+        {
+            nomeJogador.Value = GameManager.PlayerName;
+        }
+    }
+
     public override void OnNetworkSpawn()
     {
+        if (IsClient && IsOwner)
+        {
+            nomeJogador.OnValueChanged += OnPlayerNameChanged;
+            nomeJogador.Value = GameManager.PlayerName;
+        }
         if (IsOwner)
         {
             // listener.enabled = true;
@@ -46,27 +65,39 @@ public class Inimigo : NetworkBehaviour
         }
     }
 
+    public override void OnNetworkDespawn()
+    {
+        if (IsOwner)
+        {
+            nomeJogador.OnValueChanged -= OnPlayerNameChanged;
+        }
+    }
+
+    void OnPlayerNameChanged(FixedString32Bytes previous, FixedString32Bytes current)
+    {
+        displayName.text = current.ToString();
+    }
+
     private void Update()
     {
         if (IsClient)
         {
-            if (GameManager.Instance.jogadoresConectados.Count < 4)
-            {
-                lobbyText.gameObject.SetActive(true);
-                lobbyText.text = "Esperando jogadores... (" + GameManager.Instance.jogadoresConectados.Count + "/4)";
-                canWalk = false;
-            }
-            else
+            if (GameManager.Instance.timerAtivo.Value)
             {
                 lobbyText.gameObject.SetActive(false);
                 canWalk = true;
+            }
+            else
+            {
+                lobbyText.gameObject.SetActive(true);
+                canWalk = false;
             }
         }
     }
 
     public void SetMovimento(InputAction.CallbackContext value)
     {
-        if (canWalk && IsOwner)
+        if (GameManager.Instance.timerAtivo.Value && IsOwner && canWalk)
         {
             movimento = value.ReadValue<Vector2>();
             if (value.ReadValue<Vector2>() != Vector2.zero)

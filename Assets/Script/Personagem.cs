@@ -14,13 +14,17 @@ public class Personagem : NetworkBehaviour
     private Vector2 movimento;
     private Vector2 mouseInput;
     public int velocidade = 600;
-    private bool canWalk = true;
 
     //Variável para controle do lobby
     [SerializeField] TextMeshProUGUI lobbyText;
 
     //Variáveis do Netcode
     public NetworkVariable<int> vidaJogador = new(1);
+    public NetworkVariable<int> pontucaoJogador = new(0);
+    public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+    //Variável para o Nome
+    [SerializeField] TextMeshProUGUI displayName;
 
     //Variável para animação
     [SerializeField] AnimationManager animations;
@@ -39,11 +43,21 @@ public class Personagem : NetworkBehaviour
         rb = GetComponent<Rigidbody>(); 
     }
 
+    private void Start()
+    {
+        if (IsOwner)
+        {
+            nomeJogador.Value = GameManager.PlayerName;
+        }
+    }
+
     public override void OnNetworkSpawn()
     {
         if (IsClient && IsOwner)
         {
             vidaJogador.OnValueChanged += OnLifeChanged;
+            nomeJogador.OnValueChanged += OnPlayerNameChanged;
+            nomeJogador.Value = GameManager.PlayerName;
         }
         if (IsOwner)
         {
@@ -61,9 +75,14 @@ public class Personagem : NetworkBehaviour
         if (IsOwner)
         {
             vidaJogador.OnValueChanged -= OnLifeChanged;
+            nomeJogador.OnValueChanged -= OnPlayerNameChanged;
         }
     }
 
+    void OnPlayerNameChanged(FixedString32Bytes previous, FixedString32Bytes current)
+    {
+        displayName.text = current.ToString();
+    }
 
     void OnLifeChanged(int previous, int current)
     {
@@ -77,6 +96,7 @@ public class Personagem : NetworkBehaviour
                     Debug.Log("Personagem - OnLifeChanged - Voce morreu!");
                     velocidade = 0;
                     animations.dormindo = true;
+                    AtualizarPontuacao_ServerRpc();
                 }
             }
 
@@ -90,9 +110,15 @@ public class Personagem : NetworkBehaviour
         }
     }
 
-    public void SetMovimento(InputAction.CallbackContext value)
+    [ServerRpc(RequireOwnership = false)]
+    public void AtualizarPontuacao_ServerRpc()
     {
-        if (IsOwner && !isDead && canWalk)
+        pontucaoJogador.Value = 300 - (int)TimerController.timer;
+    }
+
+        public void SetMovimento(InputAction.CallbackContext value)
+    {
+        if (IsOwner && !isDead && GameManager.Instance.timerAtivo.Value)
         {
             movimento = value.ReadValue<Vector2>();
             if (value.performed)
@@ -111,16 +137,13 @@ public class Personagem : NetworkBehaviour
     {
         if (IsClient)
         {
-            if (GameManager.Instance.jogadoresConectados.Count < 4)
+            if (GameManager.Instance.timerAtivo.Value)
             {
-                lobbyText.gameObject.SetActive(true);
-                lobbyText.text = "Esperando jogadores... (" + GameManager.Instance.jogadoresConectados.Count + "/4)";
-                canWalk = false;
+                lobbyText.gameObject.SetActive(false);
             }
             else
             {
-                lobbyText.gameObject.SetActive(false);
-                canWalk = true;
+                lobbyText.gameObject.SetActive(true);
             }
         }
     }
