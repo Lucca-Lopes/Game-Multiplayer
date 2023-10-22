@@ -12,6 +12,13 @@ public class MenuPrincipalManager : MonoBehaviour
     [SerializeField] private GameObject painelSom;
     [SerializeField] private GameObject Voltar;
     [SerializeField] private GameObject painelGameOver;
+    [SerializeField] private GameObject tutorial1;
+    [SerializeField] private GameObject tutorial2;
+
+    public GameObject imageObject1;
+    public GameObject imageObject2;
+    public GameObject imageObject3;
+    public GameObject imageObject4;
     //[SerializeField] private GameObject painelClassificacao;
     [SerializeField] private GameObject painelClassificacao;
     public void Jogar()
@@ -65,4 +72,29 @@ public class MenuPrincipalManager : MonoBehaviour
         painelClassificacao.SetActive(false);
         painelMenuInicial.SetActive(true);
     }
+
+  
+    // dia 20/10
+
+    public void ContinuaTutorial1()
+    {
+        tutorial1.SetActive(false);
+        tutorial2.SetActive(true);
+
+        imageObject1 = null;
+        imageObject2 = null;
+        imageObject3 = null;
+        imageObject4 = null;
+
+    }
+    public void ContinuaTutorial2()
+    {
+        tutorial2.SetActive(false);
+        tutorial1.SetActive(true);
+    }
+    public void Tutorial()
+    {
+
+    }
+    
 }
