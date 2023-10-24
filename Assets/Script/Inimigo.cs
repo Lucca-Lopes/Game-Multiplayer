@@ -122,8 +122,9 @@ public class Inimigo : NetworkBehaviour
 
             // Aplicar uma força na direção calculada
             rb.AddForce(moveDirection.normalized * Time.fixedDeltaTime * velocidade);
+            gameObject.transform.forward = moveDirection.normalized;
         }
-        RotateWithMouseInput();
+        //RotateWithMouseInput();
     }
 
     private void RotateWithMouseInput()
@@ -136,7 +137,7 @@ public class Inimigo : NetworkBehaviour
 
         // Aplicar a rotação local à rotação da câmera
         Quaternion newRotation = cameraRotation * Quaternion.Euler(localRotation);
-
+        newRotation.z = 0;
         // Definir a rotação do personagem para a nova rotação
         transform.rotation = newRotation;
     }

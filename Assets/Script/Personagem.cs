@@ -157,8 +157,9 @@ public class Personagem : NetworkBehaviour
 
             // Aplicar uma força na direção calculada
             rb.AddForce(moveDirection.normalized * Time.fixedDeltaTime * velocidade);
-            RotateWithMouseInput();
+            gameObject.transform.forward = moveDirection.normalized;
         }
+        //RotateWithMouseInput();
     }
 
     private void RotateWithMouseInput()
