@@ -12,7 +12,7 @@ public class AnimationEvents : MonoBehaviour
     public bool usandoHabilidade;
     public bool atacando;
 
-    public VisualEffect direito;
+    /*public VisualEffect direito;
     public VisualEffect esquerdo;
     public void PlayVisualEffects(int pe)
     {
@@ -24,7 +24,7 @@ public class AnimationEvents : MonoBehaviour
         {
             direito.Play();
         }
-    }
+    }*/
 
     public void Start()
     {
