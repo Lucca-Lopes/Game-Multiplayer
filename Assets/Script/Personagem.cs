@@ -95,7 +95,7 @@ public class Personagem : NetworkBehaviour
                     isDead = true;
                     Debug.Log("Personagem - OnLifeChanged - Voce morreu!");
                     velocidade = 0;
-                    animations.dormindo = true;
+                    animations.dormindo.Value = true;
                     AtualizarPontuacao_ServerRpc();
                 }
             }
@@ -105,7 +105,7 @@ public class Personagem : NetworkBehaviour
                 isDead = false;
                 Debug.Log("Voce reviveu!");
                 velocidade = 600;
-                animations.dormindo = false;
+                animations.dormindo.Value = false;
             }
         }
     }
@@ -116,15 +116,15 @@ public class Personagem : NetworkBehaviour
         pontucaoJogador.Value = 300 - (int)TimerController.timer;
     }
 
-        public void SetMovimento(InputAction.CallbackContext value)
+    public void SetMovimento(InputAction.CallbackContext value)
     {
         if (IsOwner && !isDead && GameManager.Instance.timerAtivo.Value)
         {
             movimento = value.ReadValue<Vector2>();
-            if (value.performed)
-                animations.correndo = true;
-            if (value.canceled)
-                animations.correndo = false;
+            if (value.ReadValue<Vector2>() != Vector2.zero)
+                animations.correndo.Value = true;
+            else
+                animations.correndo.Value = false;
         }
     }
 

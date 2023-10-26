@@ -3,7 +3,6 @@ using Unity.Netcode;
 
 public class SpawnManager : NetworkBehaviour
 {
-
     [SerializeField] private GameObject sobrevivente;
     [SerializeField] private GameObject entity;
     [SerializeField] private GameObject[] spawnPoints;
@@ -27,7 +26,7 @@ public class SpawnManager : NetworkBehaviour
         }
         base.OnNetworkSpawn();
     }
-
+    
     //public void SpawnPlayers()
     //{
     //    foreach (ulong playerId in NetworkManager.Singleton.ConnectedClientsIds)
@@ -67,8 +66,6 @@ public class SpawnManager : NetworkBehaviour
     //    GameManager.Instance.SpawnSobrevivente_ServerRpc(OwnerClientId);
     //}
 
-
-
     [ServerRpc(RequireOwnership = false)]
     public void SpawnPlayerServerRpc(ulong clientId, int prefabId)
     {
@@ -78,7 +75,7 @@ public class SpawnManager : NetworkBehaviour
             newPlayer = Instantiate(entity);
             newPlayer.transform.position = entitySpawnpoint.transform.position;
         }
-        else
+        else 
         {
             newPlayer = Instantiate(sobrevivente);
             newPlayer.transform.position = RandomSurvivorSpawn();

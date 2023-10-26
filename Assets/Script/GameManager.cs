@@ -6,7 +6,6 @@ public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
 
-    
     //[SerializeField] TimerController timerScript;
 
     string playerName;
@@ -189,7 +188,7 @@ public class GameManager : NetworkBehaviour
 //    }
 //}
 
-public static void AddPlayer(ulong clientId, Personagem sobrevivente = null)
+    public static void AddPlayer(ulong clientId, Personagem sobrevivente = null)
     {
         Debug.Log(clientId);
         if (!Instance.jogadoresConectados.Contains(clientId))

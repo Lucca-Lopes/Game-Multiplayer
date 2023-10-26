@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class AnimationEvents : MonoBehaviour
+public class AnimationEvents : NetworkBehaviour
 {
     public Animator anim;
-    public bool andando;
-    public bool levantandoCrianca;
-    public bool soltandoCrianca;
-    public bool usandoHabilidade;
-    public bool atacando;
+    public NetworkVariable<bool> andando;
+    public NetworkVariable<bool> levantandoCrianca;
+    public NetworkVariable<bool> soltandoCrianca;
+    public NetworkVariable<bool> usandoHabilidade;
+    public NetworkVariable<bool> atacando;
 
     /*public VisualEffect direito;
     public VisualEffect esquerdo;
@@ -26,17 +27,49 @@ public class AnimationEvents : MonoBehaviour
         }
     }*/
 
-    public void Start()
+    public override void OnNetworkSpawn()
     {
         anim = GetComponent<Animator>();
+        if (IsClient && IsOwner)
+        {
+            andando.OnValueChanged += ChangeAnimatorAndando;
+            levantandoCrianca.OnValueChanged += ChangeAnimatorLevantandoCrianca;
+            soltandoCrianca.OnValueChanged += ChangeAnimatorSoltandoCrianca;
+            usandoHabilidade.OnValueChanged += ChangeAnimatorUsandoHabilidade;
+            atacando.OnValueChanged += ChangeAnimatorAtacando;
+        }
     }
 
-    public void Update()
+    public override void OnNetworkDespawn()
     {
-        anim.SetBool("andando", andando);
-        anim.SetBool("levantandoCrianca", levantandoCrianca);
-        anim.SetBool("soltandoCrianca", soltandoCrianca);
-        anim.SetBool("usandoHabilidade", usandoHabilidade);
-        anim.SetBool("atacando", atacando);
+        if (IsClient && IsOwner)
+        {
+            andando.OnValueChanged -= ChangeAnimatorAndando;
+            levantandoCrianca.OnValueChanged -= ChangeAnimatorLevantandoCrianca;
+            soltandoCrianca.OnValueChanged -= ChangeAnimatorSoltandoCrianca;
+            usandoHabilidade.OnValueChanged -= ChangeAnimatorUsandoHabilidade;
+            atacando.OnValueChanged -= ChangeAnimatorAtacando;
+        }
+    }
+
+    void ChangeAnimatorAndando(bool previous, bool current)
+    {
+        anim.SetBool("andando", current);
+    }
+    void ChangeAnimatorLevantandoCrianca(bool previous, bool current)
+    {
+        anim.SetBool("levantandoCrianca", current);
+    }
+    void ChangeAnimatorSoltandoCrianca(bool previous, bool current)
+    {
+        anim.SetBool("soltandoCrianca", current);
+    }
+    void ChangeAnimatorUsandoHabilidade(bool previous, bool current)
+    {
+        anim.SetBool("usandoHabilidade", current);
+    }
+    void ChangeAnimatorAtacando(bool previous, bool current)
+    {
+        anim.SetBool("atacando", current);
     }
 }

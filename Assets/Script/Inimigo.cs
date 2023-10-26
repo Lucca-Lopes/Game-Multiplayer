@@ -101,9 +101,9 @@ public class Inimigo : NetworkBehaviour
         {
             movimento = value.ReadValue<Vector2>();
             if (value.ReadValue<Vector2>() != Vector2.zero)
-                animations.andando = true;
+                animations.andando.Value = true;
             else
-                animations.andando = false;
+                animations.andando.Value = false;
         }
     }
 
@@ -166,10 +166,10 @@ public class Inimigo : NetworkBehaviour
     IEnumerator AnimacaoAtacar()
     {
         canWalk = false;
-        animations.atacando = true;
+        animations.atacando.Value = true;
         rb.velocity = Vector3.zero;
         yield return new WaitForSeconds(2.0f);
-        animations.atacando = false;
+        animations.atacando.Value = false;
         canWalk = true;
     }
 }

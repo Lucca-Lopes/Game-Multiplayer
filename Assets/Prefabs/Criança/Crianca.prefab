@@ -289,7 +289,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1529418258134233708}
-  m_LocalRotation: {x: 0.0017306157, y: -0.0000000015873705, z: 2.7471333e-12, w: 0.9999985}
+  m_LocalRotation: {x: 0.0017306157, y: 0.0000000019446096, z: -3.3653761e-12, w: 0.9999985}
   m_LocalPosition: {x: 0, y: 0.3499999, z: -8.78}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -642,7 +642,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2678623262829178079}
-  m_LocalRotation: {x: 0.0017306185, y: -0.0000000010791182, z: 1.867545e-12, w: 0.9999985}
+  m_LocalRotation: {x: 0.0017306198, y: 0.0000000010607633, z: -1.8357807e-12, w: 0.9999985}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -855,7 +855,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4508884761398930745}
-  m_LocalRotation: {x: 0.01991978, y: -0.000000017202966, z: 3.4274697e-10, w: 0.9998016}
+  m_LocalRotation: {x: 0.019919803, y: 0.000000017202968, z: -3.4274775e-10, w: 0.9998016}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1088,7 +1088,7 @@ GameObject:
   - component: {fileID: 4469089115645267916}
   - component: {fileID: 4144896458241687299}
   - component: {fileID: 4685009338861226638}
-  - component: {fileID: 924574244931581173}
+  - component: {fileID: 7845438189298508465}
   m_Layer: 0
   m_Name: Crianca
   m_TagString: Sobrevivente
@@ -1329,12 +1329,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 1184141596647929698}
-  correndo: 0
-  sonolento: 0
-  flutuando: 0
-  dormindo: 0
-  hit: 0
-  interagindo: 0
+  correndo:
+    m_InternalValue: 0
+  sonolento:
+    m_InternalValue: 0
+  flutuando:
+    m_InternalValue: 0
+  dormindo:
+    m_InternalValue: 0
+  hit:
+    m_InternalValue: 0
+  interagindo:
+    m_InternalValue: 0
 --- !u!114 &3784851164243401571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1442,7 +1448,7 @@ CapsuleCollider:
   m_Height: 2.139853
   m_Direction: 1
   m_Center: {x: 0.011749506, y: 1.0629542, z: 0.021089673}
---- !u!114 &924574244931581173
+--- !u!114 &7845438189298508465
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1466,6 +1472,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1221694142493006615}
   - component: {fileID: 4884629443701883405}
+  - component: {fileID: 3554717627757780588}
   m_Layer: 0
   m_Name: CM vcam3
   m_TagString: Untagged
@@ -1596,6 +1603,36 @@ MonoBehaviour:
   - {fileID: 3552281054276500729}
   - {fileID: 851430652362000155}
   - {fileID: 1236062279832375573}
+--- !u!114 &3554717627757780588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5647746079352891565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 1
+  m_IgnoreTag: Sobrevivente
+  m_TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_MinimumDistanceFromTarget: 0.1
+  m_AvoidObstacles: 1
+  m_DistanceLimit: 0
+  m_MinimumOcclusionTime: 0
+  m_CameraRadius: 0.1
+  m_Strategy: 1
+  m_MaximumEffort: 4
+  m_SmoothingTime: 0
+  m_Damping: 0
+  m_DampingWhenOccluded: 0
+  m_OptimalTargetDistance: 0
 --- !u!1 &5883676526079679904
 GameObject:
   m_ObjectHideFlags: 0
@@ -1850,7 +1887,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6895766575437273954}
-  m_LocalRotation: {x: -0.016411096, y: 9.047985e-18, z: 2.419302e-19, w: 0.99986535}
+  m_LocalRotation: {x: -0.016411098, y: 1e-45, z: -0, w: 0.99986535}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

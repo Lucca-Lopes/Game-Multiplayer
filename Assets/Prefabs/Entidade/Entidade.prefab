@@ -763,7 +763,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5515481082536134138}
-  m_LocalRotation: {x: 0.0041320766, y: 0.6547705, z: -0.003579694, w: 0.75580806}
+  m_LocalRotation: {x: 0.0041320734, y: 0.6547705, z: -0.0035796913, w: 0.75580806}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1173,7 +1173,7 @@ GameObject:
   - component: {fileID: 9081134416092275937}
   - component: {fileID: 6646717897434253983}
   - component: {fileID: 5930280253431060356}
-  - component: {fileID: 4951011238032709462}
+  - component: {fileID: 7345416114980766679}
   m_Layer: 0
   m_Name: Entidade
   m_TagString: Player
@@ -1377,11 +1377,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
-  andando: 0
-  levantandoCrianca: 0
-  soltandoCrianca: 0
-  usandoHabilidade: 0
-  atacando: 0
+  andando:
+    m_InternalValue: 0
+  levantandoCrianca:
+    m_InternalValue: 0
+  soltandoCrianca:
+    m_InternalValue: 0
+  usandoHabilidade:
+    m_InternalValue: 0
+  atacando:
+    m_InternalValue: 0
 --- !u!114 &9081134416092275937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1472,7 +1477,7 @@ CapsuleCollider:
   m_Height: 2.5
   m_Direction: 1
   m_Center: {x: 0, y: 1.2, z: 0}
---- !u!114 &4951011238032709462
+--- !u!114 &7345416114980766679
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2066,7 +2071,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7999302402233842000}
-  m_LocalRotation: {x: -0.009616371, y: 0.6547272, z: 0.008330839, w: 0.7557582}
+  m_LocalRotation: {x: -0.009616372, y: 0.6547272, z: 0.008330839, w: 0.7557582}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
