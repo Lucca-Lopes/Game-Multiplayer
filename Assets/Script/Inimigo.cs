@@ -122,7 +122,8 @@ public class Inimigo : NetworkBehaviour
 
             // Aplicar uma força na direção calculada
             rb.AddForce(moveDirection.normalized * Time.fixedDeltaTime * velocidade);
-            gameObject.transform.forward = moveDirection.normalized;
+            if (moveDirection != Vector3.zero)
+                gameObject.transform.forward = moveDirection.normalized;
         }
         //RotateWithMouseInput();
     }

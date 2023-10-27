@@ -6,16 +6,20 @@ using UnityEngine;
 public class AnimationManager : NetworkBehaviour
 {
     public Animator anim;
-    public NetworkVariable<bool> correndo;
-    public NetworkVariable<bool> sonolento;
-    public NetworkVariable<bool> flutuando;
-    public NetworkVariable<bool> dormindo;
-    public NetworkVariable<bool> hit;
-    public NetworkVariable<bool> interagindo;
+    public NetworkVariable<bool> correndo = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> sonolento = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> flutuando = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> dormindo = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> hit = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> interagindo = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     public override void OnNetworkSpawn()
     {
-        anim = GetComponent<Animator>();
         if (IsClient && IsOwner)
         {
             correndo.OnValueChanged += ChangeAnimatorCorrendo;
@@ -43,36 +47,36 @@ public class AnimationManager : NetworkBehaviour
 
     void ChangeAnimatorCorrendo(bool previous, bool current)
     {
-        anim.SetBool("Correndo", current);
+        anim.SetBool("correndo", current);
     }
     void ChangeAnimatorSonolento(bool previous, bool current)
     {
-        anim.SetBool("Sonolento", current);
+        anim.SetBool("sonolento", current);
     }
     void ChangeAnimatorFlutuando(bool previous, bool current)
     {
-        anim.SetBool("Flutuando", current);
+        anim.SetBool("flutuando", current);
     }
     void ChangeAnimatorDormindo(bool previous, bool current)
     {
-        anim.SetBool("Dormindo", current);
+        anim.SetBool("dormindo", current);
     }
     void ChangeAnimatorHit(bool previous, bool current)
     {
-        anim.SetBool("Hit", current);
+        anim.SetBool("hit", current);
     }
     void ChangeAnimatorInteragindo(bool previous, bool current)
     {
-        anim.SetBool("Interagindo", current);
+        anim.SetBool("interagindo", current);
     }
 
     public void Adormecer()
     {
-        anim.SetBool("DormindoLoop", true);
+        anim.SetBool("dormindoLoop", true);
     }
 
     public void Acordar()
     {
-        anim.SetBool("DormindoLoop", false);
+        anim.SetBool("dormindoLoop", false);
     }
 }
