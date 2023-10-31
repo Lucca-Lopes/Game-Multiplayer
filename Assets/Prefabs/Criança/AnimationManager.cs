@@ -20,7 +20,7 @@ public class AnimationManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (IsClient && IsOwner)
+        if (IsClient)
         {
             correndo.OnValueChanged += ChangeAnimatorCorrendo;
             sonolento.OnValueChanged += ChangeAnimatorSonolento;
@@ -34,7 +34,7 @@ public class AnimationManager : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         anim = GetComponent<Animator>();
-        if (IsClient && IsOwner)
+        if (IsClient)
         {
             correndo.OnValueChanged -= ChangeAnimatorCorrendo;
             sonolento.OnValueChanged -= ChangeAnimatorSonolento;
