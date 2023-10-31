@@ -13,7 +13,7 @@ public class TimerController : NetworkBehaviour
 
     [SerializeField] GameObject textoVitoria;
     [SerializeField] GameObject textoDerrota;
-    [SerializeField] TextMeshProUGUI textoPontuacao;
+    //[SerializeField] TextMeshProUGUI textoPontuacao;
 
     public static float timer
     {
@@ -81,12 +81,12 @@ public class TimerController : NetworkBehaviour
             scriptsCriancas.Add(crianca.GetComponent<Personagem>());
         }
 
-        var txtPontuacao = $"{entScript.nomeJogador.Value} - {timeRemaining} pontos";
+        /*var txtPontuacao = $"{entScript.nomeJogador.Value} - {timeRemaining} pontos";
         foreach (Personagem crianca in scriptsCriancas)
         {
             txtPontuacao += $"\n{crianca.nomeJogador.Value} - {crianca.pontucaoJogador.Value} pontos";
         }
-        textoPontuacao.text = txtPontuacao;
+        textoPontuacao.text = txtPontuacao;*/
 
         if (NetworkManager.Singleton.IsHost)
         {

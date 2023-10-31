@@ -3,7 +3,7 @@ using Unity.Netcode;
 
 public class SpawnManager : NetworkBehaviour
 {
-    [SerializeField] private GameObject sobrevivente;
+    [SerializeField] private GameObject[] sobreviventes;
     [SerializeField] private GameObject entity;
     [SerializeField] private GameObject[] spawnPoints;
     [SerializeField] private GameObject entitySpawnpoint;
@@ -18,11 +18,11 @@ public class SpawnManager : NetworkBehaviour
     {
         if (IsHost)
         {
-            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, 0);
+            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, true, -1);
         }
         else if (IsClient)
         {
-            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, 1);
+            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, false, ((int)NetworkManager.Singleton.LocalClientId)-1);
         }
         base.OnNetworkSpawn();
     }
@@ -67,17 +67,17 @@ public class SpawnManager : NetworkBehaviour
     //}
 
     [ServerRpc(RequireOwnership = false)]
-    public void SpawnPlayerServerRpc(ulong clientId, int prefabId)
+    public void SpawnPlayerServerRpc(ulong clientId, bool isEntity, int prefabId)
     {
         GameObject newPlayer;
-        if (prefabId == 0)
+        if (isEntity)
         {
             newPlayer = Instantiate(entity);
             newPlayer.transform.position = entitySpawnpoint.transform.position;
         }
         else 
         {
-            newPlayer = Instantiate(sobrevivente);
+            newPlayer = Instantiate(sobreviventes[prefabId]);
             newPlayer.transform.position = RandomSurvivorSpawn();
         }
         var netObj = newPlayer.GetComponent<NetworkObject>();

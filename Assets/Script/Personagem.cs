@@ -25,6 +25,7 @@ public class Personagem : NetworkBehaviour
 
     //Variável para o Nome
     [SerializeField] TextMeshProUGUI displayName;
+    [SerializeField] Transform displayCanvas;
 
     //Variável para animação
     [SerializeField] AnimationManager animations;
@@ -53,11 +54,11 @@ public class Personagem : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (IsClient && IsOwner)
+        if (IsClient)
         {
             vidaJogador.OnValueChanged += OnLifeChanged;
             nomeJogador.OnValueChanged += OnPlayerNameChanged;
-            nomeJogador.Value = GameManager.PlayerName;
+            UpdateDisplayName(nomeJogador.Value.ToString());
         }
         if (IsOwner)
         {
@@ -72,7 +73,7 @@ public class Personagem : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
-        if (IsOwner)
+        if (IsClient)
         {
             vidaJogador.OnValueChanged -= OnLifeChanged;
             nomeJogador.OnValueChanged -= OnPlayerNameChanged;
@@ -81,7 +82,12 @@ public class Personagem : NetworkBehaviour
 
     void OnPlayerNameChanged(FixedString32Bytes previous, FixedString32Bytes current)
     {
-        displayName.text = current.ToString();
+        UpdateDisplayName(current.ToString());
+    }
+
+    void UpdateDisplayName(string value)
+    {
+        displayName.text = value;
     }
 
     void OnLifeChanged(int previous, int current)
@@ -145,6 +151,9 @@ public class Personagem : NetworkBehaviour
             {
                 lobbyText.gameObject.SetActive(true);
             }
+            var camRot = Camera.main.transform.rotation;
+            camRot.y = camRot.y * -1;
+            displayCanvas.rotation = camRot;
         }
     }
 

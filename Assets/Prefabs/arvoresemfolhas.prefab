@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4037767017137574930}
   - component: {fileID: 2300759951596249304}
   - component: {fileID: 6148020709112119138}
-  - component: {fileID: 5026438735728829695}
   m_Layer: 0
   m_Name: arvoresemfolhas
   m_TagString: Untagged
@@ -98,16 +97,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5300398, y: 2.4977012, z: 0.6065693}
   m_Center: {x: 0.0052654743, y: 1.1961775, z: 0.12563896}
---- !u!65 &5026438735728829695
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 354953742593376525}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.9152639, y: 4.7815285, z: 5.9566803}
-  m_Center: {x: 0.18411934, y: 4.8420477, z: -0.23199368}
