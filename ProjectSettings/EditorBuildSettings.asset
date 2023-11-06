@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MapaBuild1.0.unity
     guid: 48b77ee025b634b87bcc3d15313fc8ca
+  - enabled: 1
+    path: Assets/Scenes/MenuLobby.unity
+    guid: 843989b8b6dc3264e8ca1e60444fbb9a
   m_configObjects: {}
