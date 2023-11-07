@@ -12,6 +12,7 @@ public class Inimigo : NetworkBehaviour
     [Header("Assemblies")]
     [SerializeField] AnimationEvents animations;
     [SerializeField] private CinemachineFreeLook vc;
+    [SerializeField] GameObject playerCam;
     [SerializeField] ParticleSystem efeito;
     [SerializeField] TextMeshProUGUI lobbyText;
     //[SerializeField] EfeitoVisual efeitoScript;
@@ -19,7 +20,9 @@ public class Inimigo : NetworkBehaviour
     [Header("Configurações")]
     public float distanciaAtaque = 2.0f;
     public int dano = 1;
-    public int velocidade = 600;
+    public float velocidade = 4;
+    float verticalVelocity;
+    [SerializeField] float gravityValue = -9.81f;
     public float distanciaCarregamento = 2.0f;
 
     [Header("NetVars")]
@@ -31,12 +34,14 @@ public class Inimigo : NetworkBehaviour
     //variáveis internas
     private Vector2 movimento;
     private Vector2 mouseInput;
-    private Rigidbody rb;
+    //private Rigidbody rb;
+    private CharacterController controller;
     private bool canWalk = true;
     
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
+        controller = GetComponent<CharacterController>();
     }
 
     private void Start()
@@ -93,6 +98,29 @@ public class Inimigo : NetworkBehaviour
                 canWalk = false;
             }
         }
+
+        //movimento por character controller
+        if (controller.isGrounded && verticalVelocity < 0)
+            verticalVelocity = 0f;
+
+        Vector3 cameraForward = playerCam.transform.forward;
+        cameraForward.y = 0;
+        cameraForward = cameraForward.normalized;
+        Vector3 cameraRight = playerCam.transform.right;
+        cameraRight.y = 0;
+
+        Vector3 moveDirectionForward = cameraForward * movimento.y;
+        Vector3 moveDirectionSideways = cameraRight * movimento.x;
+        Vector3 moveDirection = (moveDirectionForward + moveDirectionSideways);
+
+        Vector3 move = moveDirection * velocidade;
+
+        if (move != Vector3.zero)
+            gameObject.transform.forward = move;
+
+        verticalVelocity += gravityValue * Time.deltaTime;
+        move.y = verticalVelocity;
+        controller.Move(move * Time.deltaTime);
     }
 
     public void SetMovimento(InputAction.CallbackContext value)
@@ -112,7 +140,7 @@ public class Inimigo : NetworkBehaviour
         mouseInput = value.ReadValue<Vector2>();
     }
 
-    //Movimento usando Rigdbody
+    /*//Movimento usando Rigdbody
     private void FixedUpdate()
     {
         if (rb != null)
@@ -126,9 +154,9 @@ public class Inimigo : NetworkBehaviour
                 gameObject.transform.forward = moveDirection.normalized;
         }
         //RotateWithMouseInput();
-    }
+    }*/
 
-    private void RotateWithMouseInput()
+    /*private void RotateWithMouseInput()
     {
         // Obter a rotação atual da câmera
         Quaternion cameraRotation = vc.State.CorrectedOrientation;
@@ -141,7 +169,7 @@ public class Inimigo : NetworkBehaviour
         newRotation.z = 0;
         // Definir a rotação do personagem para a nova rotação
         transform.rotation = newRotation;
-    }
+    }*/
 
     public void Atacar(InputAction.CallbackContext context)
     {
@@ -164,11 +192,12 @@ public class Inimigo : NetworkBehaviour
         }
     }
 
+    //arrumar
     IEnumerator AnimacaoAtacar()
     {
         canWalk = false;
         animations.atacando.Value = true;
-        rb.velocity = Vector3.zero;
+        //rb.velocity = Vector3.zero;
         yield return new WaitForSeconds(2.0f);
         animations.atacando.Value = false;
         canWalk = true;

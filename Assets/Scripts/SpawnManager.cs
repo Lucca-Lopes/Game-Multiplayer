@@ -77,8 +77,8 @@ public class SpawnManager : NetworkBehaviour
         }
         else 
         {
-            newPlayer = Instantiate(sobreviventes[prefabId]);
-            newPlayer.transform.position = RandomSurvivorSpawn();
+            newPlayer = Instantiate(sobreviventes[prefabId], spawnPoints[prefabId].transform.position, spawnPoints[prefabId].transform.rotation);
+            //newPlayer.transform.position = RandomSurvivorSpawn();
         }
         var netObj = newPlayer.GetComponent<NetworkObject>();
         newPlayer.SetActive(true);

@@ -10,10 +10,13 @@ using TMPro;
 public class Personagem : NetworkBehaviour
 {
     //Variáveis de movimento
-    private Rigidbody rb;
+    //private Rigidbody rb;
+    private CharacterController controller;
     private Vector2 movimento;
     private Vector2 mouseInput;
-    public int velocidade = 600;
+    public int velocidade = 4;
+    float verticalVelocity;
+    [SerializeField] float gravityValue = -9.81f;
 
     //Variável para controle do lobby
     [SerializeField] TextMeshProUGUI lobbyText;
@@ -35,13 +38,15 @@ public class Personagem : NetworkBehaviour
 
     //Variável para controle de câmera
     [SerializeField] private CinemachineFreeLook vc;
+    [SerializeField] GameObject playerCam;
 
     //COISAS ANTIGAS
     //[SerializeField] private AudioListener listener;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>(); 
+        //rb = GetComponent<Rigidbody>(); 
+        controller = GetComponent<CharacterController>();
     }
 
     private void Start()
@@ -110,7 +115,7 @@ public class Personagem : NetworkBehaviour
             {
                 isDead = false;
                 Debug.Log("Voce reviveu!");
-                velocidade = 600;
+                velocidade = 4;
                 animations.dormindo.Value = false;
             }
         }
@@ -151,13 +156,33 @@ public class Personagem : NetworkBehaviour
             {
                 lobbyText.gameObject.SetActive(true);
             }
-            var camRot = Camera.main.transform.rotation;
-            camRot.y = camRot.y * -1;
-            displayCanvas.rotation = camRot;
         }
+
+        //movimento por character controller
+        if (controller.isGrounded && verticalVelocity < 0)
+            verticalVelocity = 0f;
+
+        Vector3 cameraForward = playerCam.transform.forward;
+        cameraForward.y = 0;
+        cameraForward = cameraForward.normalized;
+        Vector3 cameraRight = playerCam.transform.right;
+        cameraRight.y = 0;
+
+        Vector3 moveDirectionForward = cameraForward * movimento.y;
+        Vector3 moveDirectionSideways = cameraRight * movimento.x;
+        Vector3 moveDirection = (moveDirectionForward + moveDirectionSideways);
+
+        Vector3 move = moveDirection * velocidade;
+
+        if (move != Vector3.zero)
+            gameObject.transform.forward = move;
+
+        verticalVelocity += gravityValue * Time.deltaTime;
+        move.y = verticalVelocity;
+        controller.Move(move * Time.deltaTime);
     }
 
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         if (!isDead)
         {
@@ -170,9 +195,9 @@ public class Personagem : NetworkBehaviour
                 gameObject.transform.forward = moveDirection.normalized;
         }
         //RotateWithMouseInput();
-    }
+    }*/
 
-    private void RotateWithMouseInput()
+    /*private void RotateWithMouseInput()
     {
         // Obter a rotação atual da câmera
         Quaternion cameraRotation = vc.State.CorrectedOrientation;
@@ -185,5 +210,5 @@ public class Personagem : NetworkBehaviour
 
         // Definir a rotação do personagem para a nova rotação
         transform.rotation = newRotation;
-    }
+    }*/
 }
