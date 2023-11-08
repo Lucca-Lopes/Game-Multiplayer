@@ -158,28 +158,36 @@ public class Personagem : NetworkBehaviour
             }
         }
 
-        //movimento por character controller
-        if (controller.isGrounded && verticalVelocity < 0)
-            verticalVelocity = 0f;
+        if (GameManager.Instance.timerAtivo.Value)
+        {
+            //movimento por character controller
+            if (controller.isGrounded && verticalVelocity < 0)
+                verticalVelocity = 0f;
 
-        Vector3 cameraForward = playerCam.transform.forward;
-        cameraForward.y = 0;
-        cameraForward = cameraForward.normalized;
-        Vector3 cameraRight = playerCam.transform.right;
-        cameraRight.y = 0;
+            Vector3 cameraForward = playerCam.transform.forward;
+            cameraForward.y = 0;
+            cameraForward = cameraForward.normalized;
+            Vector3 cameraRight = playerCam.transform.right;
+            cameraRight.y = 0;
 
-        Vector3 moveDirectionForward = cameraForward * movimento.y;
-        Vector3 moveDirectionSideways = cameraRight * movimento.x;
-        Vector3 moveDirection = (moveDirectionForward + moveDirectionSideways);
+            Vector3 moveDirectionForward = cameraForward * movimento.y;
+            Vector3 moveDirectionSideways = cameraRight * movimento.x;
+            Vector3 moveDirection = (moveDirectionForward + moveDirectionSideways);
 
-        Vector3 move = moveDirection * velocidade;
+            Vector3 move = moveDirection * velocidade;
 
-        if (move != Vector3.zero)
-            gameObject.transform.forward = move;
+            if (move != Vector3.zero)
+                gameObject.transform.forward = move;
 
-        verticalVelocity += gravityValue * Time.deltaTime;
-        move.y = verticalVelocity;
-        controller.Move(move * Time.deltaTime);
+            verticalVelocity += gravityValue * Time.deltaTime;
+            move.y = verticalVelocity;
+            controller.Move(move * Time.deltaTime);
+        }
+        /*else
+        {
+            if (!controller.isGrounded)
+                gameObject.transform.position += new Vector3(0f, gravityValue * Time.deltaTime, 0f);
+        }*/
     }
 
     /*private void FixedUpdate()

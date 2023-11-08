@@ -18,11 +18,11 @@ public class SpawnManager : NetworkBehaviour
     {
         if (IsHost)
         {
-            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, true, -1);
+            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, true);
         }
         else if (IsClient)
         {
-            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, false, ((int)NetworkManager.Singleton.LocalClientId)-1);
+            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, false);
         }
         base.OnNetworkSpawn();
     }
@@ -67,29 +67,31 @@ public class SpawnManager : NetworkBehaviour
     //}
 
     [ServerRpc(RequireOwnership = false)]
-    public void SpawnPlayerServerRpc(ulong clientId, bool isEntity, int prefabId)
+    public void SpawnPlayerServerRpc(ulong clientId, bool isEntity)
     {
         GameObject newPlayer;
+        Debug.Log($"Tipo de jogador: {isEntity}");
         if (isEntity)
         {
-            newPlayer = Instantiate(entity);
-            newPlayer.transform.position = entitySpawnpoint.transform.position;
+            newPlayer = Instantiate(entity, entitySpawnpoint.transform.position, entitySpawnpoint.transform.rotation);
         }
         else 
         {
-            newPlayer = Instantiate(sobreviventes[prefabId], spawnPoints[prefabId].transform.position, spawnPoints[prefabId].transform.rotation);
+            newPlayer = Instantiate(sobreviventes[clientId-1], spawnPoints[clientId-1].transform.position, spawnPoints[clientId-1].transform.rotation);
             //newPlayer.transform.position = RandomSurvivorSpawn();
         }
         var netObj = newPlayer.GetComponent<NetworkObject>();
         newPlayer.SetActive(true);
         netObj.SpawnAsPlayerObject(clientId, true);
         netObj.ChangeOwnership(clientId);
-        GameManager.FetchPlayers();
+        //GameManager.FetchPlayers();
+        GameManager.Instance.jogadoresProntos.Value += 1;
+        Debug.Log($"SpawnManager.SpawnPlayerServerRpc() - {GameManager.Instance.jogadoresProntos.Value} players conectados (client {clientId})");
     }
 
-    private Vector3 RandomSurvivorSpawn()
+    /*private Vector3 RandomSurvivorSpawn()
     {
         var radSpawn = spawnPoints[Random.Range(0, spawnPoints.Length)];
         return radSpawn.transform.position;
-    }
+    }*/
 }

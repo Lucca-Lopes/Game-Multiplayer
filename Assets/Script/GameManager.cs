@@ -13,6 +13,9 @@ public class GameManager : NetworkBehaviour
     public NetworkVariable<bool> timerAtivo = new(false);
     public NetworkVariable<bool> killerWin = new(false);
 
+    public int jogadoresEsperados = 4;
+    public NetworkVariable<ulong> jogadoresProntos = new(0);
+
     public List<ulong> jogadoresConectados = new();
     Dictionary<ulong, Personagem> sobreviventes = new();
 
@@ -38,6 +41,7 @@ public class GameManager : NetworkBehaviour
         {
             Destroy(gameObject);
         }
+        
     }
 
     private void Start()
@@ -52,7 +56,10 @@ public class GameManager : NetworkBehaviour
 
             Debug.Log("GameManager.OnEnable - Registrando o evento de cliente desconectado");
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectedHandler;
+
+            jogadoresProntos.OnValueChanged += ComecarJogo;
         }
+            
     }
     //public override void OnNetworkSpawn()
     //{
@@ -74,15 +81,26 @@ public class GameManager : NetworkBehaviour
 
     private void OnClientConnectedHandler(ulong clientId)
     {
-        if (NetworkManager.Singleton.IsServer)
+        /*if (NetworkManager.Singleton.IsServer)
         {
             Debug.Log($"Cliente {clientId} conectado");
-            if(clientId > 2 && !timerAtivo.Value)
+            if(clientId == (ulong)jogadoresEsperados && !timerAtivo.Value)
             {
                 timerAtivo.Value = true;
             }
-        }
+        }*/
         //FetchPlayers();
+    }
+
+    public void ComecarJogo(ulong previous, ulong current)
+    {
+        Debug.Log($"GameManager.ComecarJogo()");
+        //Debug.Log($"GameManager.ComecarJogo() - NetworkManager.Singleton.IsServer({NetworkManager.Singleton.IsServer})");
+        if (current == (ulong)jogadoresEsperados && !timerAtivo.Value)
+        {
+            Debug.Log($"GameManager.ComecarJogo() - {current} jogadores prontos de {jogadoresEsperados} - Ativando timer");
+            timerAtivo.Value = true;
+        }
     }
 
     public void LiberarMovimento()

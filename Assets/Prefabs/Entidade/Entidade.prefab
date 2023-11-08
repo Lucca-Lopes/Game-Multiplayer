@@ -1396,7 +1396,7 @@ MonoBehaviour:
   lobbyText: {fileID: 2399227932798313151}
   distanciaAtaque: 5
   dano: 1
-  velocidade: 4
+  velocidade: 8
   gravityValue: -9.81
   distanciaCarregamento: 2
   nomeJogador:

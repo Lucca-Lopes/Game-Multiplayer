@@ -378,6 +378,9 @@ MonoBehaviour:
     m_InternalValue: 0
   killerWin:
     m_InternalValue: 0
+  jogadoresEsperados: 4
+  jogadoresProntos:
+    m_InternalValue: 0
   jogadoresConectados: 
 --- !u!4 &94495050
 Transform:
@@ -9945,6 +9948,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 396
       objectReference: {fileID: 0}
+    - target: {fileID: 7826421863444690006, guid: 2f8a90a17f4aac341aca09a49da847ac,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 7829809810978326303, guid: 2f8a90a17f4aac341aca09a49da847ac,
         type: 3}
       propertyPath: m_RootOrder
@@ -11550,6 +11558,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: carrinhoMadeira (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6897498875608335465, guid: 48667e5825ee42340a1a738b2f9851b7,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48667e5825ee42340a1a738b2f9851b7, type: 3}
 --- !u!1001 &1160881317
@@ -11567,7 +11580,7 @@ PrefabInstance:
     - target: {fileID: 6121242925628841683, guid: 48667e5825ee42340a1a738b2f9851b7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -17.21
+      value: -17.68
       objectReference: {fileID: 0}
     - target: {fileID: 6121242925628841683, guid: 48667e5825ee42340a1a738b2f9851b7,
         type: 3}
@@ -11577,7 +11590,7 @@ PrefabInstance:
     - target: {fileID: 6121242925628841683, guid: 48667e5825ee42340a1a738b2f9851b7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.57
+      value: 7.89
       objectReference: {fileID: 0}
     - target: {fileID: 6121242925628841683, guid: 48667e5825ee42340a1a738b2f9851b7,
         type: 3}
@@ -11619,6 +11632,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: carrinhoMadeira
       objectReference: {fileID: 0}
+    - target: {fileID: 6897498875608335465, guid: 48667e5825ee42340a1a738b2f9851b7,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952956851387023734, guid: 48667e5825ee42340a1a738b2f9851b7,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ea288d38d3ae7414788d24fa8839df2a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48667e5825ee42340a1a738b2f9851b7, type: 3}
 --- !u!1001 &1194781455
@@ -13269,5 +13292,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: carrinhoMadeira (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6897498875608335465, guid: 48667e5825ee42340a1a738b2f9851b7,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952956851387023734, guid: 48667e5825ee42340a1a738b2f9851b7,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 3da9c054614ce7647b5c38b09c1ca2de, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48667e5825ee42340a1a738b2f9851b7, type: 3}
