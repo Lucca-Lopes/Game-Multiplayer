@@ -6,6 +6,7 @@ using Unity.Collections;
 using Cinemachine;
 using static UnityEngine.Rendering.DebugUI;
 using TMPro;
+using UnityEngine.VFX;
 
 public class Personagem : NetworkBehaviour
 {
@@ -32,6 +33,7 @@ public class Personagem : NetworkBehaviour
 
     //Variável para animação
     [SerializeField] AnimationManager animations;
+    public VisualEffect zzz;
 
     //Variável para controle de vida
     public bool isDead = false;
@@ -106,17 +108,22 @@ public class Personagem : NetworkBehaviour
                     isDead = true;
                     Debug.Log("Personagem - OnLifeChanged - Voce morreu!");
                     velocidade = 0;
+                    animations.sonolento.Value = true;
                     animations.dormindo.Value = true;
+                    zzz.Play();
                     AtualizarPontuacao_ServerRpc();
                 }
             }
 
-            if (current > 0)
+            if (current > previous)
             {
                 isDead = false;
                 Debug.Log("Voce reviveu!");
-                velocidade = 4;
                 animations.dormindo.Value = false;
+            }
+            if (previous > current)
+            {
+                animations.sonolento.Value = true;
             }
         }
     }
@@ -183,11 +190,6 @@ public class Personagem : NetworkBehaviour
             move.y = verticalVelocity;
             controller.Move(move * Time.deltaTime);
         }
-        /*else
-        {
-            if (!controller.isGrounded)
-                gameObject.transform.position += new Vector3(0f, gravityValue * Time.deltaTime, 0f);
-        }*/
     }
 
     /*private void FixedUpdate()

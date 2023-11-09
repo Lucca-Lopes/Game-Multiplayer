@@ -13,9 +13,10 @@ public class AnimationEvents : NetworkBehaviour
     public NetworkVariable<bool> usandoHabilidade;
     public NetworkVariable<bool> atacando;
 
-    /*public VisualEffect direito;
+    public VisualEffect direito;
     public VisualEffect esquerdo;
-    public void PlayVisualEffects(int pe)
+    public VisualEffect particulaAtaque;
+    public void PlayVisualEffects(int pe) 
     {
         if(pe == 1)
         {
@@ -25,7 +26,12 @@ public class AnimationEvents : NetworkBehaviour
         {
             direito.Play();
         }
-    }*/
+    }
+
+    public void AttackParticles()
+    {
+        particulaAtaque.Play();
+    }
 
     public override void OnNetworkSpawn()
     {

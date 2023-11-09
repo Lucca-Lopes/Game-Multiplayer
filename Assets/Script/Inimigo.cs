@@ -13,7 +13,7 @@ public class Inimigo : NetworkBehaviour
     [SerializeField] AnimationEvents animations;
     [SerializeField] private CinemachineFreeLook vc;
     [SerializeField] GameObject playerCam;
-    [SerializeField] ParticleSystem efeito;
+    //[SerializeField] ParticleSystem efeito;
     [SerializeField] TextMeshProUGUI lobbyText;
     //[SerializeField] EfeitoVisual efeitoScript;
 
@@ -37,6 +37,7 @@ public class Inimigo : NetworkBehaviour
     //private Rigidbody rb;
     private CharacterController controller;
     private bool canWalk = true;
+    bool jogoIniciado = false;
     
     private void Awake()
     {
@@ -87,40 +88,43 @@ public class Inimigo : NetworkBehaviour
     {
         if (IsClient)
         {
-            if (GameManager.Instance.timerAtivo.Value)
+            if (GameManager.Instance.timerAtivo.Value && !jogoIniciado)
             {
                 lobbyText.gameObject.SetActive(false);
+                jogoIniciado = true;
                 canWalk = true;
             }
-            else
+            else if (!GameManager.Instance.timerAtivo.Value)
             {
                 lobbyText.gameObject.SetActive(true);
                 canWalk = false;
             }
         }
+        if (canWalk)
+        {
+            //movimento por character controller
+            if (controller.isGrounded && verticalVelocity < 0)
+                verticalVelocity = 0f;
 
-        //movimento por character controller
-        if (controller.isGrounded && verticalVelocity < 0)
-            verticalVelocity = 0f;
+            Vector3 cameraForward = playerCam.transform.forward;
+            cameraForward.y = 0;
+            cameraForward = cameraForward.normalized;
+            Vector3 cameraRight = playerCam.transform.right;
+            cameraRight.y = 0;
 
-        Vector3 cameraForward = playerCam.transform.forward;
-        cameraForward.y = 0;
-        cameraForward = cameraForward.normalized;
-        Vector3 cameraRight = playerCam.transform.right;
-        cameraRight.y = 0;
+            Vector3 moveDirectionForward = cameraForward * movimento.y;
+            Vector3 moveDirectionSideways = cameraRight * movimento.x;
+            Vector3 moveDirection = (moveDirectionForward + moveDirectionSideways);
 
-        Vector3 moveDirectionForward = cameraForward * movimento.y;
-        Vector3 moveDirectionSideways = cameraRight * movimento.x;
-        Vector3 moveDirection = (moveDirectionForward + moveDirectionSideways);
+            Vector3 move = moveDirection * velocidade;
 
-        Vector3 move = moveDirection * velocidade;
+            if (move != Vector3.zero)
+                gameObject.transform.forward = move;
 
-        if (move != Vector3.zero)
-            gameObject.transform.forward = move;
-
-        verticalVelocity += gravityValue * Time.deltaTime;
-        move.y = verticalVelocity;
-        controller.Move(move * Time.deltaTime);
+            verticalVelocity += gravityValue * Time.deltaTime;
+            move.y = verticalVelocity;
+            controller.Move(move * Time.deltaTime);
+        }
     }
 
     public void SetMovimento(InputAction.CallbackContext value)
@@ -177,9 +181,8 @@ public class Inimigo : NetworkBehaviour
         {
             if (IsOwner)
             {
-                StartCoroutine(AnimacaoAtacar());
-                Debug.Log("Atacou");
-                efeito.Play();
+                animations.atacando.Value = true;
+                canWalk = false;
                 Collider[] hitColliders = Physics.OverlapSphere(transform.position, distanciaAtaque);
                 foreach (Collider col in hitColliders)
                 {
@@ -192,7 +195,13 @@ public class Inimigo : NetworkBehaviour
         }
     }
 
-    //arrumar
+    public void FinishAttack()
+    {
+        animations.atacando.Value = false;
+        canWalk = true;
+    }
+
+    /*
     IEnumerator AnimacaoAtacar()
     {
         canWalk = false;
@@ -201,5 +210,5 @@ public class Inimigo : NetworkBehaviour
         yield return new WaitForSeconds(2.0f);
         animations.atacando.Value = false;
         canWalk = true;
-    }
+    }*/
 }

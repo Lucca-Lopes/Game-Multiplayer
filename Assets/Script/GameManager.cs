@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class GameManager : NetworkBehaviour
 {
@@ -51,8 +52,8 @@ public class GameManager : NetworkBehaviour
             Debug.Log($"GameManager.OnEnable - IsServer {NetworkManager.Singleton.IsServer} Registrando o evento de cliente conectado");
             NetworkManager.Singleton.OnServerStarted += OnServerStartedHandler;
 
-            Debug.Log("GameManager.OnEnable - Registrando o evento de cliente conectado");
-            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedHandler;
+            //Debug.Log("GameManager.OnEnable - Registrando o evento de cliente conectado");
+            //NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedHandler;
 
             Debug.Log("GameManager.OnEnable - Registrando o evento de cliente desconectado");
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectedHandler;
@@ -79,23 +80,21 @@ public class GameManager : NetworkBehaviour
         Debug.Log("Host conectado");
     }
 
-    private void OnClientConnectedHandler(ulong clientId)
+    /*private void OnClientConnectedHandler(ulong clientId)
     {
-        /*if (NetworkManager.Singleton.IsServer)
+        if (NetworkManager.Singleton.IsServer)
         {
             Debug.Log($"Cliente {clientId} conectado");
             if(clientId == (ulong)jogadoresEsperados && !timerAtivo.Value)
             {
                 timerAtivo.Value = true;
             }
-        }*/
+        }
         //FetchPlayers();
-    }
+    }*/
 
     public void ComecarJogo(ulong previous, ulong current)
     {
-        Debug.Log($"GameManager.ComecarJogo()");
-        //Debug.Log($"GameManager.ComecarJogo() - NetworkManager.Singleton.IsServer({NetworkManager.Singleton.IsServer})");
         if (current == (ulong)jogadoresEsperados && !timerAtivo.Value)
         {
             Debug.Log($"GameManager.ComecarJogo() - {current} jogadores prontos de {jogadoresEsperados} - Ativando timer");
@@ -128,9 +127,13 @@ public class GameManager : NetworkBehaviour
             {
                 var personagemComponent = sobrevivente.GetComponent<Personagem>();
                 if (personagemComponent.vidaJogador.Value == 0)
+                {
                     jogadoresMortos++;
+                    personagemComponent.zzz.Play();
+                }
                 if (personagemComponent.OwnerClientId == atacadoId)
                 {
+                    personagemComponent.zzz.Play();
                     if (personagemComponent.vidaJogador.Value > 0)
                     {
                         personagemComponent.vidaJogador.Value--;

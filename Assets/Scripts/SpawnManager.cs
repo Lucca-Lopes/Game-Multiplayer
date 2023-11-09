@@ -70,14 +70,13 @@ public class SpawnManager : NetworkBehaviour
     public void SpawnPlayerServerRpc(ulong clientId, bool isEntity)
     {
         GameObject newPlayer;
-        Debug.Log($"Tipo de jogador: {isEntity}");
         if (isEntity)
         {
             newPlayer = Instantiate(entity, entitySpawnpoint.transform.position, entitySpawnpoint.transform.rotation);
         }
         else 
         {
-            newPlayer = Instantiate(sobreviventes[clientId-1], spawnPoints[clientId-1].transform.position, spawnPoints[clientId-1].transform.rotation);
+            newPlayer = Instantiate(sobreviventes[clientId-1]/*, spawnPoints[clientId-1].transform.position, spawnPoints[clientId-1].transform.rotation*/);
             //newPlayer.transform.position = RandomSurvivorSpawn();
         }
         var netObj = newPlayer.GetComponent<NetworkObject>();
