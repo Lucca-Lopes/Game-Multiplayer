@@ -1663,9 +1663,8 @@ MonoBehaviour:
   animations: {fileID: 5976861410941950276}
   vc: {fileID: 129475094489182000}
   playerCam: {fileID: 7250884601603657667}
-  efeito: {fileID: 58075397701839584, guid: daa083991e6b0a44cab1ab396d362938, type: 3}
   lobbyText: {fileID: 2399227932798313151}
-  distanciaAtaque: 5
+  distanciaAtaque: 2
   dano: 1
   velocidade: 8
   gravityValue: -9.81
@@ -1900,8 +1899,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7250884601603657667}
-  m_LocalRotation: {x: 0.0021054042, y: 0.95934653, z: 0.007159101, w: -0.28213206}
-  m_LocalPosition: {x: 0.42078733, y: 0.01668024, z: 0.65353703}
+  m_LocalRotation: {x: -0.006010454, y: 0.86348563, z: 0.010292751, w: 0.5042326}
+  m_LocalPosition: {x: -88.714264, y: -0.017059326, z: -48.089375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2475,7 +2474,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7999302402233842000}
-  m_LocalRotation: {x: 0.0021054049, y: 0.9593466, z: 0.0071591036, w: -0.2821321}
+  m_LocalRotation: {x: 0.0021054044, y: 0.9593466, z: 0.0071591027, w: -0.2821321}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

@@ -18,12 +18,13 @@ public class Inimigo : NetworkBehaviour
     //[SerializeField] EfeitoVisual efeitoScript;
 
     [Header("Configurações")]
-    public float distanciaAtaque = 2.0f;
+    public float distanciaAtaque = 1.0f;
     public int dano = 1;
     public float velocidade = 4;
     float verticalVelocity;
     [SerializeField] float gravityValue = -9.81f;
     public float distanciaCarregamento = 2.0f;
+    Vector3 move = Vector3.zero;
 
     [Header("NetVars")]
     public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -116,27 +117,30 @@ public class Inimigo : NetworkBehaviour
             Vector3 moveDirectionSideways = cameraRight * movimento.x;
             Vector3 moveDirection = (moveDirectionForward + moveDirectionSideways);
 
-            Vector3 move = moveDirection * velocidade;
+            move = moveDirection * velocidade;
 
             if (move != Vector3.zero)
+            {
                 gameObject.transform.forward = move;
+                animations.andando.Value = true;
+            }
+            else
+                animations.andando.Value = false;
 
             verticalVelocity += gravityValue * Time.deltaTime;
             move.y = verticalVelocity;
             controller.Move(move * Time.deltaTime);
         }
+        else
+        {
+            move = Vector3.zero;
+            animations.andando.Value = false;
+        }
     }
 
     public void SetMovimento(InputAction.CallbackContext value)
     {
-        if (GameManager.Instance.timerAtivo.Value && IsOwner && canWalk)
-        {
-            movimento = value.ReadValue<Vector2>();
-            if (value.ReadValue<Vector2>() != Vector2.zero)
-                animations.andando.Value = true;
-            else
-                animations.andando.Value = false;
-        }
+        movimento = value.ReadValue<Vector2>();
     }
 
     public void SetMouseInput(InputAction.CallbackContext value)
@@ -183,7 +187,7 @@ public class Inimigo : NetworkBehaviour
             {
                 animations.atacando.Value = true;
                 canWalk = false;
-                Collider[] hitColliders = Physics.OverlapSphere(transform.position, distanciaAtaque);
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position + new Vector3(0, 1.3f, 1.367f), distanciaAtaque);
                 foreach (Collider col in hitColliders)
                 {
                     if (col.gameObject.CompareTag("Sobrevivente"))
@@ -201,8 +205,7 @@ public class Inimigo : NetworkBehaviour
         canWalk = true;
     }
 
-    /*
-    IEnumerator AnimacaoAtacar()
+    /*IEnumerator AnimacaoAtacar()
     {
         canWalk = false;
         animations.atacando.Value = true;
@@ -210,5 +213,11 @@ public class Inimigo : NetworkBehaviour
         yield return new WaitForSeconds(2.0f);
         animations.atacando.Value = false;
         canWalk = true;
+    }*/
+
+    /* Tire de comentário pra ver hitbox do ataque da entidade
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(transform.position + new Vector3(0, 1.3f, 1.367f), distanciaAtaque);
     }*/
 }

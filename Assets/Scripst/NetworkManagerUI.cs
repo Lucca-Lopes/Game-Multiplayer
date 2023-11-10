@@ -16,6 +16,8 @@ public class NetworkManagerUI : MonoBehaviour
             GameManager.PlayerName = playerName.text;
             NetworkManager.Singleton.StartHost();
             interfacePlayerName.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
         else
             errorTextInput.SetActive(true);
@@ -29,6 +31,8 @@ public class NetworkManagerUI : MonoBehaviour
                 GameManager.PlayerName = playerName.text;
                 NetworkManager.Singleton.StartClient();
                 interfacePlayerName.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
             }
         }
         else

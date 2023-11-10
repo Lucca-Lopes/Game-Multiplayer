@@ -18,6 +18,7 @@ public class Personagem : NetworkBehaviour
     public int velocidade = 4;
     float verticalVelocity;
     [SerializeField] float gravityValue = -9.81f;
+    Vector3 move = Vector3.zero;
 
     //Variável para controle do lobby
     [SerializeField] TextMeshProUGUI lobbyText;
@@ -165,6 +166,8 @@ public class Personagem : NetworkBehaviour
             }
         }
 
+        //displayCanvas.rotation.SetLookRotation(playerCam.transform.forward * -1, playerCam.transform.up);
+        
         if (GameManager.Instance.timerAtivo.Value)
         {
             //movimento por character controller
@@ -181,14 +184,24 @@ public class Personagem : NetworkBehaviour
             Vector3 moveDirectionSideways = cameraRight * movimento.x;
             Vector3 moveDirection = (moveDirectionForward + moveDirectionSideways);
 
-            Vector3 move = moveDirection * velocidade;
+            move = moveDirection * velocidade;
 
             if (move != Vector3.zero)
+            {
                 gameObject.transform.forward = move;
+                animations.correndo.Value = true;
+            }
+            else
+                animations.correndo.Value = false;
 
             verticalVelocity += gravityValue * Time.deltaTime;
             move.y = verticalVelocity;
             controller.Move(move * Time.deltaTime);
+        }
+        else
+        {
+            move = Vector3.zero;
+            animations.correndo.Value = false;
         }
     }
 

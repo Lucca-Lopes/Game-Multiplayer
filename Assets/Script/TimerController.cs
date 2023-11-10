@@ -93,10 +93,14 @@ public class TimerController : NetworkBehaviour
             if (GameManager.Instance.killerWin.Value)
             {
                 textoVitoria.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
             else
             {
                 textoDerrota.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
         }
         else if (NetworkManager.Singleton.IsClient)
@@ -104,10 +108,14 @@ public class TimerController : NetworkBehaviour
             if (GameManager.Instance.killerWin.Value)
             {
                 textoDerrota.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
             else
             {
                 textoVitoria.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
         }
     }
