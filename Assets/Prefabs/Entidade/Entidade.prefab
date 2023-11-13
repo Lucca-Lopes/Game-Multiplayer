@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 346446253195105642}
-  m_LocalRotation: {x: 0.007223345, y: 0.9590588, z: 0.024561867, w: -0.28204748}
+  m_LocalRotation: {x: 0.0017634602, y: 0.99780476, z: 0.029754274, w: -0.059137356}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -315,7 +315,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1553149471781840438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.637959, y: 0.11000013, z: 4.3098145}
+  m_LocalPosition: {x: -1.6758499, y: 0.11000013, z: 8.608395}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -389,7 +389,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
-    Value: 119.4344
+    Value: 168.98366
     m_SpeedMode: 0
     m_MaxSpeed: 300
     m_AccelTime: 0.1
@@ -539,7 +539,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
-    Value: 119.4344
+    Value: 168.98366
     m_SpeedMode: 0
     m_MaxSpeed: 300
     m_AccelTime: 0.1
@@ -822,7 +822,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
-    Value: 119.4344
+    Value: 168.98366
     m_SpeedMode: 0
     m_MaxSpeed: 300
     m_AccelTime: 0.1
@@ -1029,7 +1029,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5515481082536134138}
-  m_LocalRotation: {x: -0.0030267837, y: 0.9593181, z: -0.010292111, w: -0.2821237}
+  m_LocalRotation: {x: -0.00038586513, y: 0.9982271, z: -0.0065105716, w: -0.0591624}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1162,7 +1162,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
-    Value: 119.4344
+    Value: 168.98366
     m_SpeedMode: 0
     m_MaxSpeed: 300
     m_AccelTime: 0.1
@@ -1432,12 +1432,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6158860181176467104}
   - component: {fileID: 259104728354383066}
+  - component: {fileID: 6068537404295030284}
   - component: {fileID: 1496769231429684132}
   - component: {fileID: 4355615641476463519}
   - component: {fileID: 5976861410941950276}
   - component: {fileID: 9081134416092275937}
   - component: {fileID: 6646717897434253983}
-  - component: {fileID: 856063132956457980}
   - component: {fileID: 2933932667176436331}
   m_Layer: 0
   m_Name: Entidade
@@ -1489,6 +1489,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6068537404295030284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6787903309876454426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99c3417572f3f604bb3dd07044b77fdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 259104728354383066}
 --- !u!114 &1496769231429684132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1666,7 +1680,7 @@ MonoBehaviour:
   lobbyText: {fileID: 2399227932798313151}
   distanciaAtaque: 2
   dano: 1
-  velocidade: 8
+  velocidade: 10
   gravityValue: -9.81
   distanciaCarregamento: 2
   nomeJogador:
@@ -1705,20 +1719,6 @@ MonoBehaviour:
         byte0028: 0
         byte0029: 0
   displayName: {fileID: 6477818680551682324}
---- !u!114 &856063132956457980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6787903309876454426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
-  m_Animator: {fileID: 259104728354383066}
 --- !u!143 &2933932667176436331
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1899,8 +1899,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7250884601603657667}
-  m_LocalRotation: {x: -0.006010454, y: 0.86348563, z: 0.010292751, w: 0.5042326}
-  m_LocalPosition: {x: -88.714264, y: -0.017059326, z: -48.089375}
+  m_LocalRotation: {x: 0.0006903328, y: 0.9981804, z: 0.011647747, w: -0.05915965}
+  m_LocalPosition: {x: 0.42078638, y: 0.046470404, z: 3.537424}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2474,7 +2474,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7999302402233842000}
-  m_LocalRotation: {x: 0.0021054044, y: 0.9593466, z: 0.0071591027, w: -0.2821321}
+  m_LocalRotation: {x: 0.00069033244, y: 0.9981803, z: 0.011647744, w: -0.059159636}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

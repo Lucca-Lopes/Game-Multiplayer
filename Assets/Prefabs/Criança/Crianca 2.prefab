@@ -1360,7 +1360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b80a45a4322bd45b62b47d72fab1c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidade: 8
+  velocidade: 10
   gravityValue: -9.81
   lobbyText: {fileID: 5931531189250854395}
   vidaJogador:

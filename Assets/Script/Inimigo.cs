@@ -201,8 +201,11 @@ public class Inimigo : NetworkBehaviour
 
     public void FinishAttack()
     {
-        animations.atacando.Value = false;
-        canWalk = true;
+        if (IsOwner)
+        {
+            animations.atacando.Value = false;
+            canWalk = true;
+        }
     }
 
     /*IEnumerator AnimacaoAtacar()
