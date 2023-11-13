@@ -101,7 +101,7 @@ public class Inimigo : NetworkBehaviour
                 canWalk = false;
             }
         }
-        if (canWalk)
+        if (canWalk && IsOwner)
         {
             //movimento por character controller
             if (controller.isGrounded && verticalVelocity < 0)
@@ -131,7 +131,7 @@ public class Inimigo : NetworkBehaviour
             move.y = verticalVelocity;
             controller.Move(move * Time.deltaTime);
         }
-        else
+        else if (IsOwner)
         {
             move = Vector3.zero;
             animations.andando.Value = false;

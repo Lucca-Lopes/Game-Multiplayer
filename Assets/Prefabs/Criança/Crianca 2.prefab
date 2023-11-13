@@ -1085,7 +1085,7 @@ GameObject:
   - component: {fileID: 4685009338861226737}
   - component: {fileID: 3784851164243401571}
   - component: {fileID: 4469089115645267916}
-  - component: {fileID: 7233882599962156575}
+  - component: {fileID: 6349645721658095921}
   - component: {fileID: 3513590085645286907}
   m_Layer: 0
   m_Name: Crianca 2
@@ -1409,7 +1409,7 @@ MonoBehaviour:
   isDead: 0
   vc: {fileID: 4884629443701883405}
   playerCam: {fileID: 1529418258134233708}
---- !u!114 &7233882599962156575
+--- !u!114 &6349645721658095921
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1418,7 +1418,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5603910574333966242}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Script: {fileID: 11500000, guid: 99c3417572f3f604bb3dd07044b77fdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []

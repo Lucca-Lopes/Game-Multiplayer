@@ -137,13 +137,14 @@ public class Personagem : NetworkBehaviour
 
     public void SetMovimento(InputAction.CallbackContext value)
     {
-        if (IsOwner && !isDead && GameManager.Instance.timerAtivo.Value)
+        if (IsOwner /*&& !isDead && GameManager.Instance.timerAtivo.Value*/)
         {
             movimento = value.ReadValue<Vector2>();
-            if (value.ReadValue<Vector2>() != Vector2.zero)
+            //Debug.Log($"movimento = {value}");
+            /*if (value.ReadValue<Vector2>() != Vector2.zero)
                 animations.correndo.Value = true;
             else
-                animations.correndo.Value = false;
+                animations.correndo.Value = false;*/
         }
     }
 
@@ -166,42 +167,45 @@ public class Personagem : NetworkBehaviour
             }
         }
 
-        //displayCanvas.rotation.SetLookRotation(playerCam.transform.forward * -1, playerCam.transform.up);
-        
-        if (GameManager.Instance.timerAtivo.Value)
+        if (IsOwner)
         {
-            //movimento por character controller
-            if (controller.isGrounded && verticalVelocity < 0)
-                verticalVelocity = 0f;
-
-            Vector3 cameraForward = playerCam.transform.forward;
-            cameraForward.y = 0;
-            cameraForward = cameraForward.normalized;
-            Vector3 cameraRight = playerCam.transform.right;
-            cameraRight.y = 0;
-
-            Vector3 moveDirectionForward = cameraForward * movimento.y;
-            Vector3 moveDirectionSideways = cameraRight * movimento.x;
-            Vector3 moveDirection = (moveDirectionForward + moveDirectionSideways);
-
-            move = moveDirection * velocidade;
-
-            if (move != Vector3.zero)
+            if (GameManager.Instance.timerAtivo.Value)
             {
-                gameObject.transform.forward = move;
-                animations.correndo.Value = true;
+                //movimento por character controller
+                if (controller.isGrounded && verticalVelocity < 0)
+                    verticalVelocity = 0f;
+
+                Vector3 cameraForward = playerCam.transform.forward;
+                cameraForward.y = 0;
+                cameraForward = cameraForward.normalized;
+                Vector3 cameraRight = playerCam.transform.right;
+                cameraRight.y = 0;
+
+                Vector3 moveDirectionForward = cameraForward * movimento.y;
+                Vector3 moveDirectionSideways = cameraRight * movimento.x;
+                Vector3 moveDirection = (moveDirectionForward + moveDirectionSideways);
+
+                move = moveDirection * velocidade;
+
+                if (move != Vector3.zero)
+                {
+                    gameObject.transform.forward = move;
+                    animations.correndo.Value = true;
+                }
+                else
+                {
+                    animations.correndo.Value = false;
+                }
+
+                verticalVelocity += gravityValue * Time.deltaTime;
+                move.y = verticalVelocity;
+                controller.Move(move * Time.deltaTime);
             }
             else
+            {
+                move = Vector3.zero;
                 animations.correndo.Value = false;
-
-            verticalVelocity += gravityValue * Time.deltaTime;
-            move.y = verticalVelocity;
-            controller.Move(move * Time.deltaTime);
-        }
-        else
-        {
-            move = Vector3.zero;
-            animations.correndo.Value = false;
+            }
         }
     }
 

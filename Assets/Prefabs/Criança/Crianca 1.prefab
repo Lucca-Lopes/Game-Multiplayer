@@ -1084,8 +1084,8 @@ GameObject:
   - component: {fileID: 4417893849923389616}
   - component: {fileID: 4685009338861226737}
   - component: {fileID: 3784851164243401571}
+  - component: {fileID: 2622691048007949383}
   - component: {fileID: 4469089115645267916}
-  - component: {fileID: 7233882599962156575}
   - component: {fileID: 8701073232922113607}
   m_Layer: 0
   m_Name: Crianca 1
@@ -1348,6 +1348,20 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &2622691048007949383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5603910574333966242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99c3417572f3f604bb3dd07044b77fdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 1184141596647929698}
 --- !u!114 &4469089115645267916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1409,20 +1423,6 @@ MonoBehaviour:
   isDead: 0
   vc: {fileID: 4884629443701883405}
   playerCam: {fileID: 1529418258134233708}
---- !u!114 &7233882599962156575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5603910574333966242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
-  m_Animator: {fileID: 1184141596647929698}
 --- !u!143 &8701073232922113607
 CharacterController:
   m_ObjectHideFlags: 0
