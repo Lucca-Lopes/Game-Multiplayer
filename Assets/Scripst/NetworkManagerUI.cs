@@ -8,6 +8,7 @@ public class NetworkManagerUI : MonoBehaviour
     [SerializeField] GameObject errorTextInput;
     [SerializeField] TMP_InputField playerName;
     [SerializeField] GameObject interfacePlayerName;
+    [SerializeField] GameObject interfaceLore;
 
     public void StartHostHandler()
     {
@@ -15,9 +16,8 @@ public class NetworkManagerUI : MonoBehaviour
         {
             GameManager.PlayerName = playerName.text;
             NetworkManager.Singleton.StartHost();
+            interfaceLore.SetActive(true);
             interfacePlayerName.SetActive(false);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
         }
         else
             errorTextInput.SetActive(true);
@@ -30,9 +30,8 @@ public class NetworkManagerUI : MonoBehaviour
             if (!NetworkManager.Singleton.IsHost && !NetworkManager.Singleton.IsServer) {
                 GameManager.PlayerName = playerName.text;
                 NetworkManager.Singleton.StartClient();
+                interfaceLore.SetActive(true);
                 interfacePlayerName.SetActive(false);
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
             }
         }
         else

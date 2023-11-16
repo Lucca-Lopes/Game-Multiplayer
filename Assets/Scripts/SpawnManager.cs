@@ -84,8 +84,6 @@ public class SpawnManager : NetworkBehaviour
         netObj.SpawnAsPlayerObject(clientId, true);
         netObj.ChangeOwnership(clientId);
         //GameManager.FetchPlayers();
-        GameManager.Instance.jogadoresProntos.Value += 1;
-        Debug.Log($"SpawnManager.SpawnPlayerServerRpc() - {GameManager.Instance.jogadoresProntos.Value} players conectados (client {clientId})");
     }
 
     /*private Vector3 RandomSurvivorSpawn()

@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MenuPrincipalManager : MonoBehaviour
+public class MenuPrincipalManager : NetworkBehaviour
 {
     [SerializeField] private GameObject painelMenuInicial;
     [SerializeField] private GameObject painelOpcoes;
@@ -17,6 +18,11 @@ public class MenuPrincipalManager : MonoBehaviour
     [SerializeField] private GameObject painelClassificacao;
     [SerializeField] private GameObject painelTutorial;
     [SerializeField] private GameObject inputNomeJogar;
+
+    [Header("Lore/Tutorial/Pré-Jogo")]
+    [SerializeField] GameObject interfaceLore;
+    [SerializeField] GameObject entidadeTutorial;
+    [SerializeField] GameObject criancaTutorial;
 
     public void Jogar()
     {
@@ -107,5 +113,33 @@ public class MenuPrincipalManager : MonoBehaviour
     {
         painelObjetivo.SetActive(false);
         painelMovimentacao.SetActive(true);
+    }
+
+    //    Lore/Tutorial/Pré-Jogo
+    public void TutorialScreen()
+    {
+        if (IsHost)
+            entidadeTutorial.SetActive(true);
+        else
+            criancaTutorial.SetActive(true);
+        interfaceLore.SetActive(false);
+    }
+    public void CloseInterface()
+    {
+        if (IsHost)
+            entidadeTutorial.SetActive(false);
+        else
+            criancaTutorial.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        IncreaseReadyCount_ServerRpc();
+        Invoke("IncreaseReadyCount_ServerRpc", 2);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void IncreaseReadyCount_ServerRpc()
+    {
+        GameManager.Instance.jogadoresProntos.Value = (uint)NetworkManager.ConnectedClientsIds.Count;
+        Debug.Log($"MenuPrincipalManager.IncreaseReadyCount() - {GameManager.Instance.jogadoresProntos.Value} players conectados");
     }
 }

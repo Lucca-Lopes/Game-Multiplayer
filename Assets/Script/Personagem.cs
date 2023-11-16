@@ -22,6 +22,7 @@ public class Personagem : NetworkBehaviour
 
     //Variável para controle do lobby
     [SerializeField] TextMeshProUGUI lobbyText;
+    bool jogoIniciado;
 
     //Variáveis do Netcode
     public NetworkVariable<int> vidaJogador = new(1);
@@ -157,11 +158,12 @@ public class Personagem : NetworkBehaviour
     {
         if (IsClient)
         {
-            if (GameManager.Instance.timerAtivo.Value)
+            if (GameManager.Instance.timerAtivo.Value && !jogoIniciado)
             {
                 lobbyText.gameObject.SetActive(false);
+                jogoIniciado = true;
             }
-            else
+            else if (!GameManager.Instance.timerAtivo.Value && !jogoIniciado)
             {
                 lobbyText.gameObject.SetActive(true);
             }

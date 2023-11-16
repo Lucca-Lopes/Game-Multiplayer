@@ -95,7 +95,7 @@ public class GameManager : NetworkBehaviour
 
     public void ComecarJogo(ulong previous, ulong current)
     {
-        if (current == (ulong)jogadoresEsperados && !timerAtivo.Value)
+        if (current >= (ulong)jogadoresEsperados && !timerAtivo.Value)
         {
             Debug.Log($"GameManager.ComecarJogo() - {current} jogadores prontos de {jogadoresEsperados} - Ativando timer");
             timerAtivo.Value = true;
@@ -137,6 +137,7 @@ public class GameManager : NetworkBehaviour
                     if (personagemComponent.vidaJogador.Value > 0)
                     {
                         personagemComponent.vidaJogador.Value--;
+                        Debug.Log($"Diminuindo a vida do client {personagemComponent.OwnerClientId} para {personagemComponent.vidaJogador.Value}");
                         jogadoresMortos++;
                     }
                 }

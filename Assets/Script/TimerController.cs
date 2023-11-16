@@ -70,7 +70,7 @@ public class TimerController : NetworkBehaviour
     {
         fimdejogo.SetActive(true);
 
-        GameObject entidade = GameObject.FindGameObjectWithTag("Player");
+        /*GameObject entidade = GameObject.FindGameObjectWithTag("Player");
         var entScript = entidade.GetComponent<Inimigo>();
 
         GameObject[] criancas = GameObject.FindGameObjectsWithTag("Sobrevivente");
@@ -79,7 +79,7 @@ public class TimerController : NetworkBehaviour
         foreach (GameObject crianca in criancas)
         {
             scriptsCriancas.Add(crianca.GetComponent<Personagem>());
-        }
+        }*/
 
         /*var txtPontuacao = $"{entScript.nomeJogador.Value} - {timeRemaining} pontos";
         foreach (Personagem crianca in scriptsCriancas)

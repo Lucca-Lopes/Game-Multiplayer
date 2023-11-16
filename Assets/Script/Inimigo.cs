@@ -95,7 +95,7 @@ public class Inimigo : NetworkBehaviour
                 jogoIniciado = true;
                 canWalk = true;
             }
-            else if (!GameManager.Instance.timerAtivo.Value)
+            else if (!GameManager.Instance.timerAtivo.Value && !jogoIniciado)
             {
                 lobbyText.gameObject.SetActive(true);
                 canWalk = false;
@@ -183,16 +183,17 @@ public class Inimigo : NetworkBehaviour
     {
         if (context.performed)
         {
-            if (IsOwner)
+            if (IsOwner && GameManager.Instance.timerAtivo.Value)
             {
                 animations.atacando.Value = true;
                 canWalk = false;
-                Collider[] hitColliders = Physics.OverlapSphere(transform.position + new Vector3(0, 1.3f, 1.367f), distanciaAtaque);
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward * 1.367f + transform.up * 1.3f, distanciaAtaque);
                 foreach (Collider col in hitColliders)
                 {
                     if (col.gameObject.CompareTag("Sobrevivente"))
                     {
                         GameManager.Instance.CausarDano_ServerRpc(1, col.GetComponent<Personagem>().OwnerClientId);
+                        Debug.Log($"Causando dano ao client {(int)col.GetComponent<Personagem>().OwnerClientId}");
                     }
                 }
             }
@@ -218,9 +219,9 @@ public class Inimigo : NetworkBehaviour
         canWalk = true;
     }*/
 
-    /* Tire de comentário pra ver hitbox do ataque da entidade
+    // Hitbox do Ataque
     private void OnDrawGizmos()
     {
-        Gizmos.DrawSphere(transform.position + new Vector3(0, 1.3f, 1.367f), distanciaAtaque);
-    }*/
+        Gizmos.DrawSphere(transform.position + transform.forward * 1.367f + transform.up * 1.3f, distanciaAtaque);
+    }
 }
