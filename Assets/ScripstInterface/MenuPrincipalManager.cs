@@ -133,13 +133,12 @@ public class MenuPrincipalManager : NetworkBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         IncreaseReadyCount_ServerRpc();
-        Invoke("IncreaseReadyCount_ServerRpc", 2);
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void IncreaseReadyCount_ServerRpc()
     {
-        GameManager.Instance.jogadoresProntos.Value = (uint)NetworkManager.ConnectedClientsIds.Count;
-        Debug.Log($"MenuPrincipalManager.IncreaseReadyCount() - {GameManager.Instance.jogadoresProntos.Value} players conectados");
+        GameManager.Instance.jogadoresProntos.Value += 1;
+        Debug.Log($"MenuPrincipalManager.IncreaseReadyCount() - {GameManager.Instance.jogadoresProntos.Value} players prontos");
     }
 }

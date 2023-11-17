@@ -18,7 +18,8 @@ public class Inimigo : NetworkBehaviour
     //[SerializeField] EfeitoVisual efeitoScript;
 
     [Header("Configurações")]
-    public float distanciaAtaque = 1.0f;
+    public float distanciaAtaque = 5f;
+    [SerializeField] bool mostrarGizmos;
     public int dano = 1;
     public float velocidade = 4;
     float verticalVelocity;
@@ -187,7 +188,8 @@ public class Inimigo : NetworkBehaviour
             {
                 animations.atacando.Value = true;
                 canWalk = false;
-                Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward * 1.367f + transform.up * 1.3f, distanciaAtaque);
+                //Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward * 1.367f + transform.up * 1.3f, distanciaAtaque);
+                Collider[] hitColliders = Physics.OverlapBox(transform.position + transform.forward * (distanciaAtaque / 2) + transform.up * 1.3f, new(3f,4f,distanciaAtaque));
                 foreach (Collider col in hitColliders)
                 {
                     if (col.gameObject.CompareTag("Sobrevivente"))
@@ -222,6 +224,10 @@ public class Inimigo : NetworkBehaviour
     // Hitbox do Ataque
     private void OnDrawGizmos()
     {
-        Gizmos.DrawSphere(transform.position + transform.forward * 1.367f + transform.up * 1.3f, distanciaAtaque);
+        if (mostrarGizmos)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawCube(transform.position + transform.forward * (distanciaAtaque / 2) + transform.up * 1.3f, new(3f, 4f, distanciaAtaque));
+        }
     }
 }

@@ -1678,7 +1678,8 @@ MonoBehaviour:
   vc: {fileID: 129475094489182000}
   playerCam: {fileID: 7250884601603657667}
   lobbyText: {fileID: 2399227932798313151}
-  distanciaAtaque: 2
+  distanciaAtaque: 5
+  mostrarGizmos: 0
   dano: 1
   velocidade: 10
   gravityValue: -9.81
