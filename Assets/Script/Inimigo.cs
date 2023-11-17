@@ -15,6 +15,7 @@ public class Inimigo : NetworkBehaviour
     [SerializeField] GameObject playerCam;
     //[SerializeField] ParticleSystem efeito;
     [SerializeField] TextMeshProUGUI lobbyText;
+    [SerializeField] private  AudioSource somDeAtaque;
     //[SerializeField] EfeitoVisual efeitoScript;
 
     [Header("Configurações")]
