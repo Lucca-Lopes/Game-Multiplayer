@@ -30,7 +30,9 @@ public class AnimationEvents : NetworkBehaviour
 
     public void AttackParticles()
     {
-        particulaAtaque.Play();
+       
+            particulaAtaque.Play();
+        
     }
 
     public override void OnNetworkSpawn()

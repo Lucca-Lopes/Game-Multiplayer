@@ -16,6 +16,7 @@ public class Inimigo : NetworkBehaviour
     //[SerializeField] ParticleSystem efeito;
     [SerializeField] TextMeshProUGUI lobbyText;
     [SerializeField] private  AudioSource somDeAtaque;
+    [SerializeField] audioevenbtes audioevents;
     //[SerializeField] EfeitoVisual efeitoScript;
 
     [Header("Configurações")]
@@ -41,7 +42,7 @@ public class Inimigo : NetworkBehaviour
     private CharacterController controller;
     private bool canWalk = true;
     bool jogoIniciado = false;
-    
+    public NetworkVariable<bool> atacando;
     private void Awake()
     {
         //rb = GetComponent<Rigidbody>();
@@ -62,6 +63,8 @@ public class Inimigo : NetworkBehaviour
         {
             nomeJogador.OnValueChanged += OnPlayerNameChanged;
             nomeJogador.Value = GameManager.PlayerName;
+            somDeAtaque.GetComponent<AudioSource>();
+            atacando.OnValueChanged += ChangersomAtacando;
         }
         if (IsOwner)
         {
@@ -86,7 +89,11 @@ public class Inimigo : NetworkBehaviour
     {
         displayName.text = current.ToString();
     }
-
+    void ChangersomAtacando(bool previous, bool current)
+    {
+        somDeAtaque.Play();
+        Debug.Log("tocou o audio");
+    }
     private void Update()
     {
         if (IsClient)
@@ -188,6 +195,7 @@ public class Inimigo : NetworkBehaviour
             if (IsOwner && GameManager.Instance.timerAtivo.Value)
             {
                 animations.atacando.Value = true;
+                atacando.Value = true;
                 canWalk = false;
                 //Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward * 1.367f + transform.up * 1.3f, distanciaAtaque);
                 Collider[] hitColliders = Physics.OverlapBox(transform.position + transform.forward * (distanciaAtaque / 2) + transform.up * 1.3f, new(3f,4f,distanciaAtaque));
@@ -198,6 +206,9 @@ public class Inimigo : NetworkBehaviour
                         GameManager.Instance.CausarDano_ServerRpc(1, col.GetComponent<Personagem>().OwnerClientId);
                         Debug.Log($"Causando dano ao client {(int)col.GetComponent<Personagem>().OwnerClientId}");
                     }
+                    
+                        
+                    
                 }
             }
         }
@@ -208,6 +219,7 @@ public class Inimigo : NetworkBehaviour
         if (IsOwner)
         {
             animations.atacando.Value = false;
+            atacando.Value= false;
             canWalk = true;
         }
     }
