@@ -12,6 +12,7 @@ TagManager:
   - Sobrevivente
   - Timer
   - SpawnManager
+  - som
   layers:
   - Default
   - TransparentFX

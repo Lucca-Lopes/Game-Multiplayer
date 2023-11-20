@@ -1725,6 +1725,11 @@ MonoBehaviour:
         byte0028: 0
         byte0029: 0
   displayName: {fileID: 6477818680551682324}
+  atacando:
+    m_InternalValue: 0
+  risadaClip: {fileID: 8300000, guid: 708f420caa3278742aa008a47ad41b63, type: 3}
+  audioPassos: {fileID: 775334491318132252}
+  audioPassosClip: {fileID: 8300000, guid: 59fc76d14363bd844af46cd095d911de, type: 3}
 --- !u!143 &2933932667176436331
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1753,8 +1758,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: edca0568c12ac2445babd6f5160a5250, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: 59fc76d14363bd844af46cd095d911de, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

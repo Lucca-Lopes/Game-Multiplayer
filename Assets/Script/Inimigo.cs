@@ -28,6 +28,7 @@ public class Inimigo : NetworkBehaviour
     [SerializeField] float gravityValue = -9.81f;
     public float distanciaCarregamento = 2.0f;
     Vector3 move = Vector3.zero;
+    public static audioevenbtes Instance;
 
     [Header("NetVars")]
     public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -43,6 +44,12 @@ public class Inimigo : NetworkBehaviour
     private bool canWalk = true;
     bool jogoIniciado = false;
     public NetworkVariable<bool> atacando;
+    private AudioSource risadaAudioSource; // adicione uma referência ao AudioSource do áudio de risada
+    public AudioClip risadaClip; // adicione a clip de áudio de risada
+    [SerializeField] private AudioSource audioPassos;
+    [SerializeField] private AudioClip audioPassosClip;
+
+
     private void Awake()
     {
         //rb = GetComponent<Rigidbody>();
@@ -55,7 +62,38 @@ public class Inimigo : NetworkBehaviour
         {
             nomeJogador.Value = GameManager.PlayerName;
         }
+        risadaAudioSource = gameObject.AddComponent<AudioSource>(); // crie um AudioSource para a risada
+        risadaAudioSource.clip = risadaClip; // atribua a clip de áudio de risada ao AudioSource
+        if (IsOwner)
+        {
+            // outras inicializações...
+            InvokeRepeating(nameof(ReproduzirRisada), 0f, 5f); 
+        }
+        audioPassos = gameObject.AddComponent<AudioSource>();
+        audioPassos.clip = audioPassosClip;
+        audioPassos.loop = true; // Para reproduzir em loop enquanto se move
+        audioPassos.playOnAwake = false;
     }
+    private void ReproduzirRisada()
+    {
+        if (IsOwner)
+        {
+            risadaAudioSource.Play(); // reproduz o áudio de risada
+        }
+    }
+    private void ReproduzirPassos()
+    {
+        if (controller.velocity.magnitude > 0 && !audioPassos.isPlaying)
+        {
+            audioPassos.Play();
+        }
+        else if (controller.velocity.magnitude == 0 && audioPassos.isPlaying)
+        {
+            audioPassos.Stop();
+        }
+    }
+
+
 
     public override void OnNetworkSpawn()
     {
@@ -82,6 +120,7 @@ public class Inimigo : NetworkBehaviour
         if (IsOwner)
         {
             nomeJogador.OnValueChanged -= OnPlayerNameChanged;
+            atacando.OnValueChanged -= ChangersomAtacando;
         }
     }
 
@@ -112,6 +151,7 @@ public class Inimigo : NetworkBehaviour
         }
         if (canWalk && IsOwner)
         {
+            ReproduzirPassos(); // Chame o método para reproduzir os passos
             //movimento por character controller
             if (controller.isGrounded && verticalVelocity < 0)
                 verticalVelocity = 0f;
@@ -139,11 +179,13 @@ public class Inimigo : NetworkBehaviour
             verticalVelocity += gravityValue * Time.deltaTime;
             move.y = verticalVelocity;
             controller.Move(move * Time.deltaTime);
+             ReproduzirPassos(); // Chame o método para reproduzir os passos
         }
         else if (IsOwner)
         {
             move = Vector3.zero;
             animations.andando.Value = false;
+            audioPassos.Stop(); // Certifique-se de parar o áudio quando parar de andar
         }
     }
 
@@ -195,7 +237,7 @@ public class Inimigo : NetworkBehaviour
             if (IsOwner && GameManager.Instance.timerAtivo.Value)
             {
                 animations.atacando.Value = true;
-                atacando.Value = true;
+                audioteste.Instance.playnomaudioclip();
                 canWalk = false;
                 //Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward * 1.367f + transform.up * 1.3f, distanciaAtaque);
                 Collider[] hitColliders = Physics.OverlapBox(transform.position + transform.forward * (distanciaAtaque / 2) + transform.up * 1.3f, new(3f,4f,distanciaAtaque));
@@ -220,6 +262,7 @@ public class Inimigo : NetworkBehaviour
         {
             animations.atacando.Value = false;
             atacando.Value= false;
+
             canWalk = true;
         }
     }

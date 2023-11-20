@@ -18,6 +18,9 @@ public class MenuPrincipalManager : NetworkBehaviour
     [SerializeField] private GameObject painelClassificacao;
     [SerializeField] private GameObject painelTutorial;
     [SerializeField] private GameObject inputNomeJogar;
+    [SerializeField] private AudioSource audioSource; // Adicione essa variável para referenciar o AudioSource
+
+    [SerializeField] private AudioClip seuAudioClip; // Referência para o áudio que você importou
 
     [Header("Lore/Tutorial/Pré-Jogo")]
     [SerializeField] GameObject interfaceLore;
@@ -28,6 +31,13 @@ public class MenuPrincipalManager : NetworkBehaviour
     {
         inputNomeJogar.SetActive(true);
         painelMenuInicial.SetActive(false);
+    }
+    public void TocarSom()
+    {
+        if (audioSource && seuAudioClip) // Verifica se o AudioSource e o AudioClip estão configurados
+        {
+            audioSource.PlayOneShot(seuAudioClip); // Toca o áudio
+        }
     }
     public void FecharJogar()
     {

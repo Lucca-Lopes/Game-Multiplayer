@@ -19,6 +19,8 @@ public class Personagem : NetworkBehaviour
     float verticalVelocity;
     [SerializeField] float gravityValue = -9.81f;
     Vector3 move = Vector3.zero;
+    [SerializeField] private AudioClip somCaminhando;
+    private AudioSource audioSource; // Será usado para reproduzir o som
 
     //Variável para controle do lobby
     [SerializeField] TextMeshProUGUI lobbyText;
@@ -59,6 +61,9 @@ public class Personagem : NetworkBehaviour
         {
             nomeJogador.Value = GameManager.PlayerName;
         }
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = somCaminhando;
+        audioSource.loop = true; // Isso define o som para reprodução contínua
     }
 
     public override void OnNetworkSpawn()
@@ -182,6 +187,14 @@ public class Personagem : NetworkBehaviour
                 cameraForward = cameraForward.normalized;
                 Vector3 cameraRight = playerCam.transform.right;
                 cameraRight.y = 0;
+                if (movimento != Vector2.zero && !audioSource.isPlaying)
+                {
+                    audioSource.Play(); // Inicia a reprodução do som quando o jogador está se movendo
+                }
+                else if (movimento == Vector2.zero && audioSource.isPlaying)
+                {
+                    audioSource.Stop(); // Para a reprodução do som quando o jogador parar de se mover
+                }
 
                 Vector3 moveDirectionForward = cameraForward * movimento.y;
                 Vector3 moveDirectionSideways = cameraRight * movimento.x;
@@ -207,6 +220,7 @@ public class Personagem : NetworkBehaviour
             {
                 move = Vector3.zero;
                 animations.correndo.Value = false;
+                audioSource.Stop(); // Para a reprodução do som se o jogo não estiver ativo
             }
         }
     }

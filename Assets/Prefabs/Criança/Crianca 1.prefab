@@ -1376,6 +1376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocidade: 10
   gravityValue: -9.81
+  somCaminhando: {fileID: 8300000, guid: 59fc76d14363bd844af46cd095d911de, type: 3}
   lobbyText: {fileID: 5931531189250854395}
   vidaJogador:
     m_InternalValue: 2
