@@ -153,7 +153,28 @@ public class Personagem : NetworkBehaviour
                 animations.correndo.Value = false;*/
         }
     }
-
+    [ServerRpc]
+    private void andandoSom_ServerRpc()
+    { 
+       andandoSom_ClientRpc();
+    }
+    [ClientRpc]
+    private void andandoSom_ClientRpc()
+    {
+        audioSource.Play();
+        Debug.Log("Andando client");
+    }
+    [ServerRpc]
+    private void parandosomandando_ServerRpc()
+    {
+        parandosomandando_ClientRpc();
+    }
+    [ClientRpc]
+    private void parandosomandando_ClientRpc()
+    {
+        audioSource.Stop();
+        Debug.Log("parando host");
+    }
     public void SetMouseInput(InputAction.CallbackContext value)
     {
         mouseInput = value.ReadValue<Vector2>();
@@ -189,11 +210,11 @@ public class Personagem : NetworkBehaviour
                 cameraRight.y = 0;
                 if (movimento != Vector2.zero && !audioSource.isPlaying)
                 {
-                    audioSource.Play(); // Inicia a reprodução do som quando o jogador está se movendo
+                    andandoSom_ServerRpc();
                 }
                 else if (movimento == Vector2.zero && audioSource.isPlaying)
                 {
-                    audioSource.Stop(); // Para a reprodução do som quando o jogador parar de se mover
+                    parandosomandando_ServerRpc();
                 }
 
                 Vector3 moveDirectionForward = cameraForward * movimento.y;
@@ -220,7 +241,7 @@ public class Personagem : NetworkBehaviour
             {
                 move = Vector3.zero;
                 animations.correndo.Value = false;
-                audioSource.Stop(); // Para a reprodução do som se o jogo não estiver ativo
+                parandosomandando_ServerRpc();
             }
         }
     }

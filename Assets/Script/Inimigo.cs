@@ -48,6 +48,8 @@ public class Inimigo : NetworkBehaviour
     public AudioClip risadaClip; // adicione a clip de áudio de risada
     [SerializeField] private AudioSource audioPassos;
     [SerializeField] private AudioClip audioPassosClip;
+    [SerializeField] private AudioClip ataque;
+    private AudioSource audioSource; // Será usado para reproduzir o som
 
 
     private void Awake()
@@ -67,33 +69,53 @@ public class Inimigo : NetworkBehaviour
         if (IsOwner)
         {
             // outras inicializações...
-            InvokeRepeating(nameof(ReproduzirRisada), 0f, 5f); 
+            InvokeRepeating(nameof(ReproduzirRisada_ServerRpc), 0f, 5f); 
         }
         audioPassos = gameObject.AddComponent<AudioSource>();
         audioPassos.clip = audioPassosClip;
         audioPassos.loop = true; // Para reproduzir em loop enquanto se move
         audioPassos.playOnAwake = false;
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = ataque;
     }
-    private void ReproduzirRisada()
+    [ServerRpc]
+    private void ReproduzirRisada_ServerRpc()
     {
         if (IsOwner)
         {
-            risadaAudioSource.Play(); // reproduz o áudio de risada
+            reproduzirRisada_ClientRpc();
         }
     }
-    private void ReproduzirPassos()
+    [ClientRpc]
+    private void reproduzirRisada_ClientRpc()
+    {
+        risadaAudioSource.Play();
+        Debug.Log("rindo");
+    }
+    [ServerRpc]
+    private void ReproduzirPassos_ServerRpc()
     {
         if (controller.velocity.magnitude > 0 && !audioPassos.isPlaying)
         {
-            audioPassos.Play();
+            reproduzirPassos_ClientRpc();
         }
         else if (controller.velocity.magnitude == 0 && audioPassos.isPlaying)
         {
-            audioPassos.Stop();
+            pararsompassos_ClientRpc();
         }
     }
-
-
+    [ClientRpc]
+    private void reproduzirPassos_ClientRpc()
+    {
+        audioPassos.Play();
+        Debug.Log("andando host");
+    }
+    [ClientRpc]
+    private void pararsompassos_ClientRpc()
+    {
+        audioPassos.Stop();
+        Debug.Log("parando passo");
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -151,7 +173,7 @@ public class Inimigo : NetworkBehaviour
         }
         if (canWalk && IsOwner)
         {
-            ReproduzirPassos(); // Chame o método para reproduzir os passos
+            ReproduzirPassos_ServerRpc(); // Chame o método para reproduzir os passos
             //movimento por character controller
             if (controller.isGrounded && verticalVelocity < 0)
                 verticalVelocity = 0f;
@@ -179,7 +201,7 @@ public class Inimigo : NetworkBehaviour
             verticalVelocity += gravityValue * Time.deltaTime;
             move.y = verticalVelocity;
             controller.Move(move * Time.deltaTime);
-             ReproduzirPassos(); // Chame o método para reproduzir os passos
+            ReproduzirPassos_ServerRpc(); // Chame o método para reproduzir os passos
         }
         else if (IsOwner)
         {
@@ -198,7 +220,17 @@ public class Inimigo : NetworkBehaviour
     {
         mouseInput = value.ReadValue<Vector2>();
     }
-
+    [ServerRpc]
+    private void somataque_ServerRpc()
+    {
+        somataque_ClientRpc();
+    }
+    [ClientRpc]
+    private void somataque_ClientRpc()
+    {
+        audioSource.Play();
+        Debug.Log("tocou o audio");
+    }
     /*//Movimento usando Rigdbody
     private void FixedUpdate()
     {
@@ -237,7 +269,8 @@ public class Inimigo : NetworkBehaviour
             if (IsOwner && GameManager.Instance.timerAtivo.Value)
             {
                 animations.atacando.Value = true;
-                audioteste.Instance.playnomaudioclip();
+                //audioteste.Instance.playnomaudioclip();
+                somataque_ServerRpc();
                 canWalk = false;
                 //Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward * 1.367f + transform.up * 1.3f, distanciaAtaque);
                 Collider[] hitColliders = Physics.OverlapBox(transform.position + transform.forward * (distanciaAtaque / 2) + transform.up * 1.3f, new(3f,4f,distanciaAtaque));
