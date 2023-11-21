@@ -19,6 +19,10 @@ public class GameManager : NetworkBehaviour
 
     public List<ulong> jogadoresConectados = new();
     Dictionary<ulong, Personagem> sobreviventes = new();
+    [SerializeField] private AudioClip musica;
+    private AudioSource musicasounce; // Será usado para reproduzir o som
+    [SerializeField] private AudioClip vento;
+    private AudioSource ventosounce;
 
     //private int jogadoresMortos = 0;
 
@@ -60,7 +64,13 @@ public class GameManager : NetworkBehaviour
 
             jogadoresProntos.OnValueChanged += ComecarJogo;
         }
-            
+        musicasounce = gameObject.AddComponent<AudioSource>();
+        musicasounce.clip = musica;
+        musicasounce.volume = 0.5f;
+        ventosounce = gameObject.AddComponent<AudioSource>();
+        ventosounce.clip = vento;
+        ventosounce.volume = 1.0f;
+
     }
     //public override void OnNetworkSpawn()
     //{
@@ -99,7 +109,31 @@ public class GameManager : NetworkBehaviour
         {
             Debug.Log($"GameManager.ComecarJogo() - {current} jogadores prontos de {jogadoresEsperados} - Ativando timer");
             timerAtivo.Value = true;
+            tocarmusica_ServerRpc();
+            tocarvento_ServerRpc();
         }
+    }
+    [ServerRpc]
+    public void tocarmusica_ServerRpc()
+    {
+        tocarmusica_ClientRpc();
+    }
+    [ClientRpc]
+    public void tocarmusica_ClientRpc()
+    {
+        musicasounce.Play();
+        Debug.Log("musica tocando");
+    }
+    [ServerRpc]
+    public void tocarvento_ServerRpc()
+    {
+        tocarvento_ClientRpc();
+    }
+    [ClientRpc]
+    public void tocarvento_ClientRpc()
+    {
+        ventosounce.Play();
+        Debug.Log("tocando o vento");
     }
 
     public void LiberarMovimento()

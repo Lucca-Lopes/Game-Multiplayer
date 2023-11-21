@@ -16,7 +16,7 @@ public class Inimigo : NetworkBehaviour
     //[SerializeField] ParticleSystem efeito;
     [SerializeField] TextMeshProUGUI lobbyText;
     [SerializeField] private  AudioSource somDeAtaque;
-    [SerializeField] audioevenbtes audioevents;
+    
     //[SerializeField] EfeitoVisual efeitoScript;
 
     [Header("Configurações")]
@@ -28,7 +28,7 @@ public class Inimigo : NetworkBehaviour
     [SerializeField] float gravityValue = -9.81f;
     public float distanciaCarregamento = 2.0f;
     Vector3 move = Vector3.zero;
-    public static audioevenbtes Instance;
+    
 
     [Header("NetVars")]
     public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -50,6 +50,7 @@ public class Inimigo : NetworkBehaviour
     [SerializeField] private AudioClip audioPassosClip;
     [SerializeField] private AudioClip ataque;
     private AudioSource audioSource; // Será usado para reproduzir o som
+
 
 
     private void Awake()
@@ -224,6 +225,8 @@ public class Inimigo : NetworkBehaviour
     private void somataque_ServerRpc()
     {
         somataque_ClientRpc();
+
+
     }
     [ClientRpc]
     private void somataque_ClientRpc()
