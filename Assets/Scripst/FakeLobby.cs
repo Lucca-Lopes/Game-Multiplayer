@@ -13,16 +13,16 @@ public class FakeLobby : NetworkBehaviour
     {
         if (IsClient)
         {
-            if (GameManager.Instance.jogadoresConectados.Count < 4)
+            if (!GameManager.Instance.timerAtivo.Value)
             {
                 lobbyText.gameObject.SetActive(true);
                 lobbyText.text = "Esperando jogadores... (" + GameManager.Instance.jogadoresConectados.Count + "/4)";
-                Time.timeScale = 0;
+                //Time.timeScale = 0;
             }
             else
             {
                 lobbyText.gameObject.SetActive(false);
-                Time.timeScale = 1;
+                //Time.timeScale = 1;
             }
         }
     }

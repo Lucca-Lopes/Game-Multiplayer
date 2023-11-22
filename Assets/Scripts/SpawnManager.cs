@@ -16,6 +16,8 @@ public class SpawnManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        if (NetworkManager.Singleton.LocalClientId > 2)
+            UpdateTimerActive_ServerRpc();
         if (IsHost)
         {
             SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, true);
@@ -26,7 +28,13 @@ public class SpawnManager : NetworkBehaviour
         }
         base.OnNetworkSpawn();
     }
-    
+
+    [ServerRpc(RequireOwnership = false)]
+    public void UpdateTimerActive_ServerRpc()
+    {
+        GameManager.Instance.timerAtivo.Value = true;
+    }
+
     //public void SpawnPlayers()
     //{
     //    foreach (ulong playerId in NetworkManager.Singleton.ConnectedClientsIds)

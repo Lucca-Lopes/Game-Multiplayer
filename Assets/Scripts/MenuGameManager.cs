@@ -66,7 +66,7 @@ public class MenuGameManager : MonoBehaviour
     {
         while (true)
         {
-            VerificarListaLobby();
+            Instance.VerificarListaLobby();
             yield return new WaitForSeconds(interval);
             Debug.Log("GameManager.AtualizarListaSalas - Executando");
         }
@@ -107,6 +107,7 @@ public class MenuGameManager : MonoBehaviour
         Player player = new Player(PlayerId);
         player.Data = new Dictionary<string, PlayerDataObject>();
         string nome = (string.IsNullOrEmpty(Instance.nomeJogador.text) ? string.Empty : Instance.nomeJogador.text);
+        PlayerData.playerName = nome;
         player.Data.Add("nome", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, nome));
         player.Data.Add("pronto", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, false.ToString()));
         Instance.dadosJogador = player;
@@ -196,6 +197,7 @@ public class MenuGameManager : MonoBehaviour
 
     void RegistrarJogadorCena(ulong jogadorId)
     {
+        //UpdatePlayersReady_ServerRpc();
         Debug.Log($"GameManager.RegistrarJogadorCena - Eu sou o Server recebendo isso{NetworkManager.Singleton.LocalClientId} - { NetworkManager.Singleton.IsHost}");
         Debug.Log($"GameManager.RegistrarJogadorCena - Registrando um novo jogador chegando na cena {jogadorId}");
     }
@@ -216,4 +218,11 @@ public class MenuGameManager : MonoBehaviour
         //Parando a corotina de Atualização de sala
         StopCoroutine(atualizacaoSalas);
     }
+
+    //[ServerRpc(RequireOwnership = false)]
+    //public void UpdatePlayersReady_ServerRpc()
+    //{
+    //    GameManager.Instance.jogadoresProntos.Value++;
+    //    Debug.Log(GameManager.Instance.jogadoresProntos.Value);
+    //}
 }

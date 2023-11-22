@@ -18,31 +18,32 @@ public class MenuPrincipalManager : NetworkBehaviour
     [SerializeField] private GameObject painelClassificacao;
     [SerializeField] private GameObject painelTutorial;
     [SerializeField] private GameObject inputNomeJogar;
-    [SerializeField] private AudioSource audioSource; // Adicione essa variável para referenciar o AudioSource
+    [SerializeField] private GameObject lobby;
+    [SerializeField] private AudioSource audioSource; // Adicione essa variï¿½vel para referenciar o AudioSource
 
-    [SerializeField] private AudioClip seuAudioClip; // Referência para o áudio que você importou
+    [SerializeField] private AudioClip seuAudioClip; // Referï¿½ncia para o ï¿½udio que vocï¿½ importou
 
-    [Header("Lore/Tutorial/Pré-Jogo")]
+    [Header("Lore/Tutorial/Prï¿½-Jogo")]
     [SerializeField] GameObject interfaceLore;
     [SerializeField] GameObject entidadeTutorial;
     [SerializeField] GameObject criancaTutorial;
 
     public void Jogar()
     {
-        inputNomeJogar.SetActive(true);
+        lobby.SetActive(true);
         painelMenuInicial.SetActive(false);
     }
     public void TocarSom()
     {
-        if (audioSource && seuAudioClip) // Verifica se o AudioSource e o AudioClip estão configurados
+        if (audioSource && seuAudioClip) // Verifica se o AudioSource e o AudioClip estï¿½o configurados
         {
-            audioSource.PlayOneShot(seuAudioClip); // Toca o áudio
+            audioSource.PlayOneShot(seuAudioClip); // Toca o ï¿½udio
         }
     }
     public void FecharJogar()
     {
         painelMenuInicial.SetActive(true);
-        inputNomeJogar.SetActive(false);
+        lobby.SetActive(false);
     }
     public void AbrirOpcoes()
     {
@@ -95,6 +96,13 @@ public class MenuPrincipalManager : NetworkBehaviour
         painelClassificacao.SetActive(false);
         painelMenuInicial.SetActive(true);
     }
+
+    public void AbrirLore()
+    {
+        interfaceLore.SetActive(true);
+        painelMenuInicial.SetActive(false);
+    }
+
     public void AbrirTutorial()
     {
         painelTutorial.SetActive(true);
@@ -107,7 +115,6 @@ public class MenuPrincipalManager : NetworkBehaviour
     {
         painelTutorial.SetActive(false);
         painelMenuInicial.SetActive(true);
-
     }
 
     public void CenaMenu()
@@ -125,15 +132,19 @@ public class MenuPrincipalManager : NetworkBehaviour
         painelMovimentacao.SetActive(true);
     }
 
-    //    Lore/Tutorial/Pré-Jogo
+    //    Lore/Tutorial/Prï¿½-Jogo
     public void TutorialScreen()
     {
-        if (IsHost)
-            entidadeTutorial.SetActive(true);
-        else
-            criancaTutorial.SetActive(true);
+        criancaTutorial.SetActive(true);
         interfaceLore.SetActive(false);
     }
+
+    public void TutorialEntidade()
+    {
+        entidadeTutorial.SetActive(true);
+        criancaTutorial.SetActive(false);
+    }
+
     public void CloseInterface()
     {
         if (IsHost)

@@ -63,7 +63,7 @@ public class Inimigo : NetworkBehaviour
     {
         if (IsOwner)
         {
-            nomeJogador.Value = GameManager.PlayerName;
+            nomeJogador.Value = PlayerData.playerName;
         }
         risadaAudioSource = gameObject.AddComponent<AudioSource>(); // crie um AudioSource para a risada
         risadaAudioSource.clip = risadaClip; // atribua a clip de áudio de risada ao AudioSource
@@ -79,7 +79,7 @@ public class Inimigo : NetworkBehaviour
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.clip = ataque;
     }
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void ReproduzirRisada_ServerRpc()
     {
         if (IsOwner)
@@ -91,9 +91,9 @@ public class Inimigo : NetworkBehaviour
     private void reproduzirRisada_ClientRpc()
     {
         risadaAudioSource.Play();
-        Debug.Log("rindo");
+        //Debug.Log("rindo");
     }
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void ReproduzirPassos_ServerRpc()
     {
         if (controller.velocity.magnitude > 0 && !audioPassos.isPlaying)
@@ -109,13 +109,13 @@ public class Inimigo : NetworkBehaviour
     private void reproduzirPassos_ClientRpc()
     {
         audioPassos.Play();
-        Debug.Log("andando host");
+        //Debug.Log("andando host");
     }
     [ClientRpc]
     private void pararsompassos_ClientRpc()
     {
         audioPassos.Stop();
-        Debug.Log("parando passo");
+        //Debug.Log("parando passo");
     }
 
     public override void OnNetworkSpawn()
@@ -221,7 +221,7 @@ public class Inimigo : NetworkBehaviour
     {
         mouseInput = value.ReadValue<Vector2>();
     }
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void somataque_ServerRpc()
     {
         somataque_ClientRpc();

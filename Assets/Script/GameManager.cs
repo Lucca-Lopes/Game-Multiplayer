@@ -15,12 +15,12 @@ public class GameManager : NetworkBehaviour
     public NetworkVariable<bool> killerWin = new(false);
 
     public int jogadoresEsperados = 4;
-    public NetworkVariable<ulong> jogadoresProntos = new(0);
+    public NetworkVariable<ulong> jogadoresProntos = new(1);
 
     public List<ulong> jogadoresConectados = new();
     Dictionary<ulong, Personagem> sobreviventes = new();
     [SerializeField] private AudioClip musica;
-    private AudioSource musicasounce; // Será usado para reproduzir o som
+    private AudioSource musicasounce; // Serï¿½ usado para reproduzir o som
     [SerializeField] private AudioClip vento;
     private AudioSource ventosounce;
 
@@ -62,7 +62,7 @@ public class GameManager : NetworkBehaviour
             Debug.Log("GameManager.OnEnable - Registrando o evento de cliente desconectado");
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectedHandler;
 
-            jogadoresProntos.OnValueChanged += ComecarJogo;
+            timerAtivo.OnValueChanged += ComecarJogo;
         }
         musicasounce = gameObject.AddComponent<AudioSource>();
         musicasounce.clip = musica;
@@ -72,10 +72,6 @@ public class GameManager : NetworkBehaviour
         ventosounce.volume = 1.0f;
 
     }
-    //public override void OnNetworkSpawn()
-    //{
-    //    timerAtivo.OnValueChanged += StartTimer;
-    //}
 
     private void OnClientDisconnectedHandler(ulong clientId)
     {
@@ -103,17 +99,13 @@ public class GameManager : NetworkBehaviour
         //FetchPlayers();
     }*/
 
-    public void ComecarJogo(ulong previous, ulong current)
+    public void ComecarJogo(bool previous, bool current)
     {
-        if (current >= (ulong)jogadoresEsperados && !timerAtivo.Value)
-        {
-            Debug.Log($"GameManager.ComecarJogo() - {current} jogadores prontos de {jogadoresEsperados} - Ativando timer");
-            timerAtivo.Value = true;
-            tocarmusica_ServerRpc();
-            tocarvento_ServerRpc();
-        }
+        //Debug.Log($"GameManager.ComecarJogo() - {current} jogadores prontos de {jogadoresEsperados} - Ativando timer");
+        tocarmusica_ServerRpc();
+        tocarvento_ServerRpc();
     }
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void tocarmusica_ServerRpc()
     {
         tocarmusica_ClientRpc();
@@ -122,9 +114,9 @@ public class GameManager : NetworkBehaviour
     public void tocarmusica_ClientRpc()
     {
         musicasounce.Play();
-        Debug.Log("musica tocando");
+        //Debug.Log("musica tocando");
     }
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void tocarvento_ServerRpc()
     {
         tocarvento_ClientRpc();
@@ -133,7 +125,7 @@ public class GameManager : NetworkBehaviour
     public void tocarvento_ClientRpc()
     {
         ventosounce.Play();
-        Debug.Log("tocando o vento");
+        //Debug.Log("tocando o vento");
     }
 
     public void LiberarMovimento()

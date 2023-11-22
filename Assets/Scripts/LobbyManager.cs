@@ -45,7 +45,7 @@ public class LobbyManager : MonoBehaviour
     {
         if (lobbyData == null)
         {
-            Debug.LogError("Algo de errado aconteceu, não vejo as informações dolobby!");
+            Debug.LogError("Algo de errado aconteceu, não vejo as informações do lobby!");
         }
         //Criando opções do lobby
         CreateLobbyOptions lobbyOptions = new CreateLobbyOptions();

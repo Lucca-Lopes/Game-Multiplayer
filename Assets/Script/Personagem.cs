@@ -24,7 +24,7 @@ public class Personagem : NetworkBehaviour
 
     //Variável para controle do lobby
     [SerializeField] TextMeshProUGUI lobbyText;
-    bool jogoIniciado;
+    bool jogoIniciado = false;
 
     //Variáveis do Netcode
     public NetworkVariable<int> vidaJogador = new(1);
@@ -59,7 +59,7 @@ public class Personagem : NetworkBehaviour
     {
         if (IsOwner)
         {
-            nomeJogador.Value = GameManager.PlayerName;
+            nomeJogador.Value = PlayerData.playerName;
         }
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.clip = somCaminhando;
@@ -153,7 +153,7 @@ public class Personagem : NetworkBehaviour
                 animations.correndo.Value = false;*/
         }
     }
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void andandoSom_ServerRpc()
     { 
        andandoSom_ClientRpc();
@@ -162,9 +162,9 @@ public class Personagem : NetworkBehaviour
     private void andandoSom_ClientRpc()
     {
         audioSource.Play();
-        Debug.Log("Andando client");
+        //Debug.Log("Andando client");
     }
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void parandosomandando_ServerRpc()
     {
         parandosomandando_ClientRpc();
@@ -173,7 +173,7 @@ public class Personagem : NetworkBehaviour
     private void parandosomandando_ClientRpc()
     {
         audioSource.Stop();
-        Debug.Log("parando host");
+        //Debug.Log("parando host");
     }
     public void SetMouseInput(InputAction.CallbackContext value)
     {

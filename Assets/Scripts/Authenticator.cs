@@ -39,10 +39,11 @@ public class Authenticator
         #else
             if (AuthenticationService.Instance.SessionTokenExists)
             {
-                if (clearCache)
-                    AuthenticationService.Instance.ClearSessionToken();
-                else
-                    return;
+                //if (clearCache)
+                    //AuthenticationService.Instance.ClearSessionToken();
+                    AuthenticationService.Instance.SwitchProfile($"Clone_Profile");
+                //else
+                    //return;
             }
         #endif
         if (callback != null)
