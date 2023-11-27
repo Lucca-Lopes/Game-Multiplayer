@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.00080952095, g: 0.004161993, b: 0.020064194, a: 1}
+  m_IndirectSpecularColor: {r: 0.0008095468, g: 0.004161891, b: 0.02006406, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -361,12 +361,12 @@ MonoBehaviour:
     m_InternalValue: 0
   killerWin:
     m_InternalValue: 0
-  jogadoresEsperados: 4
+  jogadoresEsperados: 2
   jogadoresProntos:
     m_InternalValue: 0
   jogadoresConectados: 
-  musica: {fileID: 0}
-  vento: {fileID: 0}
+  musica: {fileID: 8300000, guid: 5a34a93436a8a604cafbae76b2b5f49a, type: 3}
+  vento: {fileID: 8300000, guid: 78b99a5fc6b621a40a67b33c7b8bdf1c, type: 3}
 --- !u!4 &94495050
 Transform:
   m_ObjectHideFlags: 0
@@ -12533,7 +12533,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1306823641}
   - component: {fileID: 1306823640}
-  - component: {fileID: 1306823639}
   - component: {fileID: 1306823642}
   m_Layer: 0
   m_Name: Main Camera
@@ -12542,14 +12541,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1306823639
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1306823638}
-  m_Enabled: 1
 --- !u!20 &1306823640
 Camera:
   m_ObjectHideFlags: 0

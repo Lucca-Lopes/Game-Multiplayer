@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Jogo-final.unity
     guid: aaaa33cd672884cd3b3182d32ebcf449
+  - enabled: 1
+    path: "Assets/Scenes/implementa\xE7\xE3o audio.unity"
+    guid: d33918c74ff351148a56165f39be2445
   m_configObjects: {}

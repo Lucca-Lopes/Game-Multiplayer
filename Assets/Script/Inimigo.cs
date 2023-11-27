@@ -49,8 +49,11 @@ public class Inimigo : NetworkBehaviour
     [SerializeField] private AudioSource audioPassos;
     [SerializeField] private AudioClip audioPassosClip;
     [SerializeField] private AudioClip ataque;
-    private AudioSource audioSource; // Será usado para reproduzir o som
-
+    [SerializeField] private AudioSource audioSource; // Será usado para reproduzir o som
+    public float spatialBlendValue = 1f; // Define a mistura espacial do áudio
+    [SerializeField] private float minDistance = 5f; // Defina a distância mínima em que o áudio é ouvido claramente
+    [SerializeField] private float maxDistance = 10f; // Defina a distância máxima em que o áudio é ouvido
+    [SerializeField] private AudioRolloffMode rolloffMode = AudioRolloffMode.Logarithmic; // Defina o rolloff mode para Logarítmico
 
 
     private void Awake()
@@ -78,6 +81,11 @@ public class Inimigo : NetworkBehaviour
         audioPassos.playOnAwake = false;
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.clip = ataque;
+        audioPassos.spatialBlend = spatialBlendValue;
+        audioPassos.minDistance = minDistance;
+        audioPassos.maxDistance = maxDistance;
+
+        audioPassos.rolloffMode = rolloffMode;
     }
     [ServerRpc(RequireOwnership = false)]
     private void ReproduzirRisada_ServerRpc()
