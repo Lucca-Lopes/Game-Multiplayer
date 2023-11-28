@@ -18,7 +18,9 @@ public class MenuPrincipalManager : NetworkBehaviour
     [SerializeField] private GameObject painelClassificacao;
     [SerializeField] private GameObject painelTutorial;
     [SerializeField] private GameObject inputNomeJogar;
+    [SerializeField] private GameObject salaLobby;
     [SerializeField] TMPro.TMP_InputField nomeJogador;
+    [SerializeField] TMPro.TextMeshProUGUI feedbackLobby;
     [SerializeField] GameObject erroNomeJogador;
     [SerializeField] private GameObject lobby;
     [SerializeField] private AudioSource audioSource; // Adicione essa vari�vel para referenciar o AudioSource
@@ -29,6 +31,21 @@ public class MenuPrincipalManager : NetworkBehaviour
     [SerializeField] GameObject interfaceLore;
     [SerializeField] GameObject entidadeTutorial;
     [SerializeField] GameObject criancaTutorial;
+
+
+    private void Update()
+    {
+        if (MenuGameManager.Lobby.MeuLobby != null && MenuGameManager.isConnectedLobby)
+        {
+            salaLobby.SetActive(true);
+            lobby.SetActive(false);
+            feedbackLobby.text = "Carregando sala...";
+        }
+        else if(MenuGameManager.Lobby.MeuLobby == null && MenuGameManager.isConnectedLobby)
+        {
+            feedbackLobby.text = "Erro ao encontrar sala.";
+        }
+    }
 
     public void Jogar()
     {
@@ -50,6 +67,12 @@ public class MenuPrincipalManager : NetworkBehaviour
             inputNomeJogar.SetActive(false);
         }
     }
+
+    //public void AbrirSala()
+    //{
+    //salaLobby.SetActive(true);
+    //    lobby.SetActive(false);
+    //}
 
     public void TocarSom()
     {
@@ -179,5 +202,22 @@ public class MenuPrincipalManager : NetworkBehaviour
     {
         GameManager.Instance.jogadoresProntos.Value += 1;
         Debug.Log($"MenuPrincipalManager.IncreaseReadyCount() - {GameManager.Instance.jogadoresProntos.Value} players prontos");
+    }
+
+    public void SairSalaAction()
+    {
+        if(MenuGameManager.Lobby.MeuLobby != null)
+        {
+            if(MenuGameManager.Lobby.MeuLobby.HostId.Equals(MenuGameManager.PlayerId)) {
+                MenuGameManager.Lobby.ApagarLobby(MenuGameManager.Lobby.MeuLobby.Id, MenuGameManager.ApagarLobbyCallback);
+            }
+            else
+            {
+                MenuGameManager.Lobby.SairLobby(MenuGameManager.PlayerId);
+            }
+            MenuGameManager.isConnectedLobby = false;
+            lobby.SetActive(true);
+            salaLobby.SetActive(false);
+        }
     }
 }

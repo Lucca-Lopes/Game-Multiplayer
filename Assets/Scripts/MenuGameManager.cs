@@ -26,6 +26,8 @@ public class MenuGameManager : MonoBehaviour
     [SerializeField] int updateLobbyInterval = 3;
     Coroutine atualizacaoSalas;
 
+    public static bool isConnectedLobby = false;
+
     public static LobbyManager Lobby { get { return Instance.lobbyManager; } }
 
     public static string PlayerId
