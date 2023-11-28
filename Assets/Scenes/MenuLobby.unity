@@ -851,6 +851,10 @@ PrefabInstance:
       propertyPath: seuAudioClip
       value: 
       objectReference: {fileID: 8300000, guid: 079372c9bc87628448aa632e045cf07a, type: 3}
+    - target: {fileID: 297988659, guid: fb4bad18f4696134c8042b8a923cd9a8, type: 3}
+      propertyPath: feedbackLobby
+      value: 
+      objectReference: {fileID: 627882527}
     - target: {fileID: 409783785, guid: fb4bad18f4696134c8042b8a923cd9a8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
