@@ -49,7 +49,7 @@ public class Inimigo : NetworkBehaviour
     [SerializeField] private AudioSource audioPassos;
     [SerializeField] private AudioClip audioPassosClip;
     [SerializeField] private AudioClip ataque;
-    [SerializeField] private AudioSource audioSource; // Será usado para reproduzir o som
+    [SerializeField] private AudioSource somataquesounce; // Será usado para reproduzir o som
     public float spatialBlendValue = 1f; // Define a mistura espacial do áudio
     [SerializeField] private float minDistance = 5f; // Defina a distância mínima em que o áudio é ouvido claramente
     [SerializeField] private float maxDistance = 10f; // Defina a distância máxima em que o áudio é ouvido
@@ -78,12 +78,17 @@ public class Inimigo : NetworkBehaviour
         audioPassos = gameObject.AddComponent<AudioSource>();
         audioPassos.clip = audioPassosClip;
         audioPassos.loop = true; // Para reproduzir em loop enquanto se move
-        audioPassos.playOnAwake = false;
-        audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.clip = ataque;
+        somataquesounce = gameObject.AddComponent<AudioSource>();
+        somataquesounce.clip = ataque;
+        somataquesounce.spatialBlend = spatialBlendValue;
+        somataquesounce.minDistance = minDistance;
+        somataquesounce.maxDistance = maxDistance;
+        somataquesounce.rolloffMode = rolloffMode;
         audioPassos.spatialBlend = spatialBlendValue;
         audioPassos.minDistance = minDistance;
         audioPassos.maxDistance = maxDistance;
+        somDeAtaque.GetComponent<AudioSource>();
+       
 
         audioPassos.rolloffMode = rolloffMode;
     }
@@ -132,8 +137,6 @@ public class Inimigo : NetworkBehaviour
         {
             nomeJogador.OnValueChanged += OnPlayerNameChanged;
             nomeJogador.Value = GameManager.PlayerName;
-            somDeAtaque.GetComponent<AudioSource>();
-            atacando.OnValueChanged += ChangersomAtacando;
         }
         if (IsOwner)
         {
@@ -239,7 +242,7 @@ public class Inimigo : NetworkBehaviour
     [ClientRpc]
     private void somataque_ClientRpc()
     {
-        audioSource.Play();
+        somataquesounce.Play();
         Debug.Log("tocou o audio");
     }
     /*//Movimento usando Rigdbody

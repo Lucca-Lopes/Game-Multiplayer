@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 346446253195105642}
-  m_LocalRotation: {x: 0.0017634602, y: 0.99780476, z: 0.029754274, w: -0.059137356}
+  m_LocalRotation: {x: -0.0028851368, y: 0.99493283, z: 0.029918572, w: 0.095944315}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1029,7 +1029,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5515481082536134138}
-  m_LocalRotation: {x: -0.00038586513, y: 0.9982271, z: -0.0065105716, w: -0.0591624}
+  m_LocalRotation: {x: 0.0006019403, y: 0.995363, z: -0.0062420596, w: 0.09598579}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1729,11 +1729,10 @@ MonoBehaviour:
   audioPassos: {fileID: 0}
   audioPassosClip: {fileID: 8300000, guid: 59fc76d14363bd844af46cd095d911de, type: 3}
   ataque: {fileID: 8300000, guid: edca0568c12ac2445babd6f5160a5250, type: 3}
-  audioSource: {fileID: 3074036422844717967, guid: 90bd951366229ce44b8c703c77146a1b,
-    type: 3}
+  somataquesounce: {fileID: 0}
   spatialBlendValue: 1
-  minDistance: 5
-  maxDistance: 10
+  minDistance: 15
+  maxDistance: 50
   rolloffMode: 1
 --- !u!143 &2933932667176436331
 CharacterController:
@@ -2012,7 +2011,7 @@ GameObject:
   - component: {fileID: 5824742057907959876}
   - component: {fileID: 8313350374191092137}
   - component: {fileID: 2934617539364719875}
-  - component: {fileID: 622578238901450793}
+  - component: {fileID: 8157539410675031195}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -2027,8 +2026,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7250884601603657667}
-  m_LocalRotation: {x: 0.00069033203, y: 0.9981804, z: 0.011647747, w: -0.059159584}
-  m_LocalPosition: {x: 0.42078638, y: 0.046470404, z: 3.537424}
+  m_LocalRotation: {x: -0.0011440914, y: 0.99531186, z: 0.011864116, w: 0.09598083}
+  m_LocalPosition: {x: -1.6758499, y: 0.11000013, z: 8.608395}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2145,7 +2144,7 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!81 &622578238901450793
+--- !u!81 &8157539410675031195
 AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2602,7 +2601,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7999302402233842000}
-  m_LocalRotation: {x: 0.0006903321, y: 0.9981803, z: 0.011647744, w: -0.059159603}
+  m_LocalRotation: {x: -0.0011440916, y: 0.99531186, z: 0.011864116, w: 0.09598085}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
