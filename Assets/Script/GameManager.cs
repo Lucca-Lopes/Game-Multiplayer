@@ -292,5 +292,10 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    public void VoltarMenuInicial()
+    {
+        Reinicar restart = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<Reinicar>();
+        restart.VoltarMenuInicial();
+    }
 
 }

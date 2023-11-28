@@ -90,14 +90,14 @@ public class LobbyListController : MonoBehaviour
 
     private void RemoverSalas(List<Lobby> listaTemp)
     {
-        IEnumerable<string> excluirLobbies =
-       lobbyList.Keys.Except(listaTemp.Select(l => l.Id)).ToList();
+        IEnumerable<string> excluirLobbies = lobbyList.Keys.Except(listaTemp.Select(l => l.Id)).ToList();
         foreach (string item in excluirLobbies)
         {
             MenuGameManager.SalaController.LimparSala();
             MenuGameManager.SalaController.HideSalaInfoPanel();
             Destroy(lobbyList[item].gameObject);
             lobbyList.Remove(item);
+            MenuGameManager.Lobby.ClearLobby();
         }
     }
 

@@ -5,22 +5,21 @@ using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using UnityEngine.UI;
 
-public class Reinicar : NetworkBehaviour
+public class Reinicar : MonoBehaviour
 {
     public void VoltarMenuInicial()
     {
         Time.timeScale = 1;
         NetworkManager.Singleton.StopAllCoroutines();
-        if (IsServer)
+        if (NetworkManager.Singleton.IsHost)
         {
             NetworkManager.Singleton.Shutdown();
-            NetworkManager.Singleton.SceneManager.LoadScene("MenuLobby", LoadSceneMode.Single);
         }
         else
         {
             NetworkManager.Singleton.DisconnectClient(NetworkManager.Singleton.LocalClientId);
-            NetworkManager.Singleton.SceneManager.LoadScene("MenuLobby", LoadSceneMode.Single);
         }
-
+        Destroy(gameObject);
+        SceneManager.LoadScene("MenuLobby", LoadSceneMode.Single);
     }
 }

@@ -9,7 +9,7 @@ public class JogadorInfoLobby : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI nome;
     [SerializeField] Button prontoBtn;
-    [SerializeField] Button sairBtn;
+    //[SerializeField] Button sairBtn;
     [SerializeField] Image prontoIcon;
 
     string id;
@@ -31,7 +31,7 @@ public class JogadorInfoLobby : MonoBehaviour
     {
         id = player.Id;
         AtualizarNome(player);
-        AtualizarPlayerLocal(player, isLocal);
+        //AtualizarPlayerLocal(player, isLocal);
         AtualizarBotaoPronto(player, isLocal);
     }
 
@@ -57,17 +57,17 @@ public class JogadorInfoLobby : MonoBehaviour
         prontoIcon.gameObject.SetActive(valor);
     }
 
-    void AtualizarPlayerLocal(Player player, bool isLocal)
-    {
-        if (isLocal)
-        {
-            sairBtn.gameObject.SetActive(true);
-        }
-        else
-        {
-            sairBtn.gameObject.SetActive(false);
-        }
-    }
+    //void AtualizarPlayerLocal(Player player, bool isLocal)
+    //{
+    //    if (isLocal)
+    //    {
+    //        sairBtn.gameObject.SetActive(true);
+    //    }
+    //    else
+    //    {
+    //        sairBtn.gameObject.SetActive(false);
+    //    }
+    //}
 
     public void ProntoAction()
     {
