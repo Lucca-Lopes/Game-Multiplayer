@@ -15,7 +15,7 @@ public class Inimigo : NetworkBehaviour
     [SerializeField] GameObject playerCam;
     //[SerializeField] ParticleSystem efeito;
     [SerializeField] TextMeshProUGUI lobbyText;
-    [SerializeField] private  AudioSource somDeAtaque;
+    //[SerializeField] private  AudioSource somDeAtaque;
     
     //[SerializeField] EfeitoVisual efeitoScript;
 
@@ -92,7 +92,7 @@ public class Inimigo : NetworkBehaviour
         audioPassos.minDistance = minDistance;
         audioPassos.maxDistance = maxDistance;
         audioPassos.rolloffMode = rolloffMode;
-        somDeAtaque.GetComponent<AudioSource>();
+      
        
 
        
@@ -169,7 +169,7 @@ public class Inimigo : NetworkBehaviour
     }
     void ChangersomAtacando(bool previous, bool current)
     {
-        somDeAtaque.Play();
+       somataquesounce.Play();
         Debug.Log("tocou o audio");
     }
     private void Update()
