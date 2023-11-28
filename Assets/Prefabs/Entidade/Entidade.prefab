@@ -1679,7 +1679,6 @@ MonoBehaviour:
   vc: {fileID: 129475094489182000}
   playerCam: {fileID: 7250884601603657667}
   lobbyText: {fileID: 2399227932798313151}
-  somDeAtaque: {fileID: 0}
   distanciaAtaque: 5
   mostrarGizmos: 0
   dano: 1
@@ -1725,13 +1724,11 @@ MonoBehaviour:
   atacando:
     m_InternalValue: 0
   risadaClip: {fileID: 8300000, guid: 708f420caa3278742aa008a47ad41b63, type: 3}
-  audioPassos: {fileID: 0}
   audioPassosClip: {fileID: 8300000, guid: 59fc76d14363bd844af46cd095d911de, type: 3}
   ataque: {fileID: 8300000, guid: edca0568c12ac2445babd6f5160a5250, type: 3}
-  somataquesounce: {fileID: 0}
   spatialBlendValue: 1
   minDistance: 15
-  maxDistance: 50
+  maxDistance: 35
   rolloffMode: 1
 --- !u!143 &2933932667176436331
 CharacterController:

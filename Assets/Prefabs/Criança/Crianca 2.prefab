@@ -1403,7 +1403,7 @@ MonoBehaviour:
   playerCam: {fileID: 1529418258134233708}
   spatialBlendValue: 1
   minDistance: 15
-  maxDistance: 50
+  maxDistance: 35
   rolloffMode: 1
 --- !u!114 &6349645721658095921
 MonoBehaviour:

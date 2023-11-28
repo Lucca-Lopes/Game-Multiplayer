@@ -67,8 +67,10 @@ public class GameManager : NetworkBehaviour
         musicasounce = gameObject.AddComponent<AudioSource>();
         musicasounce.clip = musica;
         musicasounce.volume = 0.5f;
+        musicasounce.loop = true;
         ventosounce = gameObject.AddComponent<AudioSource>();
         ventosounce.clip = vento;
+        ventosounce.loop = true;
         ventosounce.volume = 1.0f;
 
     }
