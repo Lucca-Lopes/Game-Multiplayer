@@ -91,10 +91,11 @@ public class Inimigo : NetworkBehaviour
         audioPassos.spatialBlend = spatialBlendValue;
         audioPassos.minDistance = minDistance;
         audioPassos.maxDistance = maxDistance;
+        audioPassos.rolloffMode = rolloffMode;
         somDeAtaque.GetComponent<AudioSource>();
        
 
-        audioPassos.rolloffMode = rolloffMode;
+       
     }
     [ServerRpc(RequireOwnership = false)]
     private void ReproduzirRisada_ServerRpc()
