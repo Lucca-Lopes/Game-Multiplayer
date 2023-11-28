@@ -18,6 +18,11 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
+    public void ClearLobby()
+    {
+        lobbyAtual = null;
+    }
+
     public async Task<List<Lobby>> ListarLobby()
     {
         List<Lobby> list = new List<Lobby>();
@@ -66,6 +71,7 @@ public class LobbyManager : MonoBehaviour
         {
             lobbyAtual = await LobbyService.Instance.CreateLobbyAsync(lobbyData.lobbyName, lobbyData.totalJogadores, lobbyOptions);
             callback?.Invoke(lobbyAtual);
+            MenuGameManager.isConnectedLobby = true;
         }
         catch (Exception e)
         {
@@ -81,6 +87,7 @@ public class LobbyManager : MonoBehaviour
             options.Player = MenuGameManager.Jogador;
             lobbyAtual = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId, options);
             callback?.Invoke();
+            MenuGameManager.isConnectedLobby = true;
         }
         catch (Exception e)
         {
@@ -142,6 +149,7 @@ public class LobbyManager : MonoBehaviour
             await LobbyService.Instance.RemovePlayerAsync(lobbyAtual.Id, playerId);
             lobbyAtual = null;
             await ListarLobby();
+            
         }
         catch (Exception e)
         {
@@ -158,6 +166,7 @@ public class LobbyManager : MonoBehaviour
                 await LobbyService.Instance.DeleteLobbyAsync(lobbyId);
                 lobbyAtual = null;
                 callback?.Invoke(lobbyId);
+                
             }
         }
         catch (Exception e)
