@@ -18,6 +18,8 @@ public class MenuPrincipalManager : NetworkBehaviour
     [SerializeField] private GameObject painelClassificacao;
     [SerializeField] private GameObject painelTutorial;
     [SerializeField] private GameObject inputNomeJogar;
+    [SerializeField] TMPro.TMP_InputField nomeJogador;
+    [SerializeField] GameObject erroNomeJogador;
     [SerializeField] private GameObject lobby;
     [SerializeField] private AudioSource audioSource; // Adicione essa vari�vel para referenciar o AudioSource
 
@@ -30,9 +32,25 @@ public class MenuPrincipalManager : NetworkBehaviour
 
     public void Jogar()
     {
-        lobby.SetActive(true);
+        inputNomeJogar.SetActive(true);
         painelMenuInicial.SetActive(false);
     }
+
+    public void MostrarLobbies()
+    {
+        if (string.IsNullOrEmpty(nomeJogador.text))
+        {
+            erroNomeJogador.SetActive(true);
+        }
+        else
+        {
+            MenuGameManager.CriarDadosJogador();
+            lobby.SetActive(true);
+            erroNomeJogador.SetActive(false);
+            inputNomeJogar.SetActive(false);
+        }
+    }
+
     public void TocarSom()
     {
         if (audioSource && seuAudioClip) // Verifica se o AudioSource e o AudioClip est�o configurados
