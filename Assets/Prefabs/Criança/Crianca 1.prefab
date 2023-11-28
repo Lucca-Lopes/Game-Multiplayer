@@ -274,6 +274,7 @@ GameObject:
   - component: {fileID: 4547486919496854495}
   - component: {fileID: 7220884164923957801}
   - component: {fileID: 2593323434805267082}
+  - component: {fileID: 211967186597431339}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -406,6 +407,14 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!81 &211967186597431339
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529418258134233708}
+  m_Enabled: 1
 --- !u!1 &2331366615217893029
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,7 +855,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4508884761398930745}
-  m_LocalRotation: {x: 0.0150190145, y: 0.65677303, z: -0.013085374, w: 0.7538252}
+  m_LocalRotation: {x: 0.015019031, y: 0.65677303, z: -0.013085388, w: 0.7538252}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1415,6 +1424,10 @@ MonoBehaviour:
   isDead: 0
   vc: {fileID: 4884629443701883405}
   playerCam: {fileID: 1529418258134233708}
+  spatialBlendValue: 1
+  minDistance: 15
+  maxDistance: 50
+  rolloffMode: 1
 --- !u!143 &8701073232922113607
 CharacterController:
   m_ObjectHideFlags: 0

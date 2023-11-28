@@ -15,7 +15,7 @@ public class Inimigo : NetworkBehaviour
     [SerializeField] GameObject playerCam;
     //[SerializeField] ParticleSystem efeito;
     [SerializeField] TextMeshProUGUI lobbyText;
-    [SerializeField] private  AudioSource somDeAtaque;
+   
     
     //[SerializeField] EfeitoVisual efeitoScript;
 
@@ -70,6 +70,10 @@ public class Inimigo : NetworkBehaviour
         }
         risadaAudioSource = gameObject.AddComponent<AudioSource>(); // crie um AudioSource para a risada
         risadaAudioSource.clip = risadaClip; // atribua a clip de áudio de risada ao AudioSource
+        risadaAudioSource.spatialBlend = spatialBlendValue;
+        risadaAudioSource.minDistance = minDistance;
+        risadaAudioSource.maxDistance = maxDistance;
+        risadaAudioSource.rolloffMode = rolloffMode;
         if (IsOwner)
         {
             // outras inicializações...
@@ -87,7 +91,7 @@ public class Inimigo : NetworkBehaviour
         audioPassos.spatialBlend = spatialBlendValue;
         audioPassos.minDistance = minDistance;
         audioPassos.maxDistance = maxDistance;
-        somDeAtaque.GetComponent<AudioSource>();
+        
        
 
         audioPassos.rolloffMode = rolloffMode;

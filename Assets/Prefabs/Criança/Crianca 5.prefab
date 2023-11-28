@@ -347,7 +347,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1529418258134233708}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!114 &7220884164923957801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1534,6 +1534,10 @@ MonoBehaviour:
   isDead: 0
   vc: {fileID: 4884629443701883405}
   playerCam: {fileID: 1529418258134233708}
+  spatialBlendValue: 1
+  minDistance: 15
+  maxDistance: 50
+  rolloffMode: 1
 --- !u!143 &7542159837225409468
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1977,7 +1981,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6895766575437273954}
-  m_LocalRotation: {x: -0.013882675, y: 0.53321916, z: 0.0087518925, w: 0.845818}
+  m_LocalRotation: {x: -0.013882678, y: 0.53321916, z: 0.008751893, w: 0.845818}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
