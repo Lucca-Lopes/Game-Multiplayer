@@ -361,7 +361,7 @@ MonoBehaviour:
     m_InternalValue: 0
   killerWin:
     m_InternalValue: 0
-  jogadoresEsperados: 2
+  jogadoresEsperados: 4
   jogadoresProntos:
     m_InternalValue: 0
   jogadoresConectados: 

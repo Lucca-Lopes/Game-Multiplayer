@@ -1440,7 +1440,6 @@ GameObject:
   - component: {fileID: 6646717897434253983}
   - component: {fileID: 2933932667176436331}
   - component: {fileID: 5300510642859100864}
-  - component: {fileID: 501143840172869775}
   m_Layer: 0
   m_Name: Entidade
   m_TagString: Player
@@ -1680,7 +1679,6 @@ MonoBehaviour:
   vc: {fileID: 129475094489182000}
   playerCam: {fileID: 7250884601603657667}
   lobbyText: {fileID: 2399227932798313151}
-  somDeAtaque: {fileID: 0}
   distanciaAtaque: 5
   mostrarGizmos: 1
   dano: 1
@@ -1726,14 +1724,11 @@ MonoBehaviour:
   atacando:
     m_InternalValue: 0
   risadaClip: {fileID: 8300000, guid: 708f420caa3278742aa008a47ad41b63, type: 3}
-  audioPassos: {fileID: 0}
   audioPassosClip: {fileID: 8300000, guid: 59fc76d14363bd844af46cd095d911de, type: 3}
   ataque: {fileID: 8300000, guid: edca0568c12ac2445babd6f5160a5250, type: 3}
-  audioSource: {fileID: 3074036422844717967, guid: 90bd951366229ce44b8c703c77146a1b,
-    type: 3}
   spatialBlendValue: 1
-  minDistance: 5
-  maxDistance: 10
+  minDistance: 15
+  maxDistance: 35
   rolloffMode: 1
 --- !u!143 &2933932667176436331
 CharacterController:
@@ -1769,102 +1764,6 @@ MonoBehaviour:
     type: 3}
   atacando:
     m_InternalValue: 0
---- !u!82 &501143840172869775
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6787903309876454426}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &7227078277991278069
 GameObject:
   m_ObjectHideFlags: 0
@@ -2012,7 +1911,7 @@ GameObject:
   - component: {fileID: 5824742057907959876}
   - component: {fileID: 8313350374191092137}
   - component: {fileID: 2934617539364719875}
-  - component: {fileID: 622578238901450793}
+  - component: {fileID: 8157539410675031195}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -2145,7 +2044,7 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!81 &622578238901450793
+--- !u!81 &8157539410675031195
 AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -45,6 +45,10 @@ public class Personagem : NetworkBehaviour
     //Variável para controle de câmera
     [SerializeField] private CinemachineFreeLook vc;
     [SerializeField] GameObject playerCam;
+    public float spatialBlendValue = 1f; // Define a mistura espacial do áudio
+    [SerializeField] private float minDistance = 5f; // Defina a distância mínima em que o áudio é ouvido claramente
+    [SerializeField] private float maxDistance = 10f; // Defina a distância máxima em que o áudio é ouvido
+    [SerializeField] private AudioRolloffMode rolloffMode = AudioRolloffMode.Logarithmic; // Defina o rolloff mode para Logarítmico
 
     //COISAS ANTIGAS
     //[SerializeField] private AudioListener listener;
@@ -64,6 +68,10 @@ public class Personagem : NetworkBehaviour
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.clip = somCaminhando;
         audioSource.loop = true; // Isso define o som para reprodução contínua
+        audioSource.minDistance = minDistance;
+        audioSource.maxDistance = maxDistance;
+        audioSource.spatialBlend = spatialBlendValue;
+        audioSource.rolloffMode = rolloffMode;
     }
 
     public override void OnNetworkSpawn()

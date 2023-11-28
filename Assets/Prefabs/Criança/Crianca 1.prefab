@@ -1415,6 +1415,10 @@ MonoBehaviour:
   isDead: 0
   vc: {fileID: 4884629443701883405}
   playerCam: {fileID: 1529418258134233708}
+  spatialBlendValue: 1
+  minDistance: 15
+  maxDistance: 35
+  rolloffMode: 1
 --- !u!143 &8701073232922113607
 CharacterController:
   m_ObjectHideFlags: 0
