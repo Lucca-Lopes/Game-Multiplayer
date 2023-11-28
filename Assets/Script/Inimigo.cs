@@ -46,10 +46,10 @@ public class Inimigo : NetworkBehaviour
     public NetworkVariable<bool> atacando;
     private AudioSource risadaAudioSource; // adicione uma referência ao AudioSource do áudio de risada
     public AudioClip risadaClip; // adicione a clip de áudio de risada
-    [SerializeField] private AudioSource audioPassos;
+    private AudioSource audioPassos;
     [SerializeField] private AudioClip audioPassosClip;
     [SerializeField] private AudioClip ataque;
-    [SerializeField] private AudioSource somataquesounce; // Será usado para reproduzir o som
+    private AudioSource somataquesounce; // Será usado para reproduzir o som
     public float spatialBlendValue = 1f; // Define a mistura espacial do áudio
     [SerializeField] private float minDistance = 5f; // Defina a distância mínima em que o áudio é ouvido claramente
     [SerializeField] private float maxDistance = 10f; // Defina a distância máxima em que o áudio é ouvido
