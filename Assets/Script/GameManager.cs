@@ -12,9 +12,11 @@ public class GameManager : NetworkBehaviour
     string playerName;
 
     public NetworkVariable<bool> timerAtivo = new(false);
+    public NetworkVariable<int> jogadoresMortos = new(0);
     public NetworkVariable<bool> killerWin = new(false);
 
-    public int jogadoresEsperados = 4;
+    // implementar de novo a interface tutorial e lore 
+    public int jogadoresEsperados = 4; 
     public NetworkVariable<ulong> jogadoresProntos = new(1);
 
     public List<ulong> jogadoresConectados = new();
@@ -149,29 +151,23 @@ public class GameManager : NetworkBehaviour
     {
         if (NetworkManager.Singleton.IsServer)
         {
-            int jogadoresMortos = 0;
             var sobreviventesAtuais = GameObject.FindGameObjectsWithTag("Sobrevivente");
             foreach (GameObject sobrevivente in sobreviventesAtuais)
             {
                 var personagemComponent = sobrevivente.GetComponent<Personagem>();
-                if (personagemComponent.vidaJogador.Value == 0)
-                {
-                    jogadoresMortos++;
-                    personagemComponent.zzz.Play();
-                }
                 if (personagemComponent.OwnerClientId == atacadoId)
                 {
-                    personagemComponent.zzz.Play();
-                    if (personagemComponent.vidaJogador.Value > 0)
+                    personagemComponent.vidaJogador.Value -= quantidade;
+                    Debug.Log($"Diminuindo a vida do client {personagemComponent.OwnerClientId} para {personagemComponent.vidaJogador.Value}");
+                    if (personagemComponent.vidaJogador.Value <= 0)
                     {
-                        personagemComponent.vidaJogador.Value--;
-                        Debug.Log($"Diminuindo a vida do client {personagemComponent.OwnerClientId} para {personagemComponent.vidaJogador.Value}");
-                        jogadoresMortos++;
+                        personagemComponent.zzz.Play();
+                        jogadoresMortos.Value +=1;
+                        Debug.Log($"Jogador {atacadoId} entrou em sono profundo");
                     }
                 }
-                
             }
-            if (jogadoresMortos == sobreviventesAtuais.Length)
+            if (jogadoresMortos.Value >= sobreviventesAtuais.Length)
             {
                 killerWin.Value = true;
                 Instance.timerAtivo.Value = false;

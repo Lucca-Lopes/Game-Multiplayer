@@ -7,6 +7,8 @@ public class SpawnManager : NetworkBehaviour
     [SerializeField] private GameObject entity;
     [SerializeField] private GameObject[] spawnPoints;
     [SerializeField] private GameObject entitySpawnpoint;
+    public NetworkVariable<int> jogadoresEsperados = new(4);
+    public NetworkVariable<int> jogadoresConectados = new(0);
 
     //private void Awake()
     //{
@@ -16,8 +18,8 @@ public class SpawnManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (NetworkManager.Singleton.LocalClientId > 2)
-            UpdateTimerActive_ServerRpc();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         if (IsHost)
         {
             SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, true);
@@ -26,13 +28,23 @@ public class SpawnManager : NetworkBehaviour
         {
             SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, false);
         }
+        AdicionarPlayerConectado_ServerRpc(NetworkManager.Singleton.LocalClientId);
+        Invoke("UpdateTimerActive_ServerRpc", 3f);
         base.OnNetworkSpawn();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void AdicionarPlayerConectado_ServerRpc(ulong clientId)
+    {
+        jogadoresConectados.Value += 1;
+        Debug.Log($"Client {(int)clientId}");
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void UpdateTimerActive_ServerRpc()
     {
-        GameManager.Instance.timerAtivo.Value = true;
+        if (jogadoresEsperados.Value <= jogadoresConectados.Value && !GameManager.Instance.timerAtivo.Value)
+            GameManager.Instance.timerAtivo.Value = true;
     }
 
     //public void SpawnPlayers()

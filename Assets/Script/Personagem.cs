@@ -122,7 +122,6 @@ public class Personagem : NetworkBehaviour
                 {
                     isDead = true;
                     Debug.Log("Personagem - OnLifeChanged - Voce morreu!");
-                    velocidade = 0;
                     animations.sonolento.Value = true;
                     animations.dormindo.Value = true;
                     zzz.Play();
@@ -133,7 +132,6 @@ public class Personagem : NetworkBehaviour
             if (current > previous)
             {
                 isDead = false;
-                Debug.Log("Voce reviveu!");
                 animations.dormindo.Value = false;
             }
             if (previous > current)
@@ -205,7 +203,7 @@ public class Personagem : NetworkBehaviour
 
         if (IsOwner)
         {
-            if (GameManager.Instance.timerAtivo.Value)
+            if (GameManager.Instance.timerAtivo.Value && !isDead)
             {
                 //movimento por character controller
                 if (controller.isGrounded && verticalVelocity < 0)
