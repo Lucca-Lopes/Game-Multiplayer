@@ -176,11 +176,18 @@ public class MenuGameManager : MonoBehaviour
 
             //Ouvindo o evento de sincronização de carregamento de cena
             NetworkManager.Singleton.SceneManager.OnSynchronizeComplete += Instance.RegistrarJogadorCena;
+            NetworkManager.Singleton.OnClientConnectedCallback += Instance.OnClientConnectedHandler;
 
+      
+        }
+    }
+
+    void OnClientConnectedHandler(ulong clientId)
+    {
+        if (NetworkManager.Singleton.ConnectedClients.Count == Lobby.MeuLobby.Players.Count)
+        {
             CarregarCenaJogo();
         }
-
-        
     }
 
     void VerificarIniciarJogo()
