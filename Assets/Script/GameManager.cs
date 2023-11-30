@@ -59,7 +59,7 @@ public class GameManager : NetworkBehaviour
             NetworkManager.Singleton.OnServerStarted += OnServerStartedHandler;
 
             //Debug.Log("GameManager.OnEnable - Registrando o evento de cliente conectado");
-            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedHandler;
+            //NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedHandler;
 
             Debug.Log("GameManager.OnEnable - Registrando o evento de cliente desconectado");
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectedHandler;
@@ -90,20 +90,8 @@ public class GameManager : NetworkBehaviour
         Debug.Log("Host conectado");
     }
 
-    private void OnClientConnectedHandler(ulong clientId)
-    {
-        Debug.Log($"OnClientConnectedHandler - Client {clientId} conectado.");
-        /*if (NetworkManager.Singleton.IsServer)
-        {
-            Debug.Log($"Cliente {clientId} conectado");
-            if(clientId == (ulong)jogadoresEsperados && !timerAtivo.Value)
-            {
-                timerAtivo.Value = true;
-            }
-        }
-        //FetchPlayers();*/
-    }
 
+    #region manage de som
     public void ComecarJogo(bool previous, bool current)
     {
         //Debug.Log($"GameManager.ComecarJogo() - {current} jogadores prontos de {jogadoresEsperados} - Ativando timer");
@@ -132,20 +120,8 @@ public class GameManager : NetworkBehaviour
         ventosounce.Play();
         //Debug.Log("tocando o vento");
     }
+    #endregion manage de som
 
-    public void LiberarMovimento()
-    {
-        GameObject entidade = GameObject.FindGameObjectWithTag("Player");
-        entidade.GetComponent<Inimigo>();
-
-        GameObject[] criancas = GameObject.FindGameObjectsWithTag("Sobrevivente");
-        foreach (GameObject crianca in criancas)
-        {
-            var scriptCrianca = crianca.GetComponent<Personagem>();
-            Instance.jogadoresConectados.Add(scriptCrianca.OwnerClientId);
-            Instance.sobreviventes.Add(scriptCrianca.OwnerClientId, scriptCrianca);
-        }
-    }
 
     [ServerRpc(RequireOwnership = false)]
     public void CausarDano_ServerRpc(int quantidade, ulong atacadoId)
@@ -163,6 +139,7 @@ public class GameManager : NetworkBehaviour
                     if (personagemComponent.vidaJogador.Value == 0)
                     {
                         personagemComponent.zzz.Play();
+                        ParticulaDormindo_ClientRpc(atacadoId);
                         jogadoresMortos.Value +=1;
                         Debug.Log($"Jogador {atacadoId} entrou em sono profundo");
                     }
@@ -177,63 +154,48 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    public void ParticulaDormindo_ClientRpc(ulong atacadoId)
+    {
+        var sobreviventesAtuais = GameObject.FindGameObjectsWithTag("Sobrevivente");
+        foreach (GameObject sobrevivente in sobreviventesAtuais)
+        {
+            var personagemComponent = sobrevivente.GetComponent<Personagem>();
+            if (personagemComponent.OwnerClientId == atacadoId)
+            {
+                personagemComponent.zzz.Play();
+            }
+        }
+    }
 
-            //Debug.Log("Recebeu o ataque: " +atacadoId);
-            //if (sobreviventes[atacadoId].vidaJogador.Value > 0)
-            //{
-            //    sobreviventes[atacadoId].vidaJogador.Value -= quantidade;
-            //    Debug.Log("Vida sobrevivente: " + sobreviventes[atacadoId].vidaJogador.Value);
-            //}
-            //if (sobreviventes[atacadoId].isDead)
-            //{
-            //    jogadoresMortos++;
-            //}
+    #region unused
+    public void LiberarMovimento()
+    {
+        GameObject entidade = GameObject.FindGameObjectWithTag("Player");
+        entidade.GetComponent<Inimigo>();
 
+        GameObject[] criancas = GameObject.FindGameObjectsWithTag("Sobrevivente");
+        foreach (GameObject crianca in criancas)
+        {
+            var scriptCrianca = crianca.GetComponent<Personagem>();
+            Instance.jogadoresConectados.Add(scriptCrianca.OwnerClientId);
+            Instance.sobreviventes.Add(scriptCrianca.OwnerClientId, scriptCrianca);
+        }
+    }
 
-            //foreach (ulong clientId in Instance.sobreviventes.Keys)
-            //{
-            //Debug.Log("KeyAtual: " + clientId);
-            //if (clientId == atacadoId)
-                //{
-                    //Debug.Log("Recebeu o ataque: " + atacadoId + ", encontrado: " +clientId);
-                    //if (sobreviventes[clientId].vidaJogador.Value > 0)
-                    //{
-                    //    sobreviventes[clientId].vidaJogador.Value -= quantidade;
-                    //    Debug.Log(sobreviventes[clientId].vidaJogador.Value);
-                    //}
-                //}
-                //if (sobreviventes[clientId].isDead)
-                //    jogadoresMortos++;
-            //}
-
-
-            
-//    }
-//}
-
-//[ServerRpc(RequireOwnership = false)]
-//public void SpawnSobrevivente_ServerRpc(ulong clientId)
-//{
-//    if (NetworkManager.Singleton.IsServer)
-//    {
-//        sobreviventes[clientId].gameObject.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
-//        //sobrevivente.GetComponent<NetworkObject>().Spawn();
-//    }
-//}
-
-//[ServerRpc(RequireOwnership = false)]
-//public void SpawnSobrevivente_ServerRpc()
-//{
-//    if (NetworkManager.Singleton.IsServer)
-//    {
-//        var sobreviventes = GameObject.FindGameObjectsWithTag("Sobrevivente");
-
-//        foreach(GameObject sobrevivente in sobreviventes)
-//        {
-//            sobrevivente.GetComponent<NetworkObject>().Spawn();
-//        } 
-//    }
-//}
+    private void OnClientConnectedHandler(ulong clientId)
+    {
+        Debug.Log($"OnClientConnectedHandler - Client {clientId} conectado.");
+        /*if (NetworkManager.Singleton.IsServer)
+        {
+            Debug.Log($"Cliente {clientId} conectado");
+            if(clientId == (ulong)jogadoresEsperados && !timerAtivo.Value)
+            {
+                timerAtivo.Value = true;
+            }
+        }
+        //FetchPlayers();*/
+    }
 
     public static void AddPlayer(ulong clientId, Personagem sobrevivente = null)
     {
@@ -290,6 +252,7 @@ public class GameManager : NetworkBehaviour
             }
         }
     }
+    #endregion unused
 
     public void VoltarMenuInicial()
     {

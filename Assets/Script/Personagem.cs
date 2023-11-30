@@ -10,48 +10,40 @@ using UnityEngine.VFX;
 
 public class Personagem : NetworkBehaviour
 {
-    //Variáveis de movimento
-    //private Rigidbody rb;
-    private CharacterController controller;
-    private Vector2 movimento;
-    private Vector2 mouseInput;
-    public int velocidade = 4;
-    float verticalVelocity;
-    [SerializeField] float gravityValue = -9.81f;
-    Vector3 move = Vector3.zero;
-    [SerializeField] private AudioClip somCaminhando;
-    private AudioSource audioSource; // Será usado para reproduzir o som
-
-    //Variável para controle do lobby
+    [Header("Assemblies")]
     [SerializeField] TextMeshProUGUI lobbyText;
-    bool jogoIniciado = false;
-
-    //Variáveis do Netcode
-    public NetworkVariable<int> vidaJogador = new(1);
-    public NetworkVariable<int> pontucaoJogador = new(0);
-    public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-
-    //Variável para o Nome
+    [SerializeField] private CinemachineFreeLook vc;
+    [SerializeField] GameObject playerCam;
     [SerializeField] TextMeshProUGUI displayName;
     [SerializeField] Transform displayCanvas;
-
-    //Variável para animação
     [SerializeField] AnimationManager animations;
     public VisualEffect zzz;
 
-    //Variável para controle de vida
+    [Header("Configurações")]
+    public int velocidade = 4;
+    [SerializeField] float gravityValue = -9.81f;
+    float verticalVelocity;
+    Vector3 move = Vector3.zero;
+    public bool jogoIniciado = false;
     public bool isDead = false;
 
-    //Variável para controle de câmera
-    [SerializeField] private CinemachineFreeLook vc;
-    [SerializeField] GameObject playerCam;
+    [Header("Sonorização")]
     public float spatialBlendValue = 1f; // Define a mistura espacial do áudio
     [SerializeField] private float minDistance = 5f; // Defina a distância mínima em que o áudio é ouvido claramente
     [SerializeField] private float maxDistance = 10f; // Defina a distância máxima em que o áudio é ouvido
     [SerializeField] private AudioRolloffMode rolloffMode = AudioRolloffMode.Logarithmic; // Defina o rolloff mode para Logarítmico
+    [SerializeField] private AudioClip somCaminhando;
+    private AudioSource audioSource; // Será usado para reproduzir o som
 
-    //COISAS ANTIGAS
-    //[SerializeField] private AudioListener listener;
+    [Header("NetVars")]
+    public NetworkVariable<int> vidaJogador = new(2);
+    public NetworkVariable<int> pontucaoJogador = new(0);
+    public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    
+    //variáveis internas
+    private CharacterController controller;
+    private Vector2 movimento;
+    private Vector2 mouseInput;
 
     private void Awake()
     {
@@ -65,6 +57,7 @@ public class Personagem : NetworkBehaviour
         {
             nomeJogador.Value = PlayerData.playerName;
         }
+        #region spam de som
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.clip = somCaminhando;
         audioSource.loop = true; // Isso define o som para reprodução contínua
@@ -72,6 +65,7 @@ public class Personagem : NetworkBehaviour
         audioSource.maxDistance = maxDistance;
         audioSource.spatialBlend = spatialBlendValue;
         audioSource.rolloffMode = rolloffMode;
+        #endregion spam de som
     }
 
     public override void OnNetworkSpawn()
@@ -118,40 +112,37 @@ public class Personagem : NetworkBehaviour
         {
             if (!isDead)
             {
-                if (current <= 0)
+                if (current == 2)
+                {
+                    isDead = false;
+                    animations.dormindo.Value = false;
+                    animations.sonolento.Value = false;
+                }
+                else if (current == 1)
+                {
+                    isDead = false;
+                    animations.dormindo.Value = false;
+                    animations.sonolento.Value = true;
+                }
+                else if (current == 0)
                 {
                     isDead = true;
-                    Debug.Log("Personagem - OnLifeChanged - Voce morreu!");
-                    animations.sonolento.Value = true;
                     animations.dormindo.Value = true;
-                    zzz.Play();
+                    animations.sonolento.Value = true;
                 }
-            }
-
-            if (current > previous)
-            {
-                isDead = false;
-                animations.dormindo.Value = false;
-            }
-            if (previous > current)
-            {
-                animations.sonolento.Value = true;
             }
         }
     }
 
     public void SetMovimento(InputAction.CallbackContext value)
     {
-        if (IsOwner /*&& !isDead && GameManager.Instance.timerAtivo.Value*/)
+        if (IsOwner)
         {
             movimento = value.ReadValue<Vector2>();
-            //Debug.Log($"movimento = {value}");
-            /*if (value.ReadValue<Vector2>() != Vector2.zero)
-                animations.correndo.Value = true;
-            else
-                animations.correndo.Value = false;*/
         }
     }
+
+    #region Rpcs de som
     [ServerRpc(RequireOwnership = false)]
     private void andandoSom_ServerRpc()
     { 
@@ -174,6 +165,8 @@ public class Personagem : NetworkBehaviour
         audioSource.Stop();
         //Debug.Log("parando host");
     }
+    #endregion Rpcs de som
+
     public void SetMouseInput(InputAction.CallbackContext value)
     {
         mouseInput = value.ReadValue<Vector2>();
@@ -196,6 +189,7 @@ public class Personagem : NetworkBehaviour
 
         if (IsOwner)
         {
+
             if (GameManager.Instance.timerAtivo.Value && !isDead)
             {
                 //movimento por character controller
@@ -240,38 +234,9 @@ public class Personagem : NetworkBehaviour
             {
                 move = Vector3.zero;
                 animations.correndo.Value = false;
-                parandosomandando_ServerRpc();
+                if (audioSource.isPlaying)
+                    parandosomandando_ServerRpc();
             }
         }
     }
-
-    /*private void FixedUpdate()
-    {
-        if (!isDead)
-        {
-            // Calcular a direção com base na rotação atual
-            Vector3 moveDirection = Quaternion.Euler(0, vc.State.CorrectedOrientation.eulerAngles.y, 0) * new Vector3(movimento.x, 0, movimento.y);
-
-            // Aplicar uma força na direção calculada
-            rb.AddForce(moveDirection.normalized * Time.fixedDeltaTime * velocidade);
-            if (moveDirection != Vector3.zero)
-                gameObject.transform.forward = moveDirection.normalized;
-        }
-        //RotateWithMouseInput();
-    }*/
-
-    /*private void RotateWithMouseInput()
-    {
-        // Obter a rotação atual da câmera
-        Quaternion cameraRotation = vc.State.CorrectedOrientation;
-
-        // Converter o input do mouse em uma rotação local
-        Vector3 localRotation = new Vector3(-mouseInput.y, mouseInput.x, 0);
-
-        // Aplicar a rotação local à rotação da câmera
-        Quaternion newRotation = cameraRotation * Quaternion.Euler(localRotation);
-
-        // Definir a rotação do personagem para a nova rotação
-        transform.rotation = newRotation;
-    }*/
 }

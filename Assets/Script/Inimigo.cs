@@ -13,40 +13,19 @@ public class Inimigo : NetworkBehaviour
     [SerializeField] AnimationEvents animations;
     [SerializeField] private CinemachineFreeLook vc;
     [SerializeField] GameObject playerCam;
-    //[SerializeField] ParticleSystem efeito;
+    [SerializeField] TextMeshProUGUI displayName;
     [SerializeField] TextMeshProUGUI lobbyText;
-    //[SerializeField] private  AudioSource somDeAtaque;
-    
-    //[SerializeField] EfeitoVisual efeitoScript;
 
     [Header("Configurações")]
-    public float distanciaAtaque = 5f;
     [SerializeField] bool mostrarGizmos;
+    public float distanciaAtaque = 5f;
     public int dano = 1;
     public float velocidade = 4;
-    float verticalVelocity;
     [SerializeField] float gravityValue = -9.81f;
-    public float distanciaCarregamento = 2.0f;
-    Vector3 move = Vector3.zero;
-    
 
-    [Header("NetVars")]
-    public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-
-    //Variável para o Nome
-    [SerializeField] TextMeshProUGUI displayName;
-
-    //variáveis internas
-    private Vector2 movimento;
-    private Vector2 mouseInput;
-    //private Rigidbody rb;
-    private CharacterController controller;
-    private bool canWalk = true;
-    bool canAttack = true;
-    bool jogoIniciado = false;
-    public NetworkVariable<bool> atacando;
-    private AudioSource risadaAudioSource; // adicione uma referência ao AudioSource do áudio de risada
+    [Header("Sonorização")]
     public AudioClip risadaClip; // adicione a clip de áudio de risada
+    private AudioSource risadaAudioSource; // adicione uma referência ao AudioSource do áudio de risada
     private AudioSource audioPassos;
     [SerializeField] private AudioClip audioPassosClip;
     [SerializeField] private AudioClip ataque;
@@ -56,10 +35,22 @@ public class Inimigo : NetworkBehaviour
     [SerializeField] private float maxDistance = 10f; // Defina a distância máxima em que o áudio é ouvido
     [SerializeField] private AudioRolloffMode rolloffMode = AudioRolloffMode.Logarithmic; // Defina o rolloff mode para Logarítmico
 
+    [Header("NetVars")]
+    public NetworkVariable<FixedString32Bytes> nomeJogador = new(string.Empty, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> atacando;
+
+    //variáveis internas
+    private CharacterController controller;
+    float verticalVelocity;
+    Vector3 move = Vector3.zero;
+    Vector2 movimento;
+    Vector2 mouseInput;
+    bool canWalk = true;
+    bool canAttack = true;
+    bool jogoIniciado = false;
 
     private void Awake()
     {
-        //rb = GetComponent<Rigidbody>();
         controller = GetComponent<CharacterController>();
     }
 
@@ -69,6 +60,8 @@ public class Inimigo : NetworkBehaviour
         {
             nomeJogador.Value = PlayerData.playerName;
         }
+
+        #region spam de som
         risadaAudioSource = gameObject.AddComponent<AudioSource>(); // crie um AudioSource para a risada
         risadaAudioSource.clip = risadaClip; // atribua a clip de áudio de risada ao AudioSource
         risadaAudioSource.spatialBlend = spatialBlendValue;
@@ -93,11 +86,10 @@ public class Inimigo : NetworkBehaviour
         audioPassos.minDistance = minDistance;
         audioPassos.maxDistance = maxDistance;
         audioPassos.rolloffMode = rolloffMode;
-      
-       
-
-       
+        #endregion spam de som
     }
+
+    #region Rpcs de som
     [ServerRpc(RequireOwnership = false)]
     private void ReproduzirRisada_ServerRpc()
     {
@@ -136,6 +128,18 @@ public class Inimigo : NetworkBehaviour
         audioPassos.Stop();
         //Debug.Log("parando passo");
     }
+    [ServerRpc(RequireOwnership = false)]
+    private void somataque_ServerRpc()
+    {
+        somataque_ClientRpc();
+    }
+    [ClientRpc]
+    private void somataque_ClientRpc()
+    {
+        somataquesounce.Play();
+        Debug.Log("tocou o audio");
+    }
+    #endregion Rpcs de som
 
     public override void OnNetworkSpawn()
     {
@@ -238,17 +242,6 @@ public class Inimigo : NetworkBehaviour
     {
         mouseInput = value.ReadValue<Vector2>();
     }
-    [ServerRpc(RequireOwnership = false)]
-    private void somataque_ServerRpc()
-    {
-        somataque_ClientRpc();
-    }
-    [ClientRpc]
-    private void somataque_ClientRpc()
-    {
-        somataquesounce.Play();
-        Debug.Log("tocou o audio");
-    }
 
     public void Atacar(InputAction.CallbackContext context)
     {
@@ -261,8 +254,7 @@ public class Inimigo : NetworkBehaviour
                 //audioteste.Instance.playnomaudioclip();
                 somataque_ServerRpc();
                 canWalk = false;
-                //Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward * 1.367f + transform.up * 1.3f, distanciaAtaque);
-                Collider[] hitColliders = Physics.OverlapBox(transform.position + transform.forward * (distanciaAtaque / 2) + transform.up * 1.3f, new(3f,4f,distanciaAtaque));
+                Collider[] hitColliders = Physics.OverlapBox(transform.position + transform.forward * (distanciaAtaque / 2) + transform.up * 1.3f, new(2.5f,4f,distanciaAtaque), transform.rotation);
                 foreach (Collider col in hitColliders)
                 {
                     if (col.gameObject.CompareTag("Sobrevivente"))
@@ -270,9 +262,6 @@ public class Inimigo : NetworkBehaviour
                         GameManager.Instance.CausarDano_ServerRpc(1, col.GetComponent<Personagem>().OwnerClientId);
                         Debug.Log($"Causando dano ao client {(int)col.GetComponent<Personagem>().OwnerClientId}");
                     }
-                    
-                        
-                    
                 }
             }
         }
@@ -290,23 +279,13 @@ public class Inimigo : NetworkBehaviour
         }
     }
 
-    /*IEnumerator AnimacaoAtacar()
-    {
-        canWalk = false;
-        animations.atacando.Value = true;
-        //rb.velocity = Vector3.zero;
-        yield return new WaitForSeconds(2.0f);
-        animations.atacando.Value = false;
-        canWalk = true;
-    }*/
-
-    // Hitbox do Ataque
+    // Gizmos do hitbox do ataque - o gizmos não rotaciona mas o hitbox sim
     private void OnDrawGizmos()
     {
         if (mostrarGizmos)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawCube(transform.position + transform.forward * (distanciaAtaque / 2) + transform.up * 1.3f, new(3f, 4f, distanciaAtaque));
+            Gizmos.DrawCube(transform.position + transform.forward * (distanciaAtaque / 2) + transform.up * 1.3f, new(2.5f, 4f, distanciaAtaque));
         }
     }
 }
