@@ -250,36 +250,6 @@ public class Inimigo : NetworkBehaviour
         somataquesounce.Play();
         Debug.Log("tocou o audio");
     }
-    /*//Movimento usando Rigdbody
-    private void FixedUpdate()
-    {
-        if (rb != null)
-        {
-            // Calcular a direção com base na rotação atual
-            Vector3 moveDirection = Quaternion.Euler(0, vc.State.CorrectedOrientation.eulerAngles.y, 0) * new Vector3(movimento.x, 0, movimento.y);
-
-            // Aplicar uma força na direção calculada
-            rb.AddForce(moveDirection.normalized * Time.fixedDeltaTime * velocidade);
-            if (moveDirection != Vector3.zero)
-                gameObject.transform.forward = moveDirection.normalized;
-        }
-        //RotateWithMouseInput();
-    }*/
-
-    /*private void RotateWithMouseInput()
-    {
-        // Obter a rotação atual da câmera
-        Quaternion cameraRotation = vc.State.CorrectedOrientation;
-
-        // Converter o input do mouse em uma rotação local
-        Vector3 localRotation = new Vector3(-mouseInput.y, mouseInput.x, 0);
-
-        // Aplicar a rotação local à rotação da câmera
-        Quaternion newRotation = cameraRotation * Quaternion.Euler(localRotation);
-        newRotation.z = 0;
-        // Definir a rotação do personagem para a nova rotação
-        transform.rotation = newRotation;
-    }*/
 
     public void Atacar(InputAction.CallbackContext context)
     {

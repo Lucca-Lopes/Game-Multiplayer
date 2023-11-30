@@ -8,7 +8,7 @@ public class TimerController : NetworkBehaviour
 {
     public TextMeshProUGUI timerText;
     [SerializeField] GameObject timerObj;
-    private float timeRemaining = 5 * 60.0f;
+    private float timeRemaining = 3 * 60.0f;
     public GameObject fimdejogo;
 
     [SerializeField] GameObject textoVitoria;
@@ -31,7 +31,7 @@ public class TimerController : NetworkBehaviour
 
     private void Start()
     {
-        UpdateTimerDisplay();
+        UpdateTimerDisplay_ClientRpc(0, 0);
         //StartCoroutine(StartTimer());
     }
 
@@ -40,53 +40,42 @@ public class TimerController : NetworkBehaviour
         if (current == true)
         {
             timerObj.SetActive(true);
-            StartCoroutine(RunTimer());
+            if (IsServer)
+                StartCoroutine(RunTimer());
         }
     }
 
     public IEnumerator RunTimer()
     {
+        int minutes;
+        int seconds;
         while (timeRemaining > 0 && GameManager.Instance.timerAtivo.Value)
         {
             yield return new WaitForSeconds(1.0f);
             timeRemaining -= 1.0f;
-            UpdateTimerDisplay();
+            minutes = Mathf.FloorToInt(timeRemaining / 60);
+            seconds = Mathf.FloorToInt(timeRemaining % 60);
+            UpdateTimerDisplay_ClientRpc(minutes, seconds);
            
         }
         if (timeRemaining <= 0)
             timeRemaining = 0;
-        UpdateTimerDisplay();
-        Fimdejogo();
+        minutes = Mathf.FloorToInt(timeRemaining / 60);
+        seconds = Mathf.FloorToInt(timeRemaining % 60);
+        UpdateTimerDisplay_ClientRpc(minutes, seconds);
+        Fimdejogo_ClientRpc();
         Time.timeScale = 0;
     }
 
-    private void UpdateTimerDisplay()
+    [ClientRpc]
+    private void UpdateTimerDisplay_ClientRpc(int minutes, int seconds)
     {
-        int minutes = Mathf.FloorToInt(timeRemaining / 60);
-        int seconds = Mathf.FloorToInt(timeRemaining % 60);
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds); 
     }
-    public void Fimdejogo()
+    [ClientRpc]
+    public void Fimdejogo_ClientRpc()
     {
         fimdejogo.SetActive(true);
-
-        /*GameObject entidade = GameObject.FindGameObjectWithTag("Player");
-        var entScript = entidade.GetComponent<Inimigo>();
-
-        GameObject[] criancas = GameObject.FindGameObjectsWithTag("Sobrevivente");
-        List<Personagem> scriptsCriancas = new();
-
-        foreach (GameObject crianca in criancas)
-        {
-            scriptsCriancas.Add(crianca.GetComponent<Personagem>());
-        }*/
-
-        /*var txtPontuacao = $"{entScript.nomeJogador.Value} - {timeRemaining} pontos";
-        foreach (Personagem crianca in scriptsCriancas)
-        {
-            txtPontuacao += $"\n{crianca.nomeJogador.Value} - {crianca.pontucaoJogador.Value} pontos";
-        }
-        textoPontuacao.text = txtPontuacao;*/
 
         if (NetworkManager.Singleton.IsHost)
         {

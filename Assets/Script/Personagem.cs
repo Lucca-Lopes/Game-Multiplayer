@@ -125,7 +125,6 @@ public class Personagem : NetworkBehaviour
                     animations.sonolento.Value = true;
                     animations.dormindo.Value = true;
                     zzz.Play();
-                    AtualizarPontuacao_ServerRpc();
                 }
             }
 
@@ -139,12 +138,6 @@ public class Personagem : NetworkBehaviour
                 animations.sonolento.Value = true;
             }
         }
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void AtualizarPontuacao_ServerRpc()
-    {
-        pontucaoJogador.Value = 300 - (int)TimerController.timer;
     }
 
     public void SetMovimento(InputAction.CallbackContext value)
