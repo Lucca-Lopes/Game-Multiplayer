@@ -42,6 +42,7 @@ public class Inimigo : NetworkBehaviour
     //private Rigidbody rb;
     private CharacterController controller;
     private bool canWalk = true;
+    bool canAttack = true;
     bool jogoIniciado = false;
     public NetworkVariable<bool> atacando;
     private AudioSource risadaAudioSource; // adicione uma referência ao AudioSource do áudio de risada
@@ -241,8 +242,6 @@ public class Inimigo : NetworkBehaviour
     private void somataque_ServerRpc()
     {
         somataque_ClientRpc();
-
-
     }
     [ClientRpc]
     private void somataque_ClientRpc()
@@ -255,8 +254,9 @@ public class Inimigo : NetworkBehaviour
     {
         if (context.performed)
         {
-            if (IsOwner && GameManager.Instance.timerAtivo.Value)
+            if (IsOwner && GameManager.Instance.timerAtivo.Value && canAttack)
             {
+                canAttack = false;
                 animations.atacando.Value = true;
                 //audioteste.Instance.playnomaudioclip();
                 somataque_ServerRpc();
@@ -286,6 +286,7 @@ public class Inimigo : NetworkBehaviour
             atacando.Value= false;
 
             canWalk = true;
+            canAttack = true;
         }
     }
 

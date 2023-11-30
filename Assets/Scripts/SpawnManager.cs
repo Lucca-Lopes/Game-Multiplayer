@@ -7,7 +7,7 @@ public class SpawnManager : NetworkBehaviour
     [SerializeField] private GameObject entity;
     [SerializeField] private GameObject[] spawnPoints;
     [SerializeField] private GameObject entitySpawnpoint;
-    public NetworkVariable<int> jogadoresEsperados = new(4);
+    public int jogadoresEsperados = 4;
     public NetworkVariable<int> jogadoresConectados = new(0);
 
     //private void Awake()
@@ -28,8 +28,9 @@ public class SpawnManager : NetworkBehaviour
         {
             SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, false);
         }
+        Debug.Log($"OnNetworkSpawn - Client {NetworkManager.Singleton.LocalClientId} conectado");
         AdicionarPlayerConectado_ServerRpc(NetworkManager.Singleton.LocalClientId);
-        Invoke("UpdateTimerActive_ServerRpc", 3f);
+        Invoke("UpdateTimerActive_ServerRpc", 30f);
         base.OnNetworkSpawn();
     }
 
@@ -37,13 +38,12 @@ public class SpawnManager : NetworkBehaviour
     public void AdicionarPlayerConectado_ServerRpc(ulong clientId)
     {
         jogadoresConectados.Value += 1;
-        Debug.Log($"Client {(int)clientId}");
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void UpdateTimerActive_ServerRpc()
     {
-        if (jogadoresEsperados.Value <= jogadoresConectados.Value && !GameManager.Instance.timerAtivo.Value)
+        if (jogadoresEsperados <= jogadoresConectados.Value)
             GameManager.Instance.timerAtivo.Value = true;
     }
 
@@ -96,14 +96,12 @@ public class SpawnManager : NetworkBehaviour
         }
         else 
         {
-            newPlayer = Instantiate(sobreviventes[clientId-1]/*, spawnPoints[clientId-1].transform.position, spawnPoints[clientId-1].transform.rotation*/);
-            //newPlayer.transform.position = RandomSurvivorSpawn();
+            newPlayer = Instantiate(sobreviventes[clientId-1]);
         }
         var netObj = newPlayer.GetComponent<NetworkObject>();
         newPlayer.SetActive(true);
         netObj.SpawnAsPlayerObject(clientId, true);
         netObj.ChangeOwnership(clientId);
-        //GameManager.FetchPlayers();
     }
 
     /*private Vector3 RandomSurvivorSpawn()

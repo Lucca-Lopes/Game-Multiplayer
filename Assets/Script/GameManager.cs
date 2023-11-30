@@ -59,7 +59,7 @@ public class GameManager : NetworkBehaviour
             NetworkManager.Singleton.OnServerStarted += OnServerStartedHandler;
 
             //Debug.Log("GameManager.OnEnable - Registrando o evento de cliente conectado");
-            //NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedHandler;
+            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedHandler;
 
             Debug.Log("GameManager.OnEnable - Registrando o evento de cliente desconectado");
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectedHandler;
@@ -90,9 +90,10 @@ public class GameManager : NetworkBehaviour
         Debug.Log("Host conectado");
     }
 
-    /*private void OnClientConnectedHandler(ulong clientId)
+    private void OnClientConnectedHandler(ulong clientId)
     {
-        if (NetworkManager.Singleton.IsServer)
+        Debug.Log($"OnClientConnectedHandler - Client {clientId} conectado.");
+        /*if (NetworkManager.Singleton.IsServer)
         {
             Debug.Log($"Cliente {clientId} conectado");
             if(clientId == (ulong)jogadoresEsperados && !timerAtivo.Value)
@@ -100,8 +101,8 @@ public class GameManager : NetworkBehaviour
                 timerAtivo.Value = true;
             }
         }
-        //FetchPlayers();
-    }*/
+        //FetchPlayers();*/
+    }
 
     public void ComecarJogo(bool previous, bool current)
     {
@@ -159,7 +160,7 @@ public class GameManager : NetworkBehaviour
                 {
                     personagemComponent.vidaJogador.Value -= quantidade;
                     Debug.Log($"Diminuindo a vida do client {personagemComponent.OwnerClientId} para {personagemComponent.vidaJogador.Value}");
-                    if (personagemComponent.vidaJogador.Value <= 0)
+                    if (personagemComponent.vidaJogador.Value == 0)
                     {
                         personagemComponent.zzz.Play();
                         jogadoresMortos.Value +=1;
