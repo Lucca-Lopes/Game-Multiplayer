@@ -12331,8 +12331,7 @@ MonoBehaviour:
   - {fileID: 198277007}
   - {fileID: 566450969}
   entitySpawnpoint: {fileID: 1729720116}
-  jogadoresEsperados:
-    m_InternalValue: 4
+  jogadoresEsperados: 4
   jogadoresConectados:
     m_InternalValue: 0
 --- !u!4 &1241417111
