@@ -13,7 +13,7 @@ public class SalaPanelController : MonoBehaviour
     [SerializeField] JogadorInfoLobby jogadorPrefab;
     [SerializeField] Button jogarBtn;
 
-    Dictionary<string, JogadorInfoLobby> listaJogadores;
+    Dictionary<string, JogadorInfoLobby> listaJogadores = new();
     string salaPrefix = "Sala: ";
 
     public void ShowSalaInfoPanel()

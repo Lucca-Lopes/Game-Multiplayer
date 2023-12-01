@@ -129,18 +129,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1071203020}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &320623486 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4392958416639715641, guid: fb4bad18f4696134c8042b8a923cd9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 1071203020}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,6 +583,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &781724941 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9129487605231575627, guid: fb4bad18f4696134c8042b8a923cd9a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1071203020}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1027,6 +1021,21 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1448192702}
+    - target: {fileID: 5447259659711708511, guid: fb4bad18f4696134c8042b8a923cd9a8,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5447259659711708511, guid: fb4bad18f4696134c8042b8a923cd9a8,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5447259659711708511, guid: fb4bad18f4696134c8042b8a923cd9a8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5656571227094987489, guid: fb4bad18f4696134c8042b8a923cd9a8,
         type: 3}
       propertyPath: m_IsActive
@@ -1147,6 +1156,26 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1448192702}
+    - target: {fileID: 5780686293497076824, guid: fb4bad18f4696134c8042b8a923cd9a8,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CriarLobbyAction
+      objectReference: {fileID: 0}
+    - target: {fileID: 5780686293497076824, guid: fb4bad18f4696134c8042b8a923cd9a8,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LobbyButtonsController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5780686293497076824, guid: fb4bad18f4696134c8042b8a923cd9a8,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6323023996224064964, guid: fb4bad18f4696134c8042b8a923cd9a8,
+        type: 3}
+      propertyPath: m_text
+      value: Por favor, insira o nome da sala para jogar!
+      objectReference: {fileID: 0}
     - target: {fileID: 8307002074325792270, guid: fb4bad18f4696134c8042b8a923cd9a8,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -1154,6 +1183,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb4bad18f4696134c8042b8a923cd9a8, type: 3}
+--- !u!1 &1071203021 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5917466445257855642, guid: fb4bad18f4696134c8042b8a923cd9a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1071203020}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1071203022 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7930761043426391851, guid: fb4bad18f4696134c8042b8a923cd9a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1071203020}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1381547800 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 939366509, guid: fb4bad18f4696134c8042b8a923cd9a8,
@@ -1191,6 +1238,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panelController: {fileID: 1448192703}
+  nomeLobby: {fileID: 2110590704}
+  totalJogadores: {fileID: 1071203022}
+  erroNomeText: {fileID: 781724941}
+  erroNumText: {fileID: 1071203021}
+  salaLobbyPanel: {fileID: 1564210644}
+  criarLobbyPanel: {fileID: 1737083939}
 --- !u!114 &1448192703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1207,7 +1260,7 @@ MonoBehaviour:
   infoPanelCriarLobby: {fileID: 554059289}
   infoPanelPesquisarLobby: {fileID: 1381547800}
   isPrivate: {fileID: 567522807}
-  totalJogadores: {fileID: 320623486}
+  totalJogadores: {fileID: 1071203022}
   nomeLobby: {fileID: 2110590704}
   tagLobby: {fileID: 2064066631}
 --- !u!4 &1448192704
@@ -1237,6 +1290,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c23361ecf694f3299c02b9d9e62031, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1564210644 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1350519354686939458, guid: fb4bad18f4696134c8042b8a923cd9a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1071203020}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1575839752 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1575839752, guid: fb4bad18f4696134c8042b8a923cd9a8,
@@ -1299,6 +1358,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1737083939 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7692704077813919242, guid: fb4bad18f4696134c8042b8a923cd9a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1071203020}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2064066631 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7694627340740746410, guid: fb4bad18f4696134c8042b8a923cd9a8,

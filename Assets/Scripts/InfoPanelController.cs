@@ -66,7 +66,7 @@ public class InfoPanelController : MonoBehaviour
         LobbyData dados = new LobbyData();
 
         dados.isPrivate = false;
-        dados.totalJogadores = 4;
+        dados.totalJogadores = int.Parse(totalJogadores.text);
         dados.lobbyName = nomeLobby.text;
         dados.tag = string.Empty;
 

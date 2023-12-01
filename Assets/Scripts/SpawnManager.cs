@@ -11,17 +11,19 @@ public class SpawnManager : NetworkBehaviour
     [SerializeField] private GameObject entitySpawnpoint;
 
     [Header("Manage de Players Prontos")]
-    public int jogadoresEsperados = 4;
+    private int jogadoresEsperados;
     public NetworkVariable<int> jogadoresConectados = new(0);
 
     private void Awake()
     {
+        jogadoresEsperados = PlayerData.numJogadoresLobby;
         jogadoresConectados.OnValueChanged += JogadoresContectadosHandler;
     }
 
     private void JogadoresContectadosHandler(int previousValue, int newValue)
     {
         Debug.Log($"{newValue} jogadores conectados");
+        Debug.Log($"jogadores esperados - {jogadoresEsperados}");
         if (jogadoresEsperados == newValue)
         {
             if (IsHost)

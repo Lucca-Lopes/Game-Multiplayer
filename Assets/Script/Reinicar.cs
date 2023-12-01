@@ -7,19 +7,15 @@ using UnityEngine.UI;
 
 public class Reinicar : MonoBehaviour
 {
-    public void VoltarMenuInicial()
+    [ServerRpc(RequireOwnership = false)]
+    public void DisconnectPlayers_ServerRpc()
     {
-        Time.timeScale = 1;
         NetworkManager.Singleton.StopAllCoroutines();
-        if (NetworkManager.Singleton.IsHost)
+        //Destroy(GameObject.FindGameObjectWithTag("NetworkManager"));
+        foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-            NetworkManager.Singleton.Shutdown();
+            NetworkManager.Singleton.DisconnectClient(clientId);
         }
-        else
-        {
-            NetworkManager.Singleton.DisconnectClient(NetworkManager.Singleton.LocalClientId);
-        }
-        Destroy(gameObject);
-        SceneManager.LoadScene("MenuLobby", LoadSceneMode.Single);
+        NetworkManager.Singleton.Shutdown();
     }
 }

@@ -8,7 +8,7 @@ public class TimerController : NetworkBehaviour
 {
     public TextMeshProUGUI timerText;
     [SerializeField] GameObject timerObj;
-    private float timeRemaining = 3 * 60.0f;
+    private float timeRemaining = 60.0f;
     public GameObject fimdejogo;
 
     [SerializeField] GameObject textoVitoria;
@@ -27,6 +27,13 @@ public class TimerController : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         GameManager.Instance.timerAtivo.OnValueChanged += StartTimer;
+        if (IsOwner)
+        {
+            if (PlayerData.numJogadoresLobby == 2)
+                timeRemaining *= PlayerData.numJogadoresLobby;
+            else
+                timeRemaining *= PlayerData.numJogadoresLobby - 1;
+        }
     }
 
     private void Start()
@@ -91,6 +98,7 @@ public class TimerController : NetworkBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
+            GameManager.Instance.EncerrarJogo();
         }
         else if (NetworkManager.Singleton.IsClient)
         {

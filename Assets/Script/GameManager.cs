@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.VFX;
 
 public class GameManager : NetworkBehaviour
@@ -16,7 +17,7 @@ public class GameManager : NetworkBehaviour
     public NetworkVariable<bool> killerWin = new(false);
 
     // implementar de novo a interface tutorial e lore 
-    public int jogadoresEsperados = 4; 
+    public int jogadoresEsperados; 
     public NetworkVariable<ulong> jogadoresProntos = new(1);
 
     public List<ulong> jogadoresConectados = new();
@@ -48,7 +49,7 @@ public class GameManager : NetworkBehaviour
         {
             Destroy(gameObject);
         }
-        
+        jogadoresEsperados = PlayerData.numJogadoresLobby;
     }
 
     private void Start()
@@ -254,10 +255,20 @@ public class GameManager : NetworkBehaviour
     }
     #endregion unused
 
-    public void VoltarMenuInicial()
+    public void EncerrarJogo()
     {
         Reinicar restart = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<Reinicar>();
-        restart.VoltarMenuInicial();
+        restart.DisconnectPlayers_ServerRpc();
     }
 
+    public void VoltarMenuInicial()
+    {
+        Debug.Log("VoltarMenuInicial - Clicou em VoltarMenuInicial");
+        Time.timeScale = 1;
+        Debug.Log("VoltarMenuInicial - Time.timeScale = 1");
+        Destroy(GameObject.FindGameObjectWithTag("NetworkManager"));
+        Debug.Log("VoltarMenuInicial - Destroy(GameObject.FindGameObjectWithTag(\"NetworkManager\"))");
+        SceneManager.LoadScene("MenuLobby", LoadSceneMode.Single);
+        Debug.Log("VoltarMenuInicial - SceneManager.LoadScene(\"MenuLobby\", LoadSceneMode.Single)");
+    }
 }

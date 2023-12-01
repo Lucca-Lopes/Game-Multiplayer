@@ -92,6 +92,7 @@ public class MenuGameManager : MonoBehaviour
     void Start()
     {
         authenticator.SignIn(PlayerSignedInUnityService);
+        atualizacaoSalas = StartCoroutine(AtualizarListaSalas(updateLobbyInterval));
     }
 
     private void PlayerSignedInUnityService()
@@ -100,8 +101,6 @@ public class MenuGameManager : MonoBehaviour
         Debug.Log($"GameManager.Instance.PlayerSignedInUnityService - PlayerID: {AuthenticationService.Instance.PlayerId}");
         // Shows how to get an access token
         Debug.Log($"GameManager.Instance.PlayerSignedInUnityService - Access Token: {AuthenticationService.Instance.AccessToken}");
-
-        atualizacaoSalas = StartCoroutine(AtualizarListaSalas(updateLobbyInterval));
     }
 
     public static void CriarDadosJogador()
@@ -163,6 +162,7 @@ public class MenuGameManager : MonoBehaviour
 
     public static async void IniciarJogo()
     {
+        PlayerData.numJogadoresLobby = Lobby.MeuLobby.MaxPlayers;
         Allocation hostAlloc = await Authenticator.AllocateServer(Lobby.MeuLobby.MaxPlayers);
         //Criar um código de acesso para o servidor alocado
         string hostCode = await Authenticator.GetJoinCode(hostAlloc);
@@ -176,11 +176,16 @@ public class MenuGameManager : MonoBehaviour
 
             //Ouvindo o evento de sincronização de carregamento de cena
             NetworkManager.Singleton.SceneManager.OnSynchronizeComplete += Instance.RegistrarJogadorCena;
+            NetworkManager.Singleton.OnClientConnectedCallback += Instance.OnClientConnectedHandler;
+        }
+    }
 
+    void OnClientConnectedHandler(ulong clientId)
+    {
+        if (NetworkManager.Singleton.ConnectedClients.Count == Lobby.MeuLobby.Players.Count)
+        {
             CarregarCenaJogo();
         }
-
-        
     }
 
     void VerificarIniciarJogo()
@@ -192,6 +197,7 @@ public class MenuGameManager : MonoBehaviour
     }
     async void IniciarJogador(string hostCode)
     {
+        PlayerData.numJogadoresLobby = Lobby.MeuLobby.MaxPlayers;
         JoinAllocation jAlloc = await Authenticator.JoinToRelayServer(hostCode);
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(jAlloc, "dtls"));
         NetworkManager.Singleton.StartClient();
