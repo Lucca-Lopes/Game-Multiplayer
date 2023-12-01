@@ -12,10 +12,10 @@ public class Reinicar : MonoBehaviour
     {
         NetworkManager.Singleton.StopAllCoroutines();
         //Destroy(GameObject.FindGameObjectWithTag("NetworkManager"));
-        foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
-        {
-            NetworkManager.Singleton.DisconnectClient(clientId);
-        }
+        //foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
+        //{
+        //    NetworkManager.Singleton.DisconnectClient(clientId);
+        //}
         NetworkManager.Singleton.Shutdown();
     }
 }
