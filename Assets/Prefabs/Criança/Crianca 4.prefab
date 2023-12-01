@@ -193,7 +193,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Aguardando 4 jogadores se conectarem...
+  m_text: Aguardando todos os jogadores se conectarem...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1475,10 +1475,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b80a45a4322bd45b62b47d72fab1c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lobbyText: {fileID: 5931531189250854395}
+  vc: {fileID: 4884629443701883405}
+  playerCam: {fileID: 1529418258134233708}
+  displayName: {fileID: 7785100858060011089}
+  displayCanvas: {fileID: 6544209430131734256}
+  animations: {fileID: 4685009338861226737}
+  zzz: {fileID: 2979585984124645355}
   velocidade: 10
   gravityValue: -9.81
+  jogoIniciado: 0
+  isDead: 0
+  spatialBlendValue: 1
+  minDistance: 15
+  maxDistance: 35
+  rolloffMode: 1
   somCaminhando: {fileID: 8300000, guid: 59fc76d14363bd844af46cd095d911de, type: 3}
-  lobbyText: {fileID: 5931531189250854395}
   vidaJogador:
     m_InternalValue: 2
   pontucaoJogador:
@@ -1518,17 +1530,6 @@ MonoBehaviour:
         byte0027: 0
         byte0028: 0
         byte0029: 0
-  displayName: {fileID: 7785100858060011089}
-  displayCanvas: {fileID: 6544209430131734256}
-  animations: {fileID: 4685009338861226737}
-  zzz: {fileID: 2979585984124645355}
-  isDead: 0
-  vc: {fileID: 4884629443701883405}
-  playerCam: {fileID: 1529418258134233708}
-  spatialBlendValue: 1
-  minDistance: 15
-  maxDistance: 35
-  rolloffMode: 1
 --- !u!143 &4866637563020057137
 CharacterController:
   m_ObjectHideFlags: 0

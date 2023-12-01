@@ -10911,6 +10911,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 286.414
       objectReference: {fileID: 0}
+    - target: {fileID: 9118881278432422200, guid: 2f8a90a17f4aac341aca09a49da847ac,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.553
+      objectReference: {fileID: 0}
     - target: {fileID: 9120131532325717040, guid: 2f8a90a17f4aac341aca09a49da847ac,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -12331,7 +12336,6 @@ MonoBehaviour:
   - {fileID: 198277007}
   - {fileID: 566450969}
   entitySpawnpoint: {fileID: 1729720116}
-  jogadoresEsperados: 4
   jogadoresConectados:
     m_InternalValue: 0
 --- !u!4 &1241417111

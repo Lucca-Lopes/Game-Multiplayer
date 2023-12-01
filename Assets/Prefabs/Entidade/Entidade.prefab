@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 346446253195105642}
-  m_LocalRotation: {x: 0.0017634602, y: 0.99780476, z: 0.029754274, w: -0.059137356}
+  m_LocalRotation: {x: -0.0028851365, y: 0.9949328, z: 0.029918568, w: 0.09594432}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -367,7 +367,7 @@ MonoBehaviour:
   m_YAxis:
     Value: 0.5
     m_SpeedMode: 0
-    m_MaxSpeed: 15
+    m_MaxSpeed: 2
     m_AccelTime: 0.2
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
@@ -391,7 +391,7 @@ MonoBehaviour:
   m_XAxis:
     Value: 168.98366
     m_SpeedMode: 0
-    m_MaxSpeed: 225
+    m_MaxSpeed: 300
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X
@@ -936,7 +936,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Aguardando 4 jogadores se conectarem...
+  m_text: Aguardando todos os jogadores se conectarem...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1029,7 +1029,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5515481082536134138}
-  m_LocalRotation: {x: -0.00038586513, y: 0.9982271, z: -0.0065105716, w: -0.0591624}
+  m_LocalRotation: {x: 0.0006019403, y: 0.995363, z: -0.0062420596, w: 0.09598579}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1680,12 +1680,11 @@ MonoBehaviour:
   playerCam: {fileID: 7250884601603657667}
   displayName: {fileID: 6477818680551682324}
   lobbyText: {fileID: 2399227932798313151}
-  distanciaAtaque: 4
   mostrarGizmos: 1
+  distanciaAtaque: 4
   dano: 1
   velocidade: 10
   gravityValue: -9.81
-  distanciaCarregamento: 2
   risadaClip: {fileID: 8300000, guid: 708f420caa3278742aa008a47ad41b63, type: 3}
   audioPassosClip: {fileID: 8300000, guid: 59fc76d14363bd844af46cd095d911de, type: 3}
   ataque: {fileID: 8300000, guid: edca0568c12ac2445babd6f5160a5250, type: 3}
@@ -1926,8 +1925,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7250884601603657667}
-  m_LocalRotation: {x: 0.0006903328, y: 0.9981804, z: 0.011647747, w: -0.05915965}
-  m_LocalPosition: {x: 0.42078638, y: 0.046470404, z: 3.537424}
+  m_LocalRotation: {x: -0.0011440914, y: 0.99531186, z: 0.011864116, w: 0.09598083}
+  m_LocalPosition: {x: -1.6758499, y: 0.11000013, z: 8.608395}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2501,7 +2500,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7999302402233842000}
-  m_LocalRotation: {x: 0.00069033244, y: 0.9981803, z: 0.011647744, w: -0.059159636}
+  m_LocalRotation: {x: -0.0011440916, y: 0.99531186, z: 0.011864116, w: 0.09598085}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

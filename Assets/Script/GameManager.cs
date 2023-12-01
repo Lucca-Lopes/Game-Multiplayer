@@ -129,7 +129,6 @@ public class GameManager : NetworkBehaviour
     {
         if (NetworkManager.Singleton.IsServer)
         {
-            int jogadoresMortosTemp = jogadoresMortos.Value;
             var sobreviventesAtuais = GameObject.FindGameObjectsWithTag("Sobrevivente");
             foreach (GameObject sobrevivente in sobreviventesAtuais)
             {
@@ -139,24 +138,23 @@ public class GameManager : NetworkBehaviour
                     int vidaTemp = personagemComponent.vidaJogador.Value;
                     vidaTemp -= quantidade;
                     //personagemComponent.vidaJogador.Value -= quantidade;
-                    //Debug.Log($"Diminuindo a vida do client {personagemComponent.OwnerClientId} para {personagemComponent.vidaJogador.Value}");
+                    Debug.Log($"Diminuindo a vida do client {personagemComponent.OwnerClientId} para {vidaTemp}");
+                    personagemComponent.vidaJogador.Value = vidaTemp;
                     if (vidaTemp == 0)
                     {
                         personagemComponent.zzz.Play();
                         ParticulaDormindo_ClientRpc(atacadoId);
-                        jogadoresMortosTemp +=1;
-                        personagemComponent.vidaJogador.Value = vidaTemp;
+                        jogadoresMortos.Value +=1;
                         Debug.Log($"Jogador {atacadoId} entrou em sono profundo");
                     }
                 }
             }
-            if (jogadoresMortosTemp >= sobreviventesAtuais.Length)
+            if (jogadoresMortos.Value >= sobreviventesAtuais.Length)
             {
                 killerWin.Value = true;
                 Instance.timerAtivo.Value = false;
                 Debug.Log("Acabou o jogo");
             }
-            jogadoresMortos.Value = jogadoresMortosTemp;
         }
     }
 
