@@ -129,29 +129,34 @@ public class GameManager : NetworkBehaviour
     {
         if (NetworkManager.Singleton.IsServer)
         {
+            int jogadoresMortosTemp = jogadoresMortos.Value;
             var sobreviventesAtuais = GameObject.FindGameObjectsWithTag("Sobrevivente");
             foreach (GameObject sobrevivente in sobreviventesAtuais)
             {
                 var personagemComponent = sobrevivente.GetComponent<Personagem>();
-                if (personagemComponent.OwnerClientId == atacadoId)
+                if (personagemComponent.OwnerClientId == atacadoId) ///////
                 {
-                    personagemComponent.vidaJogador.Value -= quantidade;
-                    Debug.Log($"Diminuindo a vida do client {personagemComponent.OwnerClientId} para {personagemComponent.vidaJogador.Value}");
-                    if (personagemComponent.vidaJogador.Value == 0)
+                    int vidaTemp = personagemComponent.vidaJogador.Value;
+                    vidaTemp -= quantidade;
+                    //personagemComponent.vidaJogador.Value -= quantidade;
+                    //Debug.Log($"Diminuindo a vida do client {personagemComponent.OwnerClientId} para {personagemComponent.vidaJogador.Value}");
+                    if (vidaTemp == 0)
                     {
                         personagemComponent.zzz.Play();
                         ParticulaDormindo_ClientRpc(atacadoId);
-                        jogadoresMortos.Value +=1;
+                        jogadoresMortosTemp +=1;
+                        personagemComponent.vidaJogador.Value = vidaTemp;
                         Debug.Log($"Jogador {atacadoId} entrou em sono profundo");
                     }
                 }
             }
-            if (jogadoresMortos.Value >= sobreviventesAtuais.Length)
+            if (jogadoresMortosTemp >= sobreviventesAtuais.Length)
             {
                 killerWin.Value = true;
                 Instance.timerAtivo.Value = false;
                 Debug.Log("Acabou o jogo");
             }
+            jogadoresMortos.Value = jogadoresMortosTemp;
         }
     }
 

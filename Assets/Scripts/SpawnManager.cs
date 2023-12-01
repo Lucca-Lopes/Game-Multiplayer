@@ -69,19 +69,17 @@ public class SpawnManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void UpdateTimerActive_ServerRpc()
     {
-        //foreach (int id in jogadoresConectados.Value)
+        if (GameManager.Instance.timerAtivo.Value == true)
+        {
+            CancelInvoke(nameof(UpdateTimerActive_ServerRpc));
+            return;
+        }
         for(int i = 0; i < jogadoresEsperados; i++)
         {
             if (NetworkManager.Singleton.ConnectedClients[(ulong)i].PlayerObject == null)
                 return;
         }
         GameManager.Instance.timerAtivo.Value = true;
-
-        /*if (jogadoresEsperados == jogadoresConectados.Value)
-        {
-            GameManager.Instance.timerAtivo.Value = true;
-            Debug.Log($"Iniciando timer - Server side");
-        }*/
     }
 
     [ServerRpc(RequireOwnership = false)]

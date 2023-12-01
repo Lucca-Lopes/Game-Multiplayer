@@ -44,7 +44,7 @@ public class TimerController : NetworkBehaviour
 
     public void StartTimer(bool previous, bool current)
     {
-        if (current == true)
+        if (current == true && previous == false)
         {
             timerObj.SetActive(true);
             if (IsServer)
